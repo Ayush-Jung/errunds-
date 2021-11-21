@@ -1,55 +1,76 @@
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final String label;
-  final ButtonType buttonType;
   final VoidCallback? onPress;
-  final double? height;
+  final String label;
+  final IconData? prefix;
+  final bool? loading;
+  final double? width;
+  final IconData? suffixIcon;
   final Color? color;
-  final BorderRadius? borderRadius;
-  final EdgeInsets? margin, padding;
-  final bool loading;
-  CustomButton({
-    required this.label,
-    this.buttonType = ButtonType.Filled,
-    this.onPress,
-    this.margin,
-    this.padding,
-    this.height,
-    this.color,
-    this.borderRadius,
-    this.loading = false,
-  });
+  final Color? textColor;
+  final bool? borderRadius;
+  final Border? border;
 
+  CustomButton(
+      {this.onPress,
+      this.suffixIcon,
+      this.prefix,
+      required this.label,
+      this.loading = false,
+      this.width,
+      this.color,
+      this.textColor,
+      this.border,
+      this.borderRadius = true});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.4,
-      ),
-      margin: margin ?? const EdgeInsets.all(10),
-      child: MaterialButton(
-        height: height,
-        onPressed: loading ? null : onPress,
-        padding: padding,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(5),
-        ),
-        minWidth: double.infinity,
-        color: color ?? const Color(0xFF00A1ED),
-        child: loading
-            ? const CircularProgressIndicator()
-            : Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+    return GestureDetector(
+      onTap: onPress,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Container(
+            margin: EdgeInsets.only(
+                top: constraints.biggest.height * 0.3 > 16
+                    ? 16
+                    : constraints.biggest.height * 0.3),
+            padding: EdgeInsets.all(constraints.biggest.height * 0.2 > 12
+                ? 12
+                : constraints.biggest.height * 0.2),
+            width: width ?? double.maxFinite,
+            constraints: const BoxConstraints(maxHeight: 44),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: color ?? buttonBackgroundColor,
+              border: border,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      if (prefix != null) ...[
+                        Icon(prefix, color: Theme.of(context).backgroundColor),
+                        const SizedBox(width: 20)
+                      ],
+                      Text(label,
+                          style: TextStyle(
+                            color: textColor ?? Colors.white,
+                            fontSize: constraints.biggest.height > 15
+                                ? 18
+                                : constraints.biggest.height,
+                          )),
+                      if (suffixIcon != null)
+                        Icon(suffixIcon,
+                            color: Theme.of(context).backgroundColor),
+                    ]);
+              },
+            ),
+          );
+        },
       ),
     );
   }
 }
-
-enum ButtonType { Filled, Outlined }

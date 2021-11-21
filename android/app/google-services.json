@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "169259270277",
+    "project_id": "errunds-6edca",
+    "storage_bucket": "errunds-6edca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169259270277:android:71366cbd115c996804a9ec",
+        "android_client_info": {
+          "package_name": "com.example.errunds_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169259270277-erss656498di8vhvsp4jfagc1snjjho1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.errunds_application",
+            "certificate_hash": "5ac1ef2e88279e16e3fe69c396722b67456a539c"
+          }
+        },
+        {
+          "client_id": "169259270277-i82l7se28632gvu3chebukh0kimnlnv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBBZkLfk9aj7q0dNFQh9nGTHcln5GkHf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169259270277-i82l7se28632gvu3chebukh0kimnlnv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
