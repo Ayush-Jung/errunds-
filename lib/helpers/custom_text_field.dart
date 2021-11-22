@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  final Function(String?) saved;
-  final Function(String?) onvalidate;
-  final String? label, initialValue;
-  final TextInputType? textInputType;
+  final Function(String) saved;
+  final Function(String) onvalidate;
+  final String label, initialValue;
+  final TextInputType textInputType;
   final bool obscureText;
   const CustomTextField({
-    Key? key,
-    required this.saved,
-    required this.onvalidate,
+    Key key,
+    this.saved,
+    this.onvalidate,
     this.label,
     this.textInputType,
     this.obscureText = false,

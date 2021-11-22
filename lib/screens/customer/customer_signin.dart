@@ -1,19 +1,21 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
-import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/screens/customer/customer_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomerLogin extends StatefulWidget {
-  const CustomerLogin({Key? key}) : super(key: key);
+  const CustomerLogin({Key key}) : super(key: key);
 
   @override
   State<CustomerLogin> createState() => _CustomerLoginState();
 }
 
 class _CustomerLoginState extends State<CustomerLogin> {
-  String? email;
-  String? password;
+  String email;
+  String password;
+  bool showPassword = false;
   bool loading = false;
   final GlobalKey _formKey = GlobalKey<FormState>();
   @override
@@ -24,6 +26,9 @@ class _CustomerLoginState extends State<CustomerLogin> {
         child: Container(
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height,
+          ),
+          decoration: BoxDecoration(
+            gradient: linearGradient,
           ),
           child: SafeArea(
             child: Column(
@@ -37,48 +42,82 @@ class _CustomerLoginState extends State<CustomerLogin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                            horizontal: 16,
-                          ),
-                          child: CustomTextField(
-                            label: "Email",
-                            initialValue: "ayush_errunds@gmail.com",
-                            textInputType: TextInputType.emailAddress,
-                            onvalidate: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Mandatory field";
-                              } else if (!isEmail(value.trim())) {
-                                return "Invalid email";
-                              } else {
-                                return null;
-                              }
-                            },
-                            saved: (value) {
-                              setState(() {
-                                email = value!.trim();
-                              });
-                            },
-                          )),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 16,
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 5.0),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                                borderSide: BorderSide(width: 4),
+                              ),
+                              labelText: 'Email',
+                              hintText: 'Enter Email'),
+                          validator: (value) {
+                            value = value.trim();
+                            if (value.isEmpty) {
+                              return "Mandatory Field";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            email = (value ?? "").trim();
+                          },
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 8.0,
                           horizontal: 16,
                         ),
-                        child: CustomTextField(
-                          label: "Password",
-                          initialValue: "gotocook1",
-                          obscureText: true,
-                          onvalidate: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Mandatory field";
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 5.0),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = !showPassword;
+                                  });
+                                },
+                                icon: Icon(showPassword
+                                    ? MdiIcons.eye
+                                    : MdiIcons.eyeOff),
+                              ),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                                borderSide: BorderSide(width: 4),
+                              ),
+                              labelText: 'Password',
+                              hintText: 'Enter secure password'),
+                          validator: (value) {
+                            value = value.trim();
+                            if (value.isEmpty) {
+                              return "Mandatory Field";
                             }
+                            return null;
                           },
-                          saved: (value) {
-                            setState(() {
-                              password = value!.trim();
-                            });
+                          onSaved: (value) {
+                            password = (value ?? "").trim();
                           },
+                          obscureText: !showPassword,
                         ),
                       ),
                     ],
@@ -92,7 +131,14 @@ class _CustomerLoginState extends State<CustomerLogin> {
                             vertical: 12, horizontal: 8),
                         child: CustomButton(
                           label: "SIGN-UP",
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const CustomerSignUp(),
+                              ),
+                            );
+                          },
                           color: Colors.yellow[700],
                         ),
                       ),
@@ -126,5 +172,54 @@ class _CustomerLoginState extends State<CustomerLogin> {
         ),
       ),
     );
+  }
+}
+
+class BackgroundPaint extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.teal
+      ..strokeWidth = 15;
+
+    Offset offset = Offset(size.height, size.height);
+
+    canvas.drawLine(offset, offset, paint);
+  }
+
+  @override
+  bool shouldRepaint(BackgroundPaint oldDelegate) => false;
+
+  @override
+  bool shouldRebuildSemantics(BackgroundPaint oldDelegate) => false;
+}
+
+class CurvedPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.teal
+      ..strokeWidth = 15;
+
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.1);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.7,
+        size.width * 0.5, size.height * 0.8);
+    path.quadraticBezierTo(
+      size.width * 0.75,
+      size.height * 1.2,
+      size.width,
+      size.height,
+    );
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 }

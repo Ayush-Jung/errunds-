@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AuthChooser extends StatefulWidget {
-  const AuthChooser({Key? key}) : super(key: key);
+  const AuthChooser({Key key}) : super(key: key);
 
   @override
   _AuthChooserState createState() => _AuthChooserState();
@@ -26,6 +26,7 @@ class _AuthChooserState extends State<AuthChooser> {
             minWidth: size.width,
           ),
           decoration: BoxDecoration(
+            gradient: linearGradient,
             color: primaryColor,
           ),
           child: Column(

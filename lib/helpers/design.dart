@@ -27,6 +27,12 @@ Widget errunds = RichText(
     ],
   ),
 );
+
+LinearGradient linearGradient = const LinearGradient(colors: [
+  Color(0xffF4E97D),
+  Color(0xffD5D0B1),
+  Color(0xffD5C5ED),
+], begin: Alignment.topRight, end: Alignment.bottomRight);
 bool isEmail(String em) => RegExp(
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
     .hasMatch(em);
