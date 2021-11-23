@@ -1,29 +1,85 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
-import 'package:errunds_application/screens/driver/rider_signup.dart';
+import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/screens/auth/signup_screen.dart';
+import 'package:errunds_application/screens/customer/customer_home_page.dart';
+import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class RiderSignIn extends StatefulWidget {
-  const RiderSignIn({Key key}) : super(key: key);
+class LogInScreen extends StatefulWidget {
+  const LogInScreen({Key key, this.isRider = false}) : super(key: key);
+  final bool isRider;
 
   @override
-  State<RiderSignIn> createState() => _RiderSignInState();
+  State<LogInScreen> createState() => _LogInScreenState();
 }
 
-class _RiderSignInState extends State<RiderSignIn> {
+class _LogInScreenState extends State<LogInScreen> {
   String email;
-  String password;
-  bool loading = false;
-  String companyId;
+  String password, companyId;
   bool showPassword = false;
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  bool loading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  login() {
+    if (_formKey.currentState.validate()) _formKey.currentState.save();
+    if (email == null || password == null) {
+      showSnackBar("Mandatory Fields.");
+    } else {
+      getLoading(true);
+      firebase
+          .loginUser(email, password,
+              companyId: widget.isRider ? companyId : null,
+              canLogin: widget.isRider)
+          .then((value) {
+        if (!value) {
+          getLoading(false);
+          showSnackBar("Unable to login");
+        } else if (companyId == null) {
+          getLoading(false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const CustomerHomePage()),
+              (route) => false);
+        } else {
+          getLoading(false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const RiderHomePage()),
+              (route) => false);
+        }
+      }).catchError(
+        (e) => showSnackBar(e.toString()),
+      );
+    }
+  }
+
+  getLoading(bool value) {
+    setState(() {
+      loading = value;
+    });
+  }
+
+  showSnackBar(String message) {
+    _key.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: primaryColor,
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _key,
       body: SingleChildScrollView(
         child: Container(
           constraints: BoxConstraints(
@@ -77,39 +133,40 @@ class _RiderSignInState extends State<RiderSignIn> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 16,
-                        ),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 5.0),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                      if (widget.isRider)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 16,
+                          ),
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 5.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
                                 ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
                                 ),
-                              ),
-                              labelText: 'company Id',
-                              hintText: 'Enter company Id'),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            companyId = (value ?? "").trim();
-                          },
+                                labelText: 'company Id',
+                                hintText: 'Enter company Id'),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              companyId = (value ?? "").trim();
+                            },
+                          ),
                         ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 8.0,
@@ -117,7 +174,6 @@ class _RiderSignInState extends State<RiderSignIn> {
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
-                              fillColor: primaryColor,
                               enabledBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 5.0),
@@ -139,21 +195,19 @@ class _RiderSignInState extends State<RiderSignIn> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
+                                borderSide: BorderSide(width: 4),
                               ),
                               labelText: 'Password',
                               hintText: 'Enter secure password'),
                           validator: (value) {
+                            value = value.trim();
                             if (value.isEmpty) {
                               return "Mandatory Field";
-                            }
-
-                            if (value.length > 20) {
-                              return "password too long";
                             }
                             return null;
                           },
                           onSaved: (value) {
-                            password = value;
+                            password = (value ?? "").trim();
                           },
                           obscureText: !showPassword,
                         ),
@@ -173,7 +227,9 @@ class _RiderSignInState extends State<RiderSignIn> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => const RiderSignUp(),
+                                builder: (_) => SignUpScreen(
+                                  isRider: widget.isRider,
+                                ),
                               ),
                             );
                           },
@@ -186,7 +242,7 @@ class _RiderSignInState extends State<RiderSignIn> {
                         padding: const EdgeInsets.all(8),
                         child: CustomButton(
                           label: "LOG-IN",
-                          onPress: () {},
+                          onPress: login,
                           loading: loading,
                           color: Colors.yellow[700],
                         ),
@@ -210,54 +266,5 @@ class _RiderSignInState extends State<RiderSignIn> {
         ),
       ),
     );
-  }
-}
-
-class BackgroundPaint extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.teal
-      ..strokeWidth = 15;
-
-    Offset offset = Offset(size.height, size.height);
-
-    canvas.drawLine(offset, offset, paint);
-  }
-
-  @override
-  bool shouldRepaint(BackgroundPaint oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(BackgroundPaint oldDelegate) => false;
-}
-
-class CurvedPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.teal
-      ..strokeWidth = 15;
-
-    var path = Path();
-
-    path.moveTo(0, size.height * 0.1);
-    path.quadraticBezierTo(size.width * 0.25, size.height * 0.7,
-        size.width * 0.5, size.height * 0.8);
-    path.quadraticBezierTo(
-      size.width * 0.75,
-      size.height * 1.2,
-      size.width,
-      size.height,
-    );
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }

@@ -2,19 +2,20 @@ import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
-import 'package:errunds_application/models/customer_Models/customer.dart';
-import 'package:errunds_application/models/customer_Models/rider_Models/rider.dart';
+import 'package:errunds_application/screens/customer/customer_home_page.dart';
+import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class CustomerSignUp extends StatefulWidget {
-  const CustomerSignUp({Key key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key key, this.isRider}) : super(key: key);
+  final bool isRider;
 
   @override
-  _CustomerSignUpState createState() => _CustomerSignUpState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _CustomerSignUpState extends State<CustomerSignUp> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -23,13 +24,8 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   final retypedPasswordController = TextEditingController();
   bool loading = false;
   bool acceptCondition = false;
-  String email = "",
-      password = "",
-      cpassword = "",
-      phoneNumber,
-      companyId,
-      fName,
-      lName;
+  String email = "", password = "", cpassword = "";
+  String fName, lName, phoneNumber, companyId;
 
   bool showPassword = false;
   bool showConfirmPassword = false;
@@ -37,7 +33,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   submitRequest() {
     if (_formKey.currentState.validate()) _formKey.currentState.save();
     if (email == null || password == null || cpassword == null) {
-      showSnackBar("Empty fields.");
+      showSnackBar("Mandatory Field.");
     }
     if (password != cpassword) {
       showSnackBar("Password doesnot matched.");
@@ -45,21 +41,25 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
     if (!acceptCondition) {
       showSnackBar("Please accept the terms and conditions.");
     } else {
-      setState(() {
-        loading = true;
-      });
       getLoading(true);
       firebase
-          .customerSignUp(email, password, companyId, phoneNumber, fName, lName,
-              acceptCondition)
+          .signupUser(email, password, phoneNumber, fName, lName,
+              companyId: widget.isRider ? companyId : null)
           .then((value) {
-        if (value != null) {
-          //TODO navigate to customer homepage.
+        if (widget.isRider) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const RiderHomePage()),
+              (route) => false);
+        } else {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const CustomerHomePage()),
+              (route) => false);
         }
-      });
-      setState(() {
-        loading = true;
-      });
+      }).catchError(
+        (e) => showSnackBar(e.toString()),
+      );
     }
   }
 
@@ -245,6 +245,39 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                       },
                     ),
                   ),
+                  if (widget.isRider)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 5.0),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(18),
+                              ),
+                            ),
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(18),
+                              ),
+                              borderSide: BorderSide(width: 4),
+                            ),
+                            labelText: 'Company Id',
+                            labelStyle: TextStyle(color: buttonBackgroundColor),
+                            hintText: 'Enter company Id'),
+                        validator: (value) {
+                          value = value.trim();
+                          if (value.isEmpty) {
+                            return "Mandatory Field";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          companyId = (value ?? "").trim();
+                        },
+                      ),
+                    ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(

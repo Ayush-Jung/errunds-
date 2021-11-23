@@ -1,8 +1,7 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
-import 'package:errunds_application/screens/customer/customer_signin.dart';
-import 'package:errunds_application/screens/driver/rider_signin.dart';
+import 'package:errunds_application/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,7 +48,7 @@ class _AuthChooserState extends State<AuthChooser> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const CustomerLogin(),
+                        builder: (_) => const LogInScreen(),
                       ),
                     );
                   },
@@ -67,7 +66,9 @@ class _AuthChooserState extends State<AuthChooser> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const RiderSignIn(),
+                        builder: (_) => const LogInScreen(
+                          isRider: true,
+                        ),
                       ),
                     );
                   },

@@ -46,28 +46,33 @@ class CustomButton extends StatelessWidget {
               border: border,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      if (prefix != null) ...[
-                        Icon(prefix, color: Theme.of(context).backgroundColor),
-                        const SizedBox(width: 20)
-                      ],
-                      Text(label,
-                          style: TextStyle(
-                            color: textColor ?? Colors.white,
-                            fontSize: constraints.biggest.height > 15
-                                ? 18
-                                : constraints.biggest.height,
-                          )),
-                      if (suffixIcon != null)
-                        Icon(suffixIcon,
-                            color: Theme.of(context).backgroundColor),
-                    ]);
-              },
-            ),
+            child: loading
+                ? const CircularProgressIndicator(
+                    strokeWidth: 2,
+                  )
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            if (prefix != null) ...[
+                              Icon(prefix,
+                                  color: Theme.of(context).backgroundColor),
+                              const SizedBox(width: 20)
+                            ],
+                            Text(label,
+                                style: TextStyle(
+                                  color: textColor ?? Colors.white,
+                                  fontSize: constraints.biggest.height > 15
+                                      ? 18
+                                      : constraints.biggest.height,
+                                )),
+                            if (suffixIcon != null)
+                              Icon(suffixIcon,
+                                  color: Theme.of(context).backgroundColor),
+                          ]);
+                    },
+                  ),
           );
         },
       ),
