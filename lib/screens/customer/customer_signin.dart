@@ -1,5 +1,10 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:errunds_application/custom_item/custom_button.dart';
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/screens/customer/customer_home_page.dart';
 import 'package:errunds_application/screens/customer/customer_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,11 +22,40 @@ class _CustomerLoginState extends State<CustomerLogin> {
   String password;
   bool showPassword = false;
   bool loading = false;
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
+  loginCustomer() {
+    if (_formKey.currentState.validate()) _formKey.currentState.save();
+    if (email == null || password == null) {
+      showSnackBar("Mandatory Fields.");
+    } else {
+      firebase.customerLogin(email, password).then((value) {
+        if (value) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const CustomerHomePage()),
+              (route) => false);
+        } else
+          showSnackBar("Unable to login.");
+      });
+    }
+  }
+
+  showSnackBar(String message) {
+    _key.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: primaryColor,
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _key,
       body: SingleChildScrollView(
         child: Container(
           constraints: BoxConstraints(
@@ -148,7 +182,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
                         padding: const EdgeInsets.all(8),
                         child: CustomButton(
                           label: "LOG-IN",
-                          onPress: () {},
+                          onPress: loginCustomer,
                           loading: loading,
                           color: Colors.yellow[700],
                         ),
@@ -172,54 +206,5 @@ class _CustomerLoginState extends State<CustomerLogin> {
         ),
       ),
     );
-  }
-}
-
-class BackgroundPaint extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.teal
-      ..strokeWidth = 15;
-
-    Offset offset = Offset(size.height, size.height);
-
-    canvas.drawLine(offset, offset, paint);
-  }
-
-  @override
-  bool shouldRepaint(BackgroundPaint oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(BackgroundPaint oldDelegate) => false;
-}
-
-class CurvedPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.teal
-      ..strokeWidth = 15;
-
-    var path = Path();
-
-    path.moveTo(0, size.height * 0.1);
-    path.quadraticBezierTo(size.width * 0.25, size.height * 0.7,
-        size.width * 0.5, size.height * 0.8);
-    path.quadraticBezierTo(
-      size.width * 0.75,
-      size.height * 1.2,
-      size.width,
-      size.height,
-    );
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }

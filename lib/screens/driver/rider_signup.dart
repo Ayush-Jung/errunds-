@@ -42,7 +42,9 @@ class _RiderSignUpState extends State<RiderSignUp> {
       showSnackBar("Please accept the terms and conditions.");
     } else {
       getLoading(true);
-      firebase.riderSignUp(email, password, companyId).then((value) {
+      firebase
+          .riderSignUp(email, password, companyId, phoneNumber, fName, lName)
+          .then((value) {
         if (value != null) {
           Navigator.pushAndRemoveUntil(
               context,
@@ -51,16 +53,6 @@ class _RiderSignUpState extends State<RiderSignUp> {
         } else
           print("failed to login");
       });
-      // firebase.riderSignUp(email, password ,).then((value) {
-      //   getLoading(false);
-      //   if (value != null) {
-      //     Navigator.pushNamedAndRemoveUntil(
-      //         context, "/travelinfoStep", (predicate) => false);
-      //   } else {
-      //     print("failed");
-      //     return;
-      //   }
-      // });
     }
   }
 

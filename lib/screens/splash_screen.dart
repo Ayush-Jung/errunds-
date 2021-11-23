@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ class CustomSplasScreen extends StatefulWidget {
 class _CustomSplasScreenState extends State<CustomSplasScreen> {
   @override
   void initState() {
+    firebase.initFirebase();
     Timer(const Duration(seconds: 4), () {
       checkUserStatus();
     });

@@ -1,6 +1,7 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/customer.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/rider.dart';
 import 'package:flutter/gestures.dart';
@@ -22,8 +23,13 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   final retypedPasswordController = TextEditingController();
   bool loading = false;
   bool acceptCondition = false;
-  String email = "", password = "", cpassword = "";
-  Customer customer;
+  String email = "",
+      password = "",
+      cpassword = "",
+      phoneNumber,
+      companyId,
+      fName,
+      lName;
 
   bool showPassword = false;
   bool showConfirmPassword = false;
@@ -35,18 +41,25 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
     }
     if (password != cpassword) {
       showSnackBar("Password doesnot matched.");
+    }
+    if (!acceptCondition) {
+      showSnackBar("Please accept the terms and conditions.");
     } else {
+      setState(() {
+        loading = true;
+      });
       getLoading(true);
-      // firebase.riderSignUp(email, password ,).then((value) {
-      //   getLoading(false);
-      //   if (value != null) {
-      //     Navigator.pushNamedAndRemoveUntil(
-      //         context, "/travelinfoStep", (predicate) => false);
-      //   } else {
-      //     print("failed");
-      //     return;
-      //   }
-      // });
+      firebase
+          .customerSignUp(email, password, companyId, phoneNumber, fName, lName,
+              acceptCondition)
+          .then((value) {
+        if (value != null) {
+          //TODO navigate to customer homepage.
+        }
+      });
+      setState(() {
+        loading = true;
+      });
     }
   }
 
@@ -124,7 +137,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                customer.fname = (value ?? "").trim();
+                                fName = (value ?? "").trim();
                               },
                             )),
                       ),
@@ -161,7 +174,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                               return null;
                             },
                             onSaved: (value) {
-                              customer.lname = (value ?? "").trim();
+                              lName = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -196,7 +209,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         return null;
                       },
                       onSaved: (value) {
-                        customer.phoneNumber = (value ?? "").trim();
+                        phoneNumber = (value ?? "").trim();
                       },
                     ),
                   ),
