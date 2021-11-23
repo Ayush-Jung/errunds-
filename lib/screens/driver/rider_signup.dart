@@ -1,18 +1,20 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/rider.dart';
+import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class CustomerSignUp extends StatefulWidget {
-  const CustomerSignUp({Key key}) : super(key: key);
+class RiderSignUp extends StatefulWidget {
+  const RiderSignUp({Key key}) : super(key: key);
 
   @override
-  _CustomerSignUpState createState() => _CustomerSignUpState();
+  _RiderSignUpState createState() => _RiderSignUpState();
 }
 
-class _CustomerSignUpState extends State<CustomerSignUp> {
+class _RiderSignUpState extends State<RiderSignUp> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -23,6 +25,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   bool acceptCondition = false;
   String email = "", password = "", cpassword = "";
   Rider rider;
+  String fName, lName, phoneNumber, companyId;
 
   bool showPassword = false;
   bool showConfirmPassword = false;
@@ -34,8 +37,20 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
     }
     if (password != cpassword) {
       showSnackBar("Password doesnot matched.");
+    }
+    if (!acceptCondition) {
+      showSnackBar("Please accept the terms and conditions.");
     } else {
       getLoading(true);
+      firebase.riderSignUp(email, password, companyId).then((value) {
+        if (value != null) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const RiderHomePage()),
+              (route) => false);
+        } else
+          print("failed to login");
+      });
       // firebase.riderSignUp(email, password ,).then((value) {
       //   getLoading(false);
       //   if (value != null) {
@@ -123,7 +138,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                rider.fName = (value ?? "").trim();
+                                fName = (value ?? "").trim();
                               },
                             )),
                       ),
@@ -160,7 +175,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                               return null;
                             },
                             onSaved: (value) {
-                              rider.lName = (value ?? "").trim();
+                              lName = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -195,7 +210,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         return null;
                       },
                       onSaved: (value) {
-                        rider.phoneNumber = (value ?? "").trim();
+                        phoneNumber = (value ?? "").trim();
                       },
                     ),
                   ),
@@ -227,7 +242,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         return null;
                       },
                       onSaved: (value) {
-                        rider.email = (value ?? "").trim();
+                        email = (value ?? "").trim();
                       },
                     ),
                   ),
@@ -259,7 +274,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         return null;
                       },
                       onSaved: (value) {
-                        rider.companyId = (value ?? "").trim();
+                        companyId = (value ?? "").trim();
                       },
                     ),
                   ),

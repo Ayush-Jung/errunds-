@@ -1,7 +1,7 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
-import 'package:errunds_application/screens/customer/customer_signup.dart';
+import 'package:errunds_application/screens/driver/rider_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -135,11 +135,11 @@ class _RiderSignInState extends State<RiderSignIn> {
                                     ? MdiIcons.eye
                                     : MdiIcons.eyeOff),
                               ),
-                              // border: const OutlineInputBorder(
-                              //   borderRadius: BorderRadius.all(
-                              //     Radius.circular(18),
-                              //   ),
-                              // ),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
                               labelText: 'Password',
                               hintText: 'Enter secure password'),
                           validator: (value) {
@@ -171,9 +171,11 @@ class _RiderSignInState extends State<RiderSignIn> {
                           label: "SIGN-UP",
                           onPress: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const CustomerSignUp()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const RiderSignUp(),
+                              ),
+                            );
                           },
                           color: Colors.yellow[700],
                         ),

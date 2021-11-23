@@ -1,6 +1,7 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/models/customer_Models/customer.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/rider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
   bool loading = false;
   bool acceptCondition = false;
   String email = "", password = "", cpassword = "";
-  Rider rider;
+  Customer customer;
 
   bool showPassword = false;
   bool showConfirmPassword = false;
@@ -123,7 +124,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                                 return null;
                               },
                               onSaved: (value) {
-                                rider.fName = (value ?? "").trim();
+                                customer.fname = (value ?? "").trim();
                               },
                             )),
                       ),
@@ -160,7 +161,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                               return null;
                             },
                             onSaved: (value) {
-                              rider.lName = (value ?? "").trim();
+                              customer.lname = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -195,7 +196,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         return null;
                       },
                       onSaved: (value) {
-                        rider.phoneNumber = (value ?? "").trim();
+                        customer.phoneNumber = (value ?? "").trim();
                       },
                     ),
                   ),
@@ -227,7 +228,7 @@ class _CustomerSignUpState extends State<CustomerSignUp> {
                         return null;
                       },
                       onSaved: (value) {
-                        rider.email = (value ?? "").trim();
+                        email = (value ?? "").trim();
                       },
                     ),
                   ),

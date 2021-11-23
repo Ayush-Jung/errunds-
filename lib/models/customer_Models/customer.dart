@@ -1,11 +1,12 @@
-class AppUser {
-  String id, name, email, phoneNumber, gender, age, token;
+class Customer {
+  String id, fname, lname, email, phoneNumber, gender, age, token;
 
-  static AppUser fromMap(data) {
-    return AppUser()
+  static Customer fromMap(data) {
+    return Customer()
       ..id = data["id"]
       ..token = data["token"]
-      ..name = data["name"]
+      ..fname = data["fname"]
+      ..lname = data["lname"]
       ..email = data["email"]
       ..phoneNumber = data["phoneNumber"]
       ..gender = data["gender"]
@@ -13,7 +14,8 @@ class AppUser {
   }
 
   Map<String, dynamic> toMap() => {
-        "name": name,
+        "lname": lname,
+        "fname": fname,
         "id": id,
         "email": email,
         "token": token,
