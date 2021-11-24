@@ -55,9 +55,10 @@ class _LogInScreenState extends State<LogInScreen> {
               MaterialPageRoute(builder: (_) => const RiderHomePage()),
               (route) => false);
         }
-      }).catchError(
-        (e) => showSnackBar(e.toString()),
-      );
+      }).catchError((e) {
+        showSnackBar(e.toString());
+        getLoading(false);
+      });
     }
   }
 

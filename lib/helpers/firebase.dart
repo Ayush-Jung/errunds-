@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:errunds_application/models/customer_Models/customer.dart';
+import 'package:errunds_application/models/customer_Models/rider_Models/rider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -9,6 +10,8 @@ class _FirebaseHelper {
   User _user;
   bool trueUser = false;
   UserCredential userCredential;
+  Rider rider;
+  Customer customer;
 
   initFirebase() async {
     await Firebase.initializeApp();
@@ -54,7 +57,23 @@ class _FirebaseHelper {
     return trueUser;
   }
 
-  getUserInfo() async {}
+  getUserInfo() async {
+    try {
+      var user =
+          await _firestore.collection("customers").doc(currentUser).get();
+      return Customer.fromMap(user.data());
+    } catch (e) {
+      return null;
+    } finally {
+      try {
+        var user = await _firestore.collection("riders").doc(currentUser).get();
+        // ignore: control_flow_in_finally
+        return Rider.fromMap(user.data());
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+  }
 
   Future<void> logOut() async {
     await _auth.signOut();
@@ -121,6 +140,12 @@ class _FirebaseHelper {
 
   Stream<User> getUserStateListener() {
     return _auth.authStateChanges();
+  }
+
+  Future<Customer> getCustomerInfo({String customerId}) async {
+    var customer =
+        await _firestore.collection("customers").doc(customerId).get();
+    return Customer.fromMap(customer.data());
   }
 }
 

@@ -23,16 +23,27 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
 
   List<BottomNavigationBarItem> items = [
     const BottomNavigationBarItem(
-      icon: Icon(MdiIcons.home),
+      label: "",
+      icon: Icon(
+        MdiIcons.home,
+        color: Colors.white,
+      ),
     ),
     const BottomNavigationBarItem(
-      icon: Icon(MdiIcons.faceManProfile),
+      label: "",
+      icon: Icon(
+        MdiIcons.faceManProfile,
+        color: Colors.white,
+        size: 22,
+      ),
     ),
     const BottomNavigationBarItem(
-      icon: Icon(MdiIcons.arrowCollapseHorizontal),
+      label: "",
+      icon: Icon(MdiIcons.arrowCollapseHorizontal, color: Colors.white),
     ),
     const BottomNavigationBarItem(
-      icon: Icon(MdiIcons.settingsHelper),
+      label: "",
+      icon: Icon(MdiIcons.settingsHelper, color: Colors.white),
     ),
   ];
 
@@ -41,14 +52,20 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
     navigationProvider = Provider.of<NavigationProvider>(context);
     currentIndex = navigationProvider.currentIndex;
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index) {
-          navigationProvider.setIndex(index);
-        },
-        type: BottomNavigationBarType.fixed,
-        items: items,
-        backgroundColor: primaryColor,
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        child: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) {
+            navigationProvider.setIndex(index);
+          },
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: primaryColor,
+          items: items,
+          backgroundColor: buttonBackgroundColor,
+        ),
       ),
       body: SafeArea(
         child: IndexedStack(

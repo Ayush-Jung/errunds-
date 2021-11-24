@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
+import 'package:errunds_application/screens/customer/customer_home_screen.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
+import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,10 +26,43 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   }
 
   checkUserStatus() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const AuthChooser()),
-        (route) => false);
+    if (firebase.currentUser != null) {
+      manageRoute();
+    } else {
+      {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const AuthChooser(),
+            ),
+            (route) => false);
+      }
+    }
+  }
+
+  manageRoute() {
+    firebase.getUserInfo().then((value) {
+      if (value.isCustomer) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CustomerWelcomeScreen(),
+            ),
+            (route) => false);
+      } else if (!value.isCustomer) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const RiderHomePage(),
+            ),
+            (route) => false);
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const AuthChooser()),
+            (route) => false);
+      }
+    });
   }
 
   @override

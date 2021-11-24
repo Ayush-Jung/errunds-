@@ -1,18 +1,28 @@
 class Rider {
+  Rider(
+      {this.acceptTerms,
+      this.address,
+      this.companyId,
+      this.email,
+      this.fName,
+      this.id,
+      this.isCustomer,
+      this.lName,
+      this.phoneNumber});
   String id, companyId, fName, lName, email, phoneNumber, address;
   bool isCustomer = false, acceptTerms = false;
-  static Rider fromMap(data) {
-    return Rider()
-      ..id = data["id"]
-      ..isCustomer = data["isCustomer"]
-      ..acceptTerms = data["acceptTerms"]
-      ..fName = data["fName"]
-      ..companyId = data["companyId"]
-      ..address = data["address"]
-      ..lName = data["lName"]
-      ..email = data["email"]
-      ..phoneNumber = data["phoneNumber"];
-  }
+
+  factory Rider.fromMap(Map<String, dynamic> json) => Rider(
+        id: json["id"],
+        fName: json["fname"],
+        acceptTerms: json["isAcceptTerms"],
+        lName: json["lname"],
+        email: json["email"],
+        isCustomer: json["isCustomer"],
+        phoneNumber: json["phoneNumber"],
+        address: json["gender"],
+        companyId: json["companyId"],
+      );
 
   Map<String, dynamic> toMap() => {
         "fName": fName,

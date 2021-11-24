@@ -1,29 +1,34 @@
 class Customer {
-  String id, fname, lname, email, phoneNumber, gender, age, token;
+  Customer({
+    this.id,
+    this.fname,
+    this.email,
+    this.isAcceptTerms,
+    this.isCustomer,
+    this.lName,
+    this.phoneNumber,
+  });
+
+  String id, fname, lName, email, phoneNumber;
   bool isCustomer = false, isAcceptTerms = false;
-  static Customer fromMap(data) {
-    return Customer()
-      ..id = data["id"]
-      ..fname = data["fname"]
-      ..isAcceptTerms = data["isAcceptTerms"]
-      ..lname = data["lname"]
-      ..email = data["email"]
-      ..isCustomer = data["isCustomer"]
-      ..phoneNumber = data["phoneNumber"]
-      ..gender = data["gender"]
-      ..age = data["age"];
-  }
+
+  factory Customer.fromMap(Map<String, dynamic> json) => Customer(
+        id: json["id"],
+        fname: json["fname"],
+        isAcceptTerms: json["isAcceptTerms"],
+        lName: json["lName"],
+        email: json["email"],
+        isCustomer: json["isCustomer"],
+        phoneNumber: json["phoneNumber"],
+      );
 
   Map<String, dynamic> toMap() => {
-        "lname": lname,
+        "lName": lName,
         "fname": fname,
         "isAcceptTerms": isAcceptTerms,
         "id": id,
         "email": email,
         "isCustomer": isCustomer,
-        "token": token,
-        "gender": gender,
         "phoneNumber": phoneNumber,
-        "age": age
       };
 }
