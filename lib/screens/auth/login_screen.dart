@@ -5,7 +5,7 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/auth/signup_screen.dart';
-import 'package:errunds_application/screens/customer/customer_home_page.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,7 +46,7 @@ class _LogInScreenState extends State<LogInScreen> {
           getLoading(false);
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => const CustomerHomePage()),
+              MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
               (route) => false);
         } else {
           getLoading(false);

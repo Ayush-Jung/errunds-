@@ -8,6 +8,7 @@ class _FirebaseHelper {
   FirebaseFirestore _firestore;
   User _user;
   bool trueUser = false;
+  UserCredential userCredential;
 
   initFirebase() async {
     await Firebase.initializeApp();
@@ -21,12 +22,13 @@ class _FirebaseHelper {
       {String companyId, bool canLogin = false}) async {
     UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
+    userCredential = result;
     return checkUserStatus(result.user, companyId, canLogin);
   }
 
   Future<bool> checkUserStatus(
       User user, String companyId, bool canLogin) async {
-    if (companyId == null && canLogin) {
+    if (companyId == null) {
       try {
         var customer =
             await _firestore.collection("customers").doc(user.uid).get();
@@ -48,8 +50,11 @@ class _FirebaseHelper {
     if (!trueUser) {
       logOut();
     }
+
     return trueUser;
   }
+
+  getUserInfo() async {}
 
   Future<void> logOut() async {
     await _auth.signOut();

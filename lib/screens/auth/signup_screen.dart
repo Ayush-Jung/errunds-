@@ -2,7 +2,7 @@ import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
-import 'package:errunds_application/screens/customer/customer_home_page.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         } else {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => const CustomerHomePage()),
+              MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
               (route) => false);
         }
       }).catchError(

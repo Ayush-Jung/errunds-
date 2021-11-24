@@ -23,6 +23,10 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   }
 
   checkUserStatus() {
+    firebase.getUserStateListener().listen((event) {
+      if (event != null) {}
+    });
+
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const AuthChooser()),
