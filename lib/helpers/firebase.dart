@@ -59,19 +59,18 @@ class _FirebaseHelper {
 
   getUserInfo() async {
     try {
-      var user =
+      var customer =
           await _firestore.collection("customers").doc(currentUser).get();
-      return Customer.fromMap(user.data());
+      if (customer.exists) {
+        return Customer.fromMap(customer.data());
+      } else {
+        var rider =
+            await _firestore.collection("riders").doc(currentUser).get();
+        // ignore: control_flow_in_finally
+        return Rider.fromMap(rider.data());
+      }
     } catch (e) {
       return null;
-    } finally {
-      try {
-        var user = await _firestore.collection("riders").doc(currentUser).get();
-        // ignore: control_flow_in_finally
-        return Rider.fromMap(user.data());
-      } catch (e) {
-        print(e.toString());
-      }
     }
   }
 
