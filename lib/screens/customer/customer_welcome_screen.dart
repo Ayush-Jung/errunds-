@@ -54,8 +54,10 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
     return Scaffold(
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: buttonBackgroundColor),
         child: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {

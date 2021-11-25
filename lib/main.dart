@@ -1,4 +1,6 @@
 import 'package:errunds_application/helpers/navigation_provider.dart';
+import 'package:errunds_application/models/customer_Models/home_item.dart';
+import 'package:errunds_application/screens/customer/service_screen.dart';
 import 'package:errunds_application/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,9 @@ void main() {
       providers: [
         ChangeNotifierProvider<NavigationProvider>(
           create: (_) => NavigationProvider(),
+        ),
+        ChangeNotifierProvider<HomeItem>(
+          create: (_) => HomeItem(),
         ),
       ],
     ),
@@ -27,6 +32,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const CustomSplasScreen(),
+      routes: {
+        "/service_screen": (context) => const ServiceScreen(
+              title: "Parcel delivery",
+            )
+      },
     );
   }
 }
