@@ -44,14 +44,14 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
 
   manageRoute() {
     firebase.getUserInfo().then((value) {
-      if (value.isCustomer) {
+      if (value.isRider) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (_) => const CustomerWelcomeScreen(),
             ),
             (route) => false);
-      } else if (!value.isCustomer) {
+      } else if (!value.isRider) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

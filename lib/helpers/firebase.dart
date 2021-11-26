@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:errunds_application/models/customer_Models/customer.dart';
-import 'package:errunds_application/models/customer_Models/rider_Models/rider.dart';
+import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -10,8 +9,7 @@ class _FirebaseHelper {
   User _user;
   bool trueUser = false;
   UserCredential userCredential;
-  Rider rider;
-  Customer customer;
+  ErrundUser errundUser;
 
   initFirebase() async {
     await Firebase.initializeApp();
@@ -26,51 +24,22 @@ class _FirebaseHelper {
     UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
     userCredential = result;
-    return checkUserStatus(result.user, companyId, canLogin);
+    return result.user;
   }
 
   Future<bool> checkUserStatus(
       User user, String companyId, bool canLogin) async {
-    if (companyId == null) {
-      try {
-        var customer =
-            await _firestore.collection("customers").doc(user.uid).get();
-        trueUser = Customer.fromMap(customer.data()).isCustomer;
-      } catch (e) {
-        trueUser = false;
-      }
-    } else if (canLogin) {
-      try {
-        var rider = await _firestore.collection("riders").doc(user.uid).get();
-        trueUser = Customer.fromMap(rider.data()).isCustomer;
-        trueUser = !trueUser;
-      } catch (e) {
-        trueUser = false;
-      }
-    } else {
-      trueUser = false;
-    }
-    if (!trueUser) {
-      logOut();
-    }
-
     return trueUser;
   }
 
-  getUserInfo() async {
+  Future<ErrundUser> getUserInfo() async {
     try {
-      var customer =
-          await _firestore.collection("customers").doc(currentUser).get();
-      if (customer.exists) {
-        return Customer.fromMap(customer.data());
-      } else {
-        var rider =
-            await _firestore.collection("riders").doc(currentUser).get();
-        // ignore: control_flow_in_finally
-        return Rider.fromMap(rider.data());
-      }
+      var user = await _firestore.collection("Users").doc(currentUser).get();
+      errundUser = ErrundUser.fromMap(user.data());
+      return errundUser;
     } catch (e) {
-      return null;
+      // ignore: avoid_print
+      print(e);
     }
   }
 
@@ -85,66 +54,40 @@ class _FirebaseHelper {
     String fName,
     String lName, {
     String companyId,
+    bool isRider = false,
   }) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (result.user != null) {
         _user = result.user;
-        if (companyId != null) {
-          await setRider(companyId, phoneNumber, fName, lName);
-        } else {
-          await setCustomer(phoneNumber, fName, lName);
-        }
+        setErrrundUser(phoneNumber, fName, companyId, lName, isRider: isRider);
         return result.user;
       }
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
-  Future<void> setCustomer(
+  Future<void> setErrrundUser(
     String phoneNumber,
     String fName,
-    String lName,
-  ) async {
-    await _firestore.collection("customers").doc(_user.uid).set({
+    String companyId,
+    String lName, {
+    bool isRider = false,
+  }) async {
+    await _firestore.collection("Users").doc(_user.uid).set({
       "email": _user.email,
       "id": _user.uid,
       "fname": fName,
       "lName": lName,
       "phoneNumber": phoneNumber,
-      "isAcceptTerms": true,
-      "isCustomer": true,
-    }, SetOptions(merge: true));
-  }
-
-  Future<void> setRider(
-    String companyId,
-    String phoneNumber,
-    String fName,
-    String lName,
-  ) async {
-    await _firestore.collection("riders").doc(_user.uid).set({
-      "email": _user.email,
-      "id": _user.uid,
-      "fName": fName,
-      "lName": lName,
-      "phoneNumber": phoneNumber,
       "companyId": companyId,
-      "acceptTerms": true,
-      "isCustomer": false,
+      "isAcceptTerms": true,
+      "isRider": isRider,
     }, SetOptions(merge: true));
   }
 
   Stream<User> getUserStateListener() {
     return _auth.authStateChanges();
-  }
-
-  Future<Customer> getCustomerInfo({String customerId}) async {
-    var customer =
-        await _firestore.collection("customers").doc(customerId).get();
-    return Customer.fromMap(customer.data());
   }
 }
 
