@@ -20,38 +20,38 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   HomeItem homeItem;
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-  // List<HomeItem> homeItems = [
-  //   HomeItem(
-  //     title: "Grocery",
-  //     icondata: MdiIcons.cart,
-  //   ),
-  //   HomeItem(
-  //       title: "Parcel Delivery", icondata: MdiIcons.coatRack, callback: () {}),
-  //   HomeItem(
-  //     title: "Food Delivery",
-  //     icondata: MdiIcons.foodVariant,
-  //     callback: () => const ServiceScreen(
-  //       title: "Food Delivery",
-  //     ),
-  //   ),
-  //   HomeItem(
-  //     title: "Laundry Pick-Up",
-  //     icondata: MdiIcons.tshirtCrew,
-  //     callback: () =>
-  //         Navigator.pushNamed(HomeItem().context, "/service_screen"),
-  //   ),
-  //   HomeItem(
-  //     title: "Postal Service",
-  //     icondata: MdiIcons.mailboxOpen,
-  //     callback: () => const ServiceScreen(
-  //       title: "Postal Service",
-  //     ),
-  //   ),
-  //   HomeItem(
-  //     title: "Pay Bills",
-  //     icondata: MdiIcons.cashMultiple,
-  //   ),
-  // ];
+  List<HomeItem> homeItems = [
+    HomeItem(
+      title: "Grocery",
+      icondata: MdiIcons.cart,
+    ),
+    HomeItem(
+        title: "Parcel Delivery", icondata: MdiIcons.coatRack, callback: () {}),
+    HomeItem(
+      title: "Food Delivery",
+      icondata: MdiIcons.foodVariant,
+      callback: () => const ServiceScreen(
+        title: "Food Delivery",
+      ),
+    ),
+    HomeItem(
+      title: "Laundry Pick-Up",
+      icondata: MdiIcons.tshirtCrew,
+      callback: () =>
+          Navigator.pushNamed(HomeItem().context, "/service_screen"),
+    ),
+    HomeItem(
+      title: "Postal Service",
+      icondata: MdiIcons.mailboxOpen,
+      callback: () => const ServiceScreen(
+        title: "Postal Service",
+      ),
+    ),
+    HomeItem(
+      title: "Pay Bills",
+      icondata: MdiIcons.cashMultiple,
+    ),
+  ];
   @override
   void initState() {
     customerId = firebase.currentUser;
@@ -101,241 +101,241 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
                   ),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ServiceScreen(
-                            title: "Grocery Service",
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.width * 0.45,
-                          minWidth: MediaQuery.of(context).size.width * 0.45),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFDFAE4),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(22),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              MdiIcons.cart,
-                              size: 70,
-                              color: buttonBackgroundColor,
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              "Grocery",
-                              style: TextStyle(
-                                  color: Color(0XFFEF2F2C),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.width * 0.45,
-                          minWidth: MediaQuery.of(context).size.width * 0.45),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFDFAE4),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(22),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              MdiIcons.cart,
-                              size: 70,
-                              color: buttonBackgroundColor,
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              "Parcel Delivery",
-                              style: TextStyle(
-                                  color: Color(0XFFEF2F2C),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 10,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.width * 0.45,
-                          minWidth: MediaQuery.of(context).size.width * 0.45),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFDFAE4),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(22),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              MdiIcons.backburger,
-                              size: 70,
-                              color: buttonBackgroundColor,
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              "Food delivery",
-                              style: TextStyle(
-                                  color: Color(0XFFEF2F2C),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.width * 0.45,
-                          minWidth: MediaQuery.of(context).size.width * 0.45),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFDFAE4),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(22),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              MdiIcons.cart,
-                              size: 70,
-                              color: buttonBackgroundColor,
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              "Laundry Pick-Up",
-                              style: TextStyle(
-                                  color: Color(0XFFEF2F2C),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 10,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.width * 0.45,
-                          minWidth: MediaQuery.of(context).size.width * 0.45),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFDFAE4),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(22),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              MdiIcons.mail,
-                              size: 70,
-                              color: buttonBackgroundColor,
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              "Postal service",
-                              style: TextStyle(
-                                  color: Color(0XFFEF2F2C),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.width * 0.45,
-                          minWidth: MediaQuery.of(context).size.width * 0.45),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFDFAE4),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(22),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              MdiIcons.cashMultiple,
-                              size: 70,
-                              color: buttonBackgroundColor,
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              "Pay Bills",
-                              style: TextStyle(
-                                  color: Color(0XFFEF2F2C),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 10,
-              ),
-            ),
+            )
+            // SliverToBoxAdapter(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: <Widget>[
+            //       GestureDetector(
+            //         onTap: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (_) => const ServiceScreen(
+            //                 title: "Grocery Service",
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //         child: Container(
+            //           constraints: BoxConstraints(
+            //               maxHeight: MediaQuery.of(context).size.width * 0.45,
+            //               minWidth: MediaQuery.of(context).size.width * 0.45),
+            //           decoration: const BoxDecoration(
+            //             color: Color(0xFFFDFAE4),
+            //             borderRadius: BorderRadius.all(
+            //               Radius.circular(22),
+            //             ),
+            //           ),
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 Icon(
+            //                   MdiIcons.cart,
+            //                   size: 70,
+            //                   color: buttonBackgroundColor,
+            //                 ),
+            //                 const SizedBox(height: 8),
+            //                 const Text(
+            //                   "Grocery",
+            //                   style: TextStyle(
+            //                       color: Color(0XFFEF2F2C),
+            //                       fontSize: 18,
+            //                       fontWeight: FontWeight.bold),
+            //                 ),
+            //               ]),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         onTap: () {},
+            //         child: Container(
+            //           padding: const EdgeInsets.all(6),
+            //           constraints: BoxConstraints(
+            //               maxHeight: MediaQuery.of(context).size.width * 0.45,
+            //               minWidth: MediaQuery.of(context).size.width * 0.45),
+            //           decoration: const BoxDecoration(
+            //             color: Color(0xFFFDFAE4),
+            //             borderRadius: BorderRadius.all(
+            //               Radius.circular(22),
+            //             ),
+            //           ),
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 Icon(
+            //                   MdiIcons.cart,
+            //                   size: 70,
+            //                   color: buttonBackgroundColor,
+            //                 ),
+            //                 const SizedBox(height: 8),
+            //                 const Text(
+            //                   "Parcel Delivery",
+            //                   style: TextStyle(
+            //                       color: Color(0XFFEF2F2C),
+            //                       fontSize: 18,
+            //                       fontWeight: FontWeight.bold),
+            //                 ),
+            //               ]),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SliverToBoxAdapter(
+            //   child: SizedBox(
+            //     height: 10,
+            //   ),
+            // ),
+            // SliverToBoxAdapter(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: <Widget>[
+            //       GestureDetector(
+            //         onTap: () {},
+            //         child: Container(
+            //           constraints: BoxConstraints(
+            //               maxHeight: MediaQuery.of(context).size.width * 0.45,
+            //               minWidth: MediaQuery.of(context).size.width * 0.45),
+            //           decoration: const BoxDecoration(
+            //             color: Color(0xFFFDFAE4),
+            //             borderRadius: BorderRadius.all(
+            //               Radius.circular(22),
+            //             ),
+            //           ),
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 Icon(
+            //                   MdiIcons.backburger,
+            //                   size: 70,
+            //                   color: buttonBackgroundColor,
+            //                 ),
+            //                 const SizedBox(height: 8),
+            //                 const Text(
+            //                   "Food delivery",
+            //                   style: TextStyle(
+            //                       color: Color(0XFFEF2F2C),
+            //                       fontSize: 18,
+            //                       fontWeight: FontWeight.bold),
+            //                 ),
+            //               ]),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         onTap: () {},
+            //         child: Container(
+            //           padding: const EdgeInsets.all(6),
+            //           constraints: BoxConstraints(
+            //               maxHeight: MediaQuery.of(context).size.width * 0.45,
+            //               minWidth: MediaQuery.of(context).size.width * 0.45),
+            //           decoration: const BoxDecoration(
+            //             color: Color(0xFFFDFAE4),
+            //             borderRadius: BorderRadius.all(
+            //               Radius.circular(22),
+            //             ),
+            //           ),
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 Icon(
+            //                   MdiIcons.cart,
+            //                   size: 70,
+            //                   color: buttonBackgroundColor,
+            //                 ),
+            //                 const SizedBox(height: 8),
+            //                 const Text(
+            //                   "Laundry Pick-Up",
+            //                   style: TextStyle(
+            //                       color: Color(0XFFEF2F2C),
+            //                       fontSize: 18,
+            //                       fontWeight: FontWeight.bold),
+            //                 ),
+            //               ]),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SliverToBoxAdapter(
+            //   child: SizedBox(
+            //     height: 10,
+            //   ),
+            // ),
+            // SliverToBoxAdapter(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: <Widget>[
+            //       GestureDetector(
+            //         onTap: () {},
+            //         child: Container(
+            //           constraints: BoxConstraints(
+            //               maxHeight: MediaQuery.of(context).size.width * 0.45,
+            //               minWidth: MediaQuery.of(context).size.width * 0.45),
+            //           decoration: const BoxDecoration(
+            //             color: Color(0xFFFDFAE4),
+            //             borderRadius: BorderRadius.all(
+            //               Radius.circular(22),
+            //             ),
+            //           ),
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 Icon(
+            //                   MdiIcons.mail,
+            //                   size: 70,
+            //                   color: buttonBackgroundColor,
+            //                 ),
+            //                 const SizedBox(height: 8),
+            //                 const Text(
+            //                   "Postal service",
+            //                   style: TextStyle(
+            //                       color: Color(0XFFEF2F2C),
+            //                       fontSize: 18,
+            //                       fontWeight: FontWeight.bold),
+            //                 ),
+            //               ]),
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         onTap: () {},
+            //         child: Container(
+            //           padding: const EdgeInsets.all(6),
+            //           constraints: BoxConstraints(
+            //               maxHeight: MediaQuery.of(context).size.width * 0.45,
+            //               minWidth: MediaQuery.of(context).size.width * 0.45),
+            //           decoration: const BoxDecoration(
+            //             color: Color(0xFFFDFAE4),
+            //             borderRadius: BorderRadius.all(
+            //               Radius.circular(22),
+            //             ),
+            //           ),
+            //           child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 Icon(
+            //                   MdiIcons.cashMultiple,
+            //                   size: 70,
+            //                   color: buttonBackgroundColor,
+            //                 ),
+            //                 const SizedBox(height: 8),
+            //                 const Text(
+            //                   "Pay Bills",
+            //                   style: TextStyle(
+            //                       color: Color(0XFFEF2F2C),
+            //                       fontSize: 18,
+            //                       fontWeight: FontWeight.bold),
+            //                 ),
+            //               ]),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SliverToBoxAdapter(
+            //   child: SizedBox(
+            //     height: 10,
+            //   ),
+            // ),
           ]),
         ),
       ),
