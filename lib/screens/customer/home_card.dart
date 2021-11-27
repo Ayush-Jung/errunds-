@@ -14,8 +14,8 @@ class HomeCard extends StatelessWidget {
       onTap: callback,
       child: Container(
         constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.width * 0.5,
-            maxWidth: MediaQuery.of(context).size.width * 0.7),
+            maxHeight: MediaQuery.of(context).size.width * 0.45,
+            minWidth: MediaQuery.of(context).size.width * 0.45),
         decoration: const BoxDecoration(
           color: Color(0xFFFDFAE4),
           borderRadius: BorderRadius.all(

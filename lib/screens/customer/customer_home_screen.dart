@@ -2,6 +2,7 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/home_item.dart';
+import 'package:errunds_application/screens/customer/home_card.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -17,7 +18,6 @@ class CustomerHomeScren extends StatefulWidget {
 
 class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   String customerId;
-  HomeItem homeItem;
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   List<HomeItem> homeItems = [
@@ -37,8 +37,8 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
     HomeItem(
       title: "Laundry Pick-Up",
       icondata: MdiIcons.tshirtCrew,
-      callback: () =>
-          Navigator.pushNamed(HomeItem().context, "/service_screen"),
+      // callback: () =>
+      //     Navigator.pushNamed(context, "/service_screen"),
     ),
     HomeItem(
       title: "Postal Service",
@@ -54,7 +54,7 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   ];
   @override
   void initState() {
-    // customerId = firebase.currentUser;
+    customerId = firebase.currentUser;
     super.initState();
   }
 
@@ -94,14 +94,29 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
                         fontWeight: FontWeight.bold,
                         color: buttonBackgroundColor),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: "customer.fname,",
                       ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
+            SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return HomeCard(
+                      title: homeItems[index].title,
+                      icon: homeItems[index].icondata,
+                      callback: () {
+                        homeItems[index].callback;
+                      },
+                    );
+                  },
+                  childCount: homeItems.length,
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2))
             // SliverToBoxAdapter(
             //   child: Row(
             //     mainAxisAlignment: MainAxisAlignment.spaceAround,
