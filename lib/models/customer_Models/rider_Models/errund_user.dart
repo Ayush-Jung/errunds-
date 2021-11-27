@@ -14,20 +14,20 @@ class ErrundUser {
 
   factory ErrundUser.fromMap(Map<String, dynamic> json) => ErrundUser(
         id: json["id"],
-        fName: json["fname"],
-        conditionAccepted: json["isAcceptTerms"],
-        lName: json["lname"],
+        fName: json["fName"],
+        conditionAccepted: json["conditionAccepted"],
+        lName: json["lName"],
         email: json["email"],
-        isRider: json["isCustomer"],
+        isRider: json["isRider"],
         phoneNumber: json["phoneNumber"],
-        address: json["gender"],
+        address: json["address"],
         companyId: json["companyId"],
       );
 
   Map<String, dynamic> toMap() => {
         "fName": fName,
-        "isCustomer": isRider,
-        "acceptTerms": conditionAccepted,
+        "isRider": isRider,
+        "conditionAccepted": conditionAccepted,
         "companyId": companyId,
         "address": address,
         "lName": lName,

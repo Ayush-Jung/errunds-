@@ -18,8 +18,14 @@ class _RiderHomePageState extends State<RiderHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Text("data"),
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () => firebase.logOut(),
+          child: Container(
+            alignment: Alignment.center,
+            child: Text("data"),
+          ),
+        ),
       ),
     );
   }

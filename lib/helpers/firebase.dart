@@ -26,18 +26,19 @@ class _FirebaseHelper {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      getUserInfo();
       return result.user;
     } catch (e) {
       print(e);
     }
   }
 
+  // ignore: missing_return
   Future<ErrundUser> getUserInfo() async {
-    print(currentUser);
     try {
       var user = await _firestore.collection("Users").doc(currentUser).get();
       errundUser = ErrundUser.fromMap(user.data());
-      return errundUser;
+      // return errundUser;
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -46,6 +47,7 @@ class _FirebaseHelper {
 
   Future<void> logOut() async {
     await _auth.signOut();
+    print("logged out");
   }
 
   Future signupUser(
@@ -64,6 +66,7 @@ class _FirebaseHelper {
         _user = result.user;
         await setErrrundUser(phoneNumber, fName, companyId, lName,
             isRider: isRider);
+        getUserInfo();
         return result.user;
       }
     } catch (e) {}

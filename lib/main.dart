@@ -6,7 +6,9 @@ import 'package:errunds_application/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await firebase.initFirebase();
   runApp(
     MultiProvider(
       child: const MyApp(),
@@ -14,27 +16,13 @@ void main() {
         ChangeNotifierProvider<NavigationProvider>(
           create: (_) => NavigationProvider(),
         ),
-        ChangeNotifierProvider<HomeItem>(
-          create: (_) => HomeItem(),
-        ),
       ],
     ),
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    firebase.initFirebase();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
