@@ -1,3 +1,4 @@
+import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/models/customer_Models/home_item.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
@@ -21,8 +22,19 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    firebase.initFirebase();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

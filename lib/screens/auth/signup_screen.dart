@@ -44,14 +44,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       getLoading(true);
       firebase
           .signupUser(email, password, phoneNumber, fName, lName,
-              companyId: widget.isRider ? companyId : null)
+              companyId: companyId, isRider: widget.isRider)
           .then((value) {
-        if (widget.isRider) {
+        if (widget.isRider && value != null) {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (_) => const RiderHomePage()),
               (route) => false);
-        } else {
+        } else if (value != null && !widget.isRider) {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),

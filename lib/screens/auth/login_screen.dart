@@ -25,7 +25,6 @@ class _LogInScreenState extends State<LogInScreen> {
   bool showPassword = false;
   bool loading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   login() {
@@ -35,14 +34,15 @@ class _LogInScreenState extends State<LogInScreen> {
     } else {
       getLoading(true);
       firebase
-          .loginUser(email, password,
-              companyId: widget.isRider ? companyId : null,
-              canLogin: widget.isRider)
+          .loginUser(
+        email,
+        password,
+      )
           .then((value) {
-        if (!value) {
+        if (value == null) {
           getLoading(false);
           showSnackBar("Unable to login");
-        } else if (companyId == null) {
+        } else if (value != null && companyId == null) {
           getLoading(false);
           Navigator.pushAndRemoveUntil(
               context,

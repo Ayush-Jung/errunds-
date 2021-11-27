@@ -1,3 +1,4 @@
+import 'package:errunds_application/helpers/firebase.dart';
 import 'package:flutter/material.dart';
 
 class RiderHomePage extends StatefulWidget {
@@ -8,6 +9,12 @@ class RiderHomePage extends StatefulWidget {
 }
 
 class _RiderHomePageState extends State<RiderHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    print(firebase.errundUser);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

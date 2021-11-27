@@ -54,7 +54,7 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   ];
   @override
   void initState() {
-    customerId = firebase.currentUser;
+    // customerId = firebase.currentUser;
     super.initState();
   }
 

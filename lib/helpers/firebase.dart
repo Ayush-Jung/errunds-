@@ -17,22 +17,23 @@ class _FirebaseHelper {
     _firestore = FirebaseFirestore.instance;
   }
 
-  get currentUser => _auth.currentUser?.uid;
+  get currentUser => _auth?.currentUser?.uid;
 
-  Future loginUser(email, password,
-      {String companyId, bool canLogin = false}) async {
-    UserCredential result = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    userCredential = result;
-    return result.user;
-  }
-
-  Future<bool> checkUserStatus(
-      User user, String companyId, bool canLogin) async {
-    return trueUser;
+  Future loginUser(
+    email,
+    password,
+  ) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return result.user;
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<ErrundUser> getUserInfo() async {
+    print(currentUser);
     try {
       var user = await _firestore.collection("Users").doc(currentUser).get();
       errundUser = ErrundUser.fromMap(user.data());
@@ -61,7 +62,8 @@ class _FirebaseHelper {
           email: email, password: password);
       if (result.user != null) {
         _user = result.user;
-        setErrrundUser(phoneNumber, fName, companyId, lName, isRider: isRider);
+        await setErrrundUser(phoneNumber, fName, companyId, lName,
+            isRider: isRider);
         return result.user;
       }
     } catch (e) {}

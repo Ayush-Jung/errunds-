@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/home_item.dart';
+import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
@@ -18,17 +19,23 @@ class CustomSplasScreen extends StatefulWidget {
 
 class _CustomSplasScreenState extends State<CustomSplasScreen> {
   HomeItem homeItem;
+  ErrundUser errundUser;
   @override
   void initState() {
-    firebase.initFirebase();
+    getUser();
     Timer(const Duration(seconds: 4), () {
       checkUserStatus();
     });
     super.initState();
   }
 
+  getUser() async {
+    errundUser = await firebase.getUserInfo();
+    setState(() {});
+  }
+
   checkUserStatus() {
-    if (firebase.currentUser != null) {
+    if (errundUser != null) {
       manageRoute();
     } else {
       {
@@ -43,28 +50,21 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   }
 
   manageRoute() {
-    firebase.getUserInfo().then((value) {
-      if (value.isRider) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const CustomerWelcomeScreen(),
-            ),
-            (route) => false);
-      } else if (!value.isRider) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const RiderHomePage(),
-            ),
-            (route) => false);
-      } else {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const AuthChooser()),
-            (route) => false);
-      }
-    });
+    if (!errundUser.isRider) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const CustomerWelcomeScreen(),
+          ),
+          (route) => false);
+    } else {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const RiderHomePage(),
+          ),
+          (route) => false);
+    }
   }
 
   @override
