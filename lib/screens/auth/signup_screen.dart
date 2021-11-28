@@ -108,9 +108,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                    color: buttonBackgroundColor,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 4),
+                                  ),
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.red, width: 5.0),
+                                        color: Colors.red, width: 4.0),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(18),
                                     ),
@@ -119,14 +127,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(18),
                                     ),
-                                    borderSide:
-                                        BorderSide(width: 4, color: Colors.red),
+                                    borderSide: BorderSide(width: 4),
                                   ),
-                                  label: Text(
-                                    "First Name",
-                                    style:
-                                        TextStyle(color: buttonBackgroundColor),
-                                  ),
+                                  labelText: "First Name",
                                   hintText: "Enter first name"),
                               validator: (value) {
                                 value = value.trim();
@@ -146,9 +149,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
                             decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      color: Colors.red, width: 4),
+                                ),
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 5.0),
+                                      BorderSide(color: Colors.red, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -157,8 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
-                                  borderSide:
-                                      BorderSide(width: 4, color: Colors.red),
+                                  borderSide: BorderSide(width: 4),
                                 ),
                                 label: Text(
                                   "Last Name",
@@ -185,9 +192,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 4),
+                          ),
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 5.0),
+                                BorderSide(color: Colors.red, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -217,9 +229,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 4),
+                          ),
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 5.0),
+                                BorderSide(color: Colors.red, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -250,9 +267,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide:
+                                  const BorderSide(color: Colors.red, width: 4),
+                            ),
                             enabledBorder: const OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.red, width: 5.0),
+                                  BorderSide(color: Colors.red, width: 4.0),
                               borderRadius: BorderRadius.all(
                                 Radius.circular(18),
                               ),
@@ -282,9 +304,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 4),
+                          ),
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 5.0),
+                                BorderSide(color: Colors.red, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -314,16 +341,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 4),
+                          ),
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 5.0),
+                                BorderSide(color: Colors.red, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.red, width: 5.0),
                           ),
                           border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(

@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
-import 'package:errunds_application/models/customer_Models/home_item.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
@@ -17,7 +18,7 @@ class CustomSplasScreen extends StatefulWidget {
 class _CustomSplasScreenState extends State<CustomSplasScreen> {
   @override
   void initState() {
-    checkUserStatus();
+    Timer(const Duration(seconds: 2), () => checkUserStatus());
     super.initState();
   }
 
@@ -41,12 +42,15 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
     if (firebase.errundUser != null &&
         (!firebase.errundUser.isRider ||
             firebase.errundUser.companyId == null)) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const CustomerWelcomeScreen(),
-          ),
-          (route) => false);
+      // ignore: curly_braces_in_flow_control_structures
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CustomerWelcomeScreen(),
+            ),
+            (route) => false);
+      }
     } else {
       Navigator.pushAndRemoveUntil(
           context,

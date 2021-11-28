@@ -20,7 +20,6 @@ class ErrundUser {
         email: json["email"],
         isRider: json["isRider"],
         phoneNumber: json["phoneNumber"],
-        address: json["address"],
         companyId: json["companyId"],
       );
 

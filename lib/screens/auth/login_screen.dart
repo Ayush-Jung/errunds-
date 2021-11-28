@@ -106,21 +106,27 @@ class _LogInScreenState extends State<LogInScreen> {
                           horizontal: 16,
                         ),
                         child: TextFormField(
-                          decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(
+                          decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 4),
+                              ),
+                              enabledBorder: const OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 5.0),
+                                    BorderSide(color: Colors.red, width: 4.0),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
                               ),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
                                 borderSide: BorderSide(width: 4),
                               ),
                               labelText: 'Email',
+                              labelStyle: const TextStyle(color: Colors.black),
                               hintText: 'Enter Email'),
                           validator: (value) {
                             value = value.trim();
@@ -141,18 +147,26 @@ class _LogInScreenState extends State<LogInScreen> {
                             horizontal: 16,
                           ),
                           child: TextFormField(
-                            decoration: const InputDecoration(
-                                enabledBorder: OutlineInputBorder(
+                            decoration: InputDecoration(
+                                labelStyle:
+                                    const TextStyle(color: Colors.black),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: const BorderSide(
+                                      color: Colors.red, width: 4),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Colors.red, width: 5.0),
+                                      BorderSide(color: Colors.red, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
                                 ),
-                                border: OutlineInputBorder(
+                                border: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
+                                  borderSide: BorderSide(width: 4),
                                 ),
                                 labelText: 'company Id',
                                 hintText: 'Enter company Id'),
@@ -175,12 +189,24 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
+                              labelStyle: const TextStyle(color: Colors.black),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 4),
+                              ),
                               enabledBorder: const OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 5.0),
+                                    BorderSide(color: Colors.red, width: 4.0),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
+                              ),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                                borderSide: BorderSide(width: 4),
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
@@ -188,15 +214,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                     showPassword = !showPassword;
                                   });
                                 },
-                                icon: Icon(showPassword
-                                    ? MdiIcons.eye
-                                    : MdiIcons.eyeOff),
-                              ),
-                              border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                                icon: Icon(
+                                  showPassword ? MdiIcons.eye : MdiIcons.eyeOff,
+                                  color: Colors.grey,
                                 ),
-                                borderSide: BorderSide(width: 4),
                               ),
                               labelText: 'Password',
                               hintText: 'Enter secure password'),

@@ -32,18 +32,18 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
     const BottomNavigationBarItem(
       label: "",
       icon: Icon(
-        MdiIcons.faceManProfile,
+        MdiIcons.account,
         color: Colors.white,
         size: 22,
       ),
     ),
     const BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.arrowCollapseHorizontal, color: Colors.white),
+      icon: Icon(MdiIcons.swapHorizontalBold, color: Colors.white),
     ),
     const BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.settingsHelper, color: Colors.white),
+      icon: Icon(MdiIcons.menu, color: Colors.white),
     ),
   ];
 
@@ -53,13 +53,13 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
     currentIndex = navigationProvider.currentIndex;
     return Scaffold(
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             color: buttonBackgroundColor),
         child: BottomNavigationBar(
           currentIndex: currentIndex,
+          iconSize: 35,
           onTap: (index) {
             navigationProvider.setIndex(index);
           },

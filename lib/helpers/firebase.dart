@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
+import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class _FirebaseHelper {
   FirebaseAuth _auth;
@@ -47,6 +50,7 @@ class _FirebaseHelper {
 
   Future<void> logOut() async {
     await _auth.signOut();
+
     print("logged out");
   }
 
@@ -82,11 +86,11 @@ class _FirebaseHelper {
     await _firestore.collection("Users").doc(_user.uid).set({
       "email": _user.email,
       "id": _user.uid,
-      "fname": fName,
+      "fName": fName,
       "lName": lName,
       "phoneNumber": phoneNumber,
       "companyId": companyId,
-      "isAcceptTerms": true,
+      "conditionAccepted": true,
       "isRider": isRider,
     }, SetOptions(merge: true));
   }
