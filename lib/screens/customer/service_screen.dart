@@ -4,8 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ServiceScreen extends StatefulWidget {
-  const ServiceScreen({Key key, this.title}) : super(key: key);
+  const ServiceScreen(
+      {Key key,
+      this.title,
+      this.isLaundryservice = false,
+      this.isFoodDelivery = false,
+      this.isPostalService = false,
+      this.isGroceryService = false,
+      this.ispayBillService = false,
+      this.isParcelService = false})
+      : super(key: key);
   final String title;
+  final bool isLaundryservice;
+  final bool isParcelService;
+  final bool isFoodDelivery;
+  final bool isPostalService;
+  final bool isGroceryService;
+  final bool ispayBillService;
 
   @override
   _ServiceScreenState createState() => _ServiceScreenState();
@@ -13,6 +28,39 @@ class ServiceScreen extends StatefulWidget {
 
 class _ServiceScreenState extends State<ServiceScreen> {
   bool checkedRate = false;
+  List<String> routes = [
+    "Select Route",
+    "Poblacion - Dologon",
+    "Poblacion - Panadtalan",
+    "Poblacion - Base Camp",
+    "Anahawon - Poblacion",
+    "Anahawon - Camp 1",
+    "Anahawon - Panadtalan",
+    "Anahawon - Dologon",
+    "Base Camp - Camp 1",
+    "Base Camp - Panadtalan",
+    "Base Camp - Dologon",
+    "Camp 1 - Poblacion",
+    "Camp 1 - Panadtalan",
+    "Camp 1 - Dologon",
+    "Panadtalan - Dologon",
+    "Panadtalan - Poblacion",
+  ];
+  List<String> utilityRoutes = [
+    "Poblacion - FIBECO",
+    "Anahawon - FIBECO",
+    "Camp 1 - FIBECO",
+    "Panadtalan - FIBECO",
+    "Dologon - FIBECO",
+    "Poblacion - Water District",
+    "Anahawon - Water District",
+    "Base Camp - Water District",
+    "Camp 1 - Water District",
+    "Panadtalan - Water District",
+    "Dologon -  Water District",
+  ];
+  String _currentSelectedValue = "Select Route";
+  String _currentSelectedValueUtility = "Bills Payment";
 
   @override
   Widget build(BuildContext context) {
@@ -73,243 +121,548 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 20),
-                        child: TextFormField(
-                          style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                        child: FormField<String>(
+                          builder: (FormFieldState<String> state) {
+                            return InputDecorator(
+                              decoration: InputDecoration(
+                                hintText: "Select route",
+                                fillColor: Colors.white,
+                                filled: true,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: buttonBackgroundColor,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(18),
+                                    ),
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(18),
+                              isEmpty: _currentSelectedValue == '',
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _currentSelectedValue,
+                                  isDense: true,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _currentSelectedValue = newValue;
+                                      state.didChange(newValue);
+                                    });
+                                  },
+                                  items: routes.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
+                            );
+                          },
+                        ),
+                      ),
+                      if (widget.ispayBillService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Payment Bills",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: FormField<String>(
+                            builder: (FormFieldState<String> state) {
+                              return InputDecorator(
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: buttonBackgroundColor,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(18),
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(18),
+                                      ),
+                                      borderSide:
+                                          BorderSide(color: Colors.white)),
+                                  border: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(18),
+                                    ),
+                                  ),
+                                ),
+                                isEmpty: _currentSelectedValueUtility == '',
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    value: _currentSelectedValueUtility,
+                                    isDense: true,
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        _currentSelectedValueUtility = newValue;
+                                        state.didChange(newValue);
+                                      });
+                                    },
+                                    items: utilityRoutes.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                      if (widget.isFoodDelivery ||
+                          widget.isLaundryservice ||
+                          widget.isParcelService ||
+                          widget.isPostalService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Pick-Up Address",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
-                                borderSide: BorderSide(color: Colors.white)),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
                               ),
                             ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
                           ),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // email = (value ?? "").trim();
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
-                        child: Text(
-                          "Pick-Up Address",
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                      ],
+                      if (widget.isFoodDelivery ||
+                          widget.isLaundryservice ||
+                          widget.isParcelService ||
+                          widget.isGroceryService ||
+                          widget.isPostalService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Delivery Address",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 20),
-                        child: TextFormField(
-                          style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(18),
-                              ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
-                                borderSide: BorderSide(color: Colors.white)),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
                               ),
                             ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
                           ),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // email = (value ?? "").trim();
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
-                        child: Text(
-                          "Delivery Address",
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                      ],
+                      if (widget.ispayBillService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Amount",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 20),
-                        child: TextFormField(
-                          style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(18),
-                              ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
-                                borderSide: BorderSide(color: Colors.white)),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
                               ),
                             ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
                           ),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // email = (value ?? "").trim();
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
-                        child: Text(
-                          "Contact No",
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                      ],
+                      if (widget.isFoodDelivery ||
+                          widget.isLaundryservice ||
+                          widget.isParcelService ||
+                          widget.isPostalService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Contact No",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 20),
-                        child: TextFormField(
-                          style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(18),
-                              ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
-                                borderSide: BorderSide(color: Colors.white)),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
                               ),
                             ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
                           ),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // email = (value ?? "").trim();
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
-                        child: Text(
-                          "Laundry Shop",
-                          style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                      ],
+                      if (widget.isLaundryservice) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Laundry Shop",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 20),
-                        child: TextFormField(
-                          style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(18),
-                              ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
-                                borderSide: BorderSide(color: Colors.white)),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
                               ),
                             ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
                           ),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // email = (value ?? "").trim();
-                          },
                         ),
-                      ),
+                      ],
+                      if (widget.isFoodDelivery) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Resturant Name",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
+                          ),
+                        ),
+                      ],
+                      if (widget.ispayBillService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "Necessary Details (Account No.., etc)",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            maxLines: 10,
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
+                          ),
+                        ),
+                      ],
+                      if (widget.isGroceryService) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(22, 8, 0, 2),
+                          child: Text(
+                            "List of Products",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          child: TextFormField(
+                            maxLines: 10,
+                            style: const TextStyle(fontSize: 16),
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: buttonBackgroundColor,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              value = value.trim();
+                              if (value.isEmpty) {
+                                return "Mandatory Field";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              // email = (value ?? "").trim();
+                            },
+                          ),
+                        ),
+                      ],
                       Padding(
                         padding: const EdgeInsets.fromLTRB(22, 0, 0, 2),
                         child: Row(

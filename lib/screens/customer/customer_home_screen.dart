@@ -22,38 +22,98 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   ErrundUser errundUser;
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
-  List<HomeItem> homeItems = [
-    HomeItem(
-      title: "Grocery",
-      icondata: MdiIcons.cart,
-    ),
-    HomeItem(
-        title: "Parcel Delivery", icondata: MdiIcons.coatRack, callback: () {}),
-    HomeItem(
-      title: "Food Delivery",
-      icondata: MdiIcons.foodVariant,
-      callback: () => const ServiceScreen(
-        title: "Food Delivery",
-      ),
-    ),
-    HomeItem(
-      title: "Laundry Pick-Up",
-      icondata: MdiIcons.tshirtCrew,
-      // callback: () =>
-      //     Navigator.pushNamed(context, "/service_screen"),
-    ),
-    HomeItem(
-      title: "Postal Service",
-      icondata: MdiIcons.mailboxOpen,
-      callback: () => const ServiceScreen(
-        title: "Postal Service",
-      ),
-    ),
-    HomeItem(
-      title: "Pay Bills",
-      icondata: MdiIcons.cashMultiple,
-    ),
-  ];
+  List<HomeItem> homeItems(BuildContext context) => [
+        HomeItem(
+          title: "Grocery",
+          icondata: MdiIcons.cart,
+          callback: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ServiceScreen(
+                  title: "Grocery",
+                  isGroceryService: true,
+                ),
+              ),
+            );
+          },
+        ),
+        HomeItem(
+          title: "Parcel Delivery",
+          icondata: MdiIcons.coatRack,
+          callback: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ServiceScreen(
+                  title: "Parcel Delivery",
+                  isParcelService: true,
+                ),
+              ),
+            );
+          },
+        ),
+        HomeItem(
+          title: "Food Delivery",
+          icondata: MdiIcons.foodVariant,
+          callback: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ServiceScreen(
+                  title: "Food Delivery",
+                  isFoodDelivery: true,
+                ),
+              ),
+            );
+          },
+        ),
+        HomeItem(
+          title: "Laundry Pick-Up",
+          icondata: MdiIcons.tshirtCrew,
+          callback: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ServiceScreen(
+                  title: "Laundry Pick-Up",
+                  isLaundryservice: true,
+                ),
+              ),
+            );
+          },
+        ),
+        HomeItem(
+          title: "Postal Service",
+          icondata: MdiIcons.mailboxOpen,
+          callback: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ServiceScreen(
+                  title: "Postal Delivery",
+                  isPostalService: true,
+                ),
+              ),
+            );
+          },
+        ),
+        HomeItem(
+          title: "Pay Bills",
+          icondata: MdiIcons.cashMultiple,
+          callback: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ServiceScreen(
+                  title: "Pay Bills",
+                  ispayBillService: true,
+                ),
+              ),
+            );
+          },
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -109,24 +169,21 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
                 child: Text("Log-Out"),
               ),
             ),
-            SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Padding(
+            SliverGrid.count(
+              crossAxisCount: 2,
+              children: homeItems(context)
+                  .map(
+                    (e) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: HomeCard(
-                        title: homeItems[index].title,
-                        icon: homeItems[index].icondata,
-                        callback: () {
-                          homeItems[index].callback;
-                        },
+                        title: e.title,
+                        icon: e.icondata,
+                        callback: e.callback,
                       ),
-                    );
-                  },
-                  childCount: homeItems.length,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2))
+                    ),
+                  )
+                  .toList(),
+            )
           ]),
         ),
       ),
