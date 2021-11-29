@@ -33,11 +33,11 @@ class _FirebaseHelper {
     }
   }
 
-  // ignore: missing_return
   Future<ErrundUser> getUserInfo() async {
     try {
       var user = await _firestore.collection("Users").doc(currentUser).get();
       errundUser = ErrundUser.fromMap(user.data());
+      return errundUser;
     } catch (e) {
       // ignore: avoid_print
       print(e);

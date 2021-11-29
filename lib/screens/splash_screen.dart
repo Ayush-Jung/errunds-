@@ -27,8 +27,7 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   checkUserStatus() async {
     firebase.getUserStateListener().listen((event) async {
       if (event != null) {
-        await firebase.getUserInfo();
-        errundUser = firebase.errundUser;
+        errundUser = await firebase.getUserInfo();
         setState(() {});
         manageRoute();
       } else {
@@ -45,7 +44,6 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   manageRoute() {
     if (errundUser != null &&
         (!errundUser.isRider || errundUser.companyId == null)) {
-      // ignore: curly_braces_in_flow_control_structures
       if (mounted) {
         Navigator.pushAndRemoveUntil(
             context,

@@ -29,7 +29,6 @@ class ServiceScreen extends StatefulWidget {
 class _ServiceScreenState extends State<ServiceScreen> {
   bool checkedRate = false;
   List<String> routes = [
-    "Select Route",
     "Poblacion - Dologon",
     "Poblacion - Panadtalan",
     "Poblacion - Base Camp",
@@ -59,8 +58,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
     "Panadtalan - Water District",
     "Dologon -  Water District",
   ];
-  String _currentSelectedValue = "Select Route";
-  String _currentSelectedValueUtility = "Bills Payment";
+  String _currentSelectedValue;
+
+  String _currentSelectedValueUtility;
 
   @override
   Widget build(BuildContext context) {
@@ -148,10 +148,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   ),
                                 ),
                               ),
-                              isEmpty: _currentSelectedValue == '',
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                   value: _currentSelectedValue,
+                                  hint: const Text("Select route"),
                                   isDense: true,
                                   onChanged: (String newValue) {
                                     setState(() {
@@ -211,10 +211,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     ),
                                   ),
                                 ),
-                                isEmpty: _currentSelectedValueUtility == '',
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     value: _currentSelectedValueUtility,
+                                    hint: const Text("Select Payment"),
                                     isDense: true,
                                     onChanged: (String newValue) {
                                       setState(() {
