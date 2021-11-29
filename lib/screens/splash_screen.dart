@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
@@ -16,6 +17,7 @@ class CustomSplasScreen extends StatefulWidget {
 }
 
 class _CustomSplasScreenState extends State<CustomSplasScreen> {
+  ErrundUser errundUser;
   @override
   void initState() {
     Timer(const Duration(seconds: 2), () => checkUserStatus());
@@ -26,6 +28,8 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
     firebase.getUserStateListener().listen((event) async {
       if (event != null) {
         await firebase.getUserInfo();
+        errundUser = firebase.errundUser;
+        setState(() {});
         manageRoute();
       } else {
         Navigator.pushReplacement(
@@ -39,9 +43,8 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   }
 
   manageRoute() {
-    if (firebase.errundUser != null &&
-        (!firebase.errundUser.isRider ||
-            firebase.errundUser.companyId == null)) {
+    if (errundUser != null &&
+        (!errundUser.isRider || errundUser.companyId == null)) {
       // ignore: curly_braces_in_flow_control_structures
       if (mounted) {
         Navigator.pushAndRemoveUntil(

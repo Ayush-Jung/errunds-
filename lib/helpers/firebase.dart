@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
-import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class _FirebaseHelper {
   FirebaseAuth _auth;
@@ -41,7 +38,6 @@ class _FirebaseHelper {
     try {
       var user = await _firestore.collection("Users").doc(currentUser).get();
       errundUser = ErrundUser.fromMap(user.data());
-      // return errundUser;
     } catch (e) {
       // ignore: avoid_print
       print(e);
