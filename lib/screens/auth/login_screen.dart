@@ -7,6 +7,7 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/auth/signup_screen.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
+import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -52,7 +53,7 @@ class _LogInScreenState extends State<LogInScreen> {
           getLoading(false);
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => const RiderHomePage()),
+              MaterialPageRoute(builder: (_) => const RiderWelcomeScreen()),
               (route) => false);
         }
       }).catchError((e) {

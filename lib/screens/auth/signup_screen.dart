@@ -4,6 +4,7 @@ import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
+import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (widget.isRider && value != null) {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => const RiderHomePage()),
+              MaterialPageRoute(builder: (_) => const RiderWelcomeScreen()),
               (route) => false);
         } else if (value != null && !widget.isRider) {
           Navigator.pushAndRemoveUntil(

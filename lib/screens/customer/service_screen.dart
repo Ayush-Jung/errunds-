@@ -1,5 +1,7 @@
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
+import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -27,6 +29,8 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class _ServiceScreenState extends State<ServiceScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Service service = Service();
   bool checkedRate = false;
   List<String> routes = [
     "Poblacion - Dologon",
@@ -61,6 +65,70 @@ class _ServiceScreenState extends State<ServiceScreen> {
   String _currentSelectedValue;
 
   String _currentSelectedValueUtility;
+  bool loading = false;
+
+  submitData() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      getLoading(true);
+      await showConfirmationDialog(onYes: () async {
+        try {
+          service.serviceName = widget.title;
+          service.lookForRider = true;
+          await firebase.setService(service);
+        } catch (e) {
+          showSnackBar(
+              e.message ?? "Unable to perform the action. Please try again!");
+        }
+      });
+      getLoading(false);
+      //navigate to rider who accept task screen.
+      Navigator.pop(context);
+    }
+  }
+
+  getLoading(bool value) {
+    setState(() {
+      loading = value;
+    });
+  }
+
+  Future<bool> showConfirmationDialog({
+    VoidCallback onYes,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Rider Request?"),
+          content: const Text("Are you sure?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Yes"),
+              onPressed: () {
+                Navigator.pop(context, true);
+                onYes?.call();
+              },
+            ),
+            TextButton(
+              child: const Text("No"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: primaryColor,
+      duration: const Duration(seconds: 2),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +172,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
               Container(
                 decoration: BoxDecoration(color: buttonBackgroundColor),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,6 +225,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _currentSelectedValue = newValue;
+                                      service.route = newValue;
                                       state.didChange(newValue);
                                     });
                                   },
@@ -219,6 +289,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     onChanged: (String newValue) {
                                       setState(() {
                                         _currentSelectedValueUtility = newValue;
+                                        service.payment = newValue;
                                         state.didChange(newValue);
                                       });
                                     },
@@ -284,8 +355,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.pick_up_address = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -340,8 +411,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.delivery_address = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -392,8 +463,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.total_amount = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -447,8 +518,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.contact_num = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -499,8 +570,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.laundry_shop = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -551,8 +622,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.resturant_name = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -597,15 +668,15 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 ),
                               ),
                             ),
-                            validator: (value) {
-                              value = value.trim();
-                              if (value.isEmpty) {
-                                return "Mandatory Field";
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            // validator: (value) {
+                            //   value = value.trim();
+                            //   if (value.isEmpty) {
+                            //     return "Mandatory Field";
+                            //   }
+                            //   return null;
+                            // },
+                            onChanged: (value) {
+                              service.necessary_detail = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -657,8 +728,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {
-                              // email = (value ?? "").trim();
+                            onChanged: (value) {
+                              service.product = (value ?? "").trim();
                             },
                           ),
                         ),
@@ -679,7 +750,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 value: checkedRate,
                                 onChanged: (bool value) {
                                   checkedRate = value;
-                                  setState(() {});
+                                  service.expressRate = value;
                                 },
                               ),
                             ),
@@ -730,15 +801,15 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               ),
                             ),
                           ),
-                          validator: (value) {
-                            value = value.trim();
-                            if (value.isEmpty) {
-                              return "Mandatory Field";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // email = (value ?? "").trim();
+                          // validator: (value) {
+                          //   value = value.trim();
+                          //   if (value.isEmpty) {
+                          //     return "Mandatory Field";
+                          //   }
+                          //   return null;
+                          // },
+                          onChanged: (value) {
+                            service.special_request = (value ?? "").trim();
                           },
                         ),
                       ),
@@ -776,9 +847,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(50, 10, 50, 30),
                         child: CustomButton(
-                          label: "Look for a Rider",
-                          color: primaryColor,
-                        ),
+                            label: "Look for a Rider",
+                            color: primaryColor,
+                            loading: loading,
+                            onPress: submitData),
                       )
                     ],
                   ),

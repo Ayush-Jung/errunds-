@@ -46,8 +46,8 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "About us ",
                         style: TextStyle(
@@ -56,8 +56,8 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
+                    const Padding(
+                      padding: EdgeInsets.all(8),
                       child: Text(
                         "This is demo for about us screen. we will add our info later. ",
                         style: TextStyle(
@@ -66,22 +66,22 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                         ),
                       ),
                     ),
-                    Spacer(
+                    const Spacer(
                       flex: 2,
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "PROJECT BY:",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text(
+                          const Text(
                             "AREOLA, VENUS KATE C",
                             style: TextStyle(
                                 color: Colors.white,
@@ -134,7 +134,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                             height: 8,
                           ),
                           Text(
-                            "VERSION 1.0",
+                            "VERSION: 1.0",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

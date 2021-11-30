@@ -6,6 +6,7 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
+import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -28,7 +29,7 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
     firebase.getUserStateListener().listen((event) async {
       if (event != null) {
         errundUser = await firebase.getUserInfo();
-        setState(() {});
+        if (mounted) setState(() {});
         manageRoute();
       } else {
         Navigator.pushReplacement(
@@ -56,7 +57,7 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (_) => const RiderHomePage(),
+            builder: (_) => const RiderWelcomeScreen(),
           ),
           (route) => false);
     }

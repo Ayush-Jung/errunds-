@@ -4,20 +4,24 @@ import 'package:errunds_application/screens/customer/customer_home_screen.dart';
 import 'package:errunds_application/screens/customer/customer_profile.dart';
 import 'package:errunds_application/screens/customer/customer_setting.dart';
 import 'package:errunds_application/screens/customer/customer_transaction_screen.dart';
+import 'package:errunds_application/screens/driver/rider_home_page.dart';
+import 'package:errunds_application/screens/driver/rider_profie_screen.dart';
+import 'package:errunds_application/screens/driver/rider_setting_screen.dart';
+import 'package:errunds_application/screens/driver/rider_transaction_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class CustomerWelcomeScreen extends StatefulWidget {
-  const CustomerWelcomeScreen({
+class RiderWelcomeScreen extends StatefulWidget {
+  const RiderWelcomeScreen({
     Key key,
   }) : super(key: key);
 
   @override
-  _CustomerWelcomeScreenState createState() => _CustomerWelcomeScreenState();
+  _RiderWelcomeScreenState createState() => _RiderWelcomeScreenState();
 }
 
-class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
+class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
   int currentIndex = 0;
   NavigationProvider navigationProvider;
 
@@ -72,10 +76,10 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
         child: IndexedStack(
           index: currentIndex,
           children: [
-            CustomerHomeScren(active: currentIndex == 0),
-            CustomerProfileScreen(active: currentIndex == 1),
-            CustomerTransactionScreen(active: currentIndex == 2),
-            CustomerSettingScreen(active: currentIndex == 3),
+            RiderHomePage(active: currentIndex == 0),
+            RiderProfileScreen(active: currentIndex == 1),
+            RiderTransactionScreen(active: currentIndex == 2),
+            RiderSettingScreen(active: currentIndex == 3),
           ],
         ),
       ),

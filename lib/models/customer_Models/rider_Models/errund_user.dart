@@ -8,9 +8,12 @@ class ErrundUser {
       this.id,
       this.isRider,
       this.lName,
+      this.imageUrl,
+      this.onlineRider,
       this.phoneNumber});
-  String id, companyId, fName, lName, email, phoneNumber, address;
+  String id, companyId, fName, lName, email, phoneNumber, imageUrl, address;
   bool isRider = false, conditionAccepted = false;
+  bool onlineRider = false;
 
   factory ErrundUser.fromMap(Map<String, dynamic> json) => ErrundUser(
         id: json["id"],
@@ -20,7 +23,9 @@ class ErrundUser {
         email: json["email"],
         isRider: json["isRider"],
         phoneNumber: json["phoneNumber"],
+        onlineRider: json["onlineRider"],
         companyId: json["companyId"],
+        imageUrl: json["imageUrl"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -33,5 +38,7 @@ class ErrundUser {
         "id": id,
         "email": email,
         "phoneNumber": phoneNumber,
+        "onlineRider": onlineRider,
+        "imageUrl": imageUrl,
       };
 }

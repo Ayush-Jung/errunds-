@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
+import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -31,6 +32,47 @@ class _FirebaseHelper {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future setService(Service service) {
+    var ref = _firestore
+        .collection("Users")
+        .doc(currentUser)
+        .collection("Services")
+        .doc(service.id);
+    //it detects for update or new service.
+    service.id = ref.id;
+    ref.set(service.toMap(), SetOptions(merge: true));
+  }
+
+  getRealTimeServices(Function(List<Service>) callBack) {
+    _firestore
+        .collection("Users")
+        .doc()
+        .collection("Services")
+        .where("lookForRider", isEqualTo: true)
+        .snapshots()
+        .listen((event) {
+      callBack(event.docs
+          .map(
+            (e) => Service.fromMap(e.data()),
+          )
+          .toList());
+    });
+  }
+
+  Future<List<ErrundUser>> getOnlineRiders() async {
+    var onlineRiders = await _firestore
+        .collection("Users")
+        .where("onlineRider", isEqualTo: true)
+        .get();
+    return onlineRiders.docs
+        .map(
+          (e) => ErrundUser.fromMap(
+            e.data(),
+          ),
+        )
+        .toList();
   }
 
   Future<ErrundUser> getUserInfo() async {
