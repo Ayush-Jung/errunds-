@@ -34,7 +34,6 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
       icon: Icon(
         MdiIcons.account,
         color: Colors.white,
-        size: 22,
       ),
     ),
     const BottomNavigationBarItem(
