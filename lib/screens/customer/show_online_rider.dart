@@ -4,6 +4,7 @@ import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/rider_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -21,28 +22,30 @@ class ScanOnlineRider extends StatefulWidget {
 class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   ErrundUser onlineRider;
   Service service;
-
-  startSearching() {
-    searchOnlineRider();
-    Timer(const Duration(minutes: 1), () {
-      isSearching = false;
-      if (mounted) setState(() {});
-    });
-  }
+  bool isSearching = false;
 
   @override
   void initState() {
-    setState(() {});
+    isSearching = true;
+    Timer(const Duration(seconds: 10), () {
+      print("called 1");
+      isSearching = false;
+      if (mounted) setState(() {});
+    });
+    firebase.getServiceById(widget.serviceId, (Service service) async {
+      print("called 2");
+
+      this.service = service;
+      if (service.riderId != null) {
+        onlineRider = await firebase.getUserById(service.riderId);
+        setState(() {});
+      }
+      setState(() {});
+      print("called 3");
+    });
     super.initState();
   }
 
-  searchOnlineRider() async {
-    isSearching = true;
-    service = await firebase.getServiceById(widget.serviceId);
-    setState(() {});
-  }
-
-  bool isSearching = false;
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -81,7 +84,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               ),
               const SizedBox(height: 50),
               const Text("Scanning for Online Riders..."),
-            ] else ...[
+            ] else if (onlineRider != null) ...[
               const SizedBox(height: 10),
               const Icon(
                 MdiIcons.checkCircleOutline,
@@ -90,15 +93,27 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               const SizedBox(height: 10),
               const Text("Rider Found"),
               const SizedBox(height: 10),
-              const StyledMarkerTextCard(
-                riderName: "Ayush",
-                //add rider info,
+              StyledMarkerTextCard(
+                riderName: onlineRider.fName,
+              ),
+              StyledMarkerTextCard(
+                riderName: onlineRider.phoneNumber,
               ),
               const SizedBox(height: 10),
               CustomButton(
-                label: "Continue",
-                onPress: () => Navigator.pop(context, true),
-              ),
+                  label: "Continue",
+                  onPress: () {
+                    Navigator.pop(context, true);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => RiderDetailScreen(
+                          rider: onlineRider,
+                          service: service,
+                        ),
+                      ),
+                    );
+                  }),
             ]
           ],
         ),

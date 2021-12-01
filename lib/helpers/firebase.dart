@@ -58,23 +58,31 @@ class _FirebaseHelper {
     });
   }
 
-  Future<Service> getServiceById(String serviceId) async {
-    var service = await _firestore.collection("services").doc(serviceId).get();
-    return Service.fromMap(service.data());
+  getServiceById(String serviceId, Function(Service) callback) {
+    _firestore
+        .collection("services")
+        .doc(serviceId)
+        .snapshots()
+        .listen((event) {
+      callback(
+        event.get(
+          Service.fromMap(
+            event.data(),
+          ),
+        ),
+      );
+    });
   }
 
-  Future<List<ErrundUser>> getOnlineRiders() async {
-    var onlineRiders = await _firestore
-        .collection("services")
-        .where("status", isEqualTo: ServiceStatus.STARTED)
-        .get();
-    return onlineRiders.docs
-        .map(
-          (e) => ErrundUser.fromMap(
-            e.data(),
-          ),
-        )
-        .toList();
+  Future<bool> lockTheService(String serviceId) async {
+    try {
+      await _firestore.collection("services").doc(serviceId).set({
+        "status": getKeyFromServiceStatusType(ServiceStatus.STARTED),
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<ErrundUser> getUserInfo() async {
@@ -83,8 +91,16 @@ class _FirebaseHelper {
       errundUser = ErrundUser.fromMap(user.data());
       return errundUser;
     } catch (e) {
-      // ignore: avoid_print
       print(e);
+    }
+  }
+
+  Future<ErrundUser> getUserById(String userId) async {
+    try {
+      var user = await _firestore.collection("Users").doc(userId).get();
+      return ErrundUser.fromMap(user.data());
+    } catch (e) {
+      print(e.message);
     }
   }
 

@@ -18,6 +18,7 @@ class Service {
       product;
   bool expressRate;
   ServiceStatus status;
+  PaymentStatus paymentStatus;
 
   Service({
     this.contact_num,
@@ -37,6 +38,7 @@ class Service {
     this.serviceName,
     this.special_request,
     this.total_amount,
+    this.paymentStatus,
   });
 
   factory Service.fromMap(Map<String, dynamic> json) => Service(
@@ -55,6 +57,7 @@ class Service {
       total_amount: json["total_amount"],
       serviceName: json["serviceName"],
       status: getServiceStatusType(json["status"]),
+      paymentStatus: getPaymentStatusType(json["paymentStatus"]),
       customerId: json["customerId"],
       riderId: json["riderId"]);
 
@@ -76,6 +79,7 @@ class Service {
         "customerId": customerId,
         "riderId": riderId,
         "status": getKeyFromServiceStatusType(status),
+        "paymentStatus": getKeyFromPaymentStatus(paymentStatus),
       };
 }
 
@@ -105,6 +109,33 @@ String getKeyFromServiceStatusType(ServiceStatus status) {
       return "started";
     case ServiceStatus.ACTIVE:
       return "active";
+    default:
+      return null;
+  }
+}
+
+enum PaymentStatus {
+  PAID,
+  PENDING,
+}
+PaymentStatus getPaymentStatusType(String key) {
+  switch (key) {
+    case "paid":
+      return PaymentStatus.PAID;
+    case "pending":
+      return PaymentStatus.PENDING;
+
+    default:
+      return null;
+  }
+}
+
+String getKeyFromPaymentStatus(PaymentStatus status) {
+  switch (status) {
+    case PaymentStatus.PAID:
+      return "paid";
+    case PaymentStatus.PENDING:
+      return "pending";
     default:
       return null;
   }

@@ -1,3 +1,4 @@
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -39,4 +40,49 @@ class CustomTextField extends StatelessWidget {
       ),
     );
   }
+}
+
+getKeyValue(BuildContext context, String key,
+    {Widget icon, String value, Widget widgetValue, bool div = true}) {
+  return Column(
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: icon,
+                ),
+                const SizedBox(width: 2),
+                Text(key,
+                    style: Theme.of(context)
+                        .accentTextTheme
+                        .subtitle2
+                        .copyWith(color: buttonBackgroundColor)),
+              ],
+            ),
+            if (widgetValue != null)
+              Expanded(child: widgetValue)
+            else
+              Expanded(
+                child: Text(
+                  value ?? "",
+                  textAlign: TextAlign.end,
+                  style: Theme.of(context).accentTextTheme.subtitle1.copyWith(
+                        color: buttonBackgroundColor,
+                        fontSize: 12,
+                      ),
+                ),
+              )
+          ],
+        ),
+      ),
+      if (div == true) const Divider(height: 1) else const SizedBox(),
+    ],
+  );
 }

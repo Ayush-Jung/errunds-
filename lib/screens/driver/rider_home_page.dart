@@ -4,6 +4,7 @@ import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
 
 class RiderHomePage extends StatefulWidget {
@@ -16,25 +17,21 @@ class RiderHomePage extends StatefulWidget {
 }
 
 class _RiderHomePageState extends State<RiderHomePage> {
-  ErrundUser errundUser;
+  ErrundUser currentRider;
   List<Service> activeServices;
   @override
   void initState() {
-    getUserInfo();
-    getService();
-    super.initState();
-  }
-
-  getService() async {
     firebase.getRealTimeServices((List<Service> allActiveServices) {
       setState(() {
         activeServices = allActiveServices;
       });
     });
+    getUserInfo();
+    super.initState();
   }
 
   getUserInfo() async {
-    errundUser = await firebase.getUserInfo();
+    currentRider = await firebase.getUserInfo();
     setState(() {});
   }
 
@@ -62,7 +59,7 @@ class _RiderHomePageState extends State<RiderHomePage> {
                     firebase.logOut();
                   },
                   child: Text(
-                    "Hi, ${errundUser.fName}",
+                    "Hi, ${currentRider.fName}",
                     style: TextStyle(
                         color: buttonBackgroundColor,
                         fontSize: 30,
@@ -114,63 +111,89 @@ class _RiderHomePageState extends State<RiderHomePage> {
   }
 }
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   final ErrundUser customerInfo;
   final Service serviceInfo;
   const TaskCard({Key key, this.customerInfo, this.serviceInfo})
       : super(key: key);
 
   @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  bool changebutton = false;
+  activateService() async {
+    changebutton = await firebase.lockTheService(widget.serviceInfo.id);
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20),
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        color: Color(0xfffdf9d9),
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ServiceDetailScreen(
+              service: widget.serviceInfo,
+              customer: widget.customerInfo,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          color: Color(0xfffdf9d9),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          customerInfo.imageUrl != null
-              ? Container(
-                  height: 100,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(customerInfo.imageUrl)),
-                  ),
-                )
-              : Container(
-                  color: Colors.black,
-                  padding: const EdgeInsets.all(8),
-                  height: 100,
-                  width: 120,
-                  child: const CircleAvatar(
-                    radius: 80,
-                    child: Text(
-                      "add image",
-                      style: TextStyle(color: Colors.white),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            widget.customerInfo.imageUrl != null
+                ? Container(
+                    height: 100,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(widget.customerInfo.imageUrl)),
+                    ),
+                  )
+                : Container(
+                    color: Colors.black,
+                    padding: const EdgeInsets.all(8),
+                    height: 100,
+                    width: 120,
+                    child: const CircleAvatar(
+                      radius: 80,
+                      child: Text(
+                        "add image",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
-                ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(customerInfo.fName),
-              Text(serviceInfo.serviceName),
-              Text(serviceInfo.route),
-            ],
-          ),
-          Expanded(
-            child: CustomButton(
-              label: "Accept Task",
-              onPress: () {},
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(widget.customerInfo.fName),
+                Text(widget.serviceInfo.serviceName),
+                Text(widget.serviceInfo.route),
+              ],
             ),
-          )
-        ],
+            Expanded(
+              child: CustomButton(
+                label: changebutton ? "Accepted" : "Accept Task",
+                onPress: () {
+                  activateService();
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
