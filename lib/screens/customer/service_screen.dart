@@ -2,6 +2,7 @@ import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/search_for_rider_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -74,15 +75,15 @@ class _ServiceScreenState extends State<ServiceScreen> {
       await showConfirmationDialog(onYes: () async {
         try {
           service.serviceName = widget.title;
-          service.lookForRider = true;
-          await firebase.setService(service);
+          String serviceId = await firebase.setService(service);
+          await showScannerDialog(context, serviceId);
         } catch (e) {
           showSnackBar(
               e.message ?? "Unable to perform the action. Please try again!");
         }
       });
       getLoading(false);
-      //navigate to rider who accept task screen.
+
       Navigator.pop(context);
     }
   }
@@ -741,8 +742,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             Transform.scale(
                               scale: 1.5,
                               child: Checkbox(
-                                activeColor: primaryColor,
-                                checkColor: Colors.white,
+                                checkColor: buttonBackgroundColor,
                                 side: MaterialStateBorderSide.resolveWith(
                                   (states) => const BorderSide(
                                       width: 2.0, color: Colors.white),
@@ -751,6 +751,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 onChanged: (bool value) {
                                   checkedRate = value;
                                   service.expressRate = value;
+                                  setState(() {});
                                 },
                               ),
                             ),

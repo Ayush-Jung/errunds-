@@ -5,6 +5,7 @@ import 'package:errunds_application/models/customer_Models/home_item.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/home_card.dart';
+import 'package:errunds_application/screens/customer/search_for_rider_dialog.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 

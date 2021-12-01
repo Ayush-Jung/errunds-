@@ -34,23 +34,20 @@ class _FirebaseHelper {
     }
   }
 
-  Future setService(Service service) {
-    var ref = _firestore
-        .collection("Users")
-        .doc(currentUser)
-        .collection("Services")
-        .doc(service.id);
+  Future<String> setService(Service service) async {
+    var ref = _firestore.collection("services").doc(service.id);
     //it detects for update or new service.
     service.id = ref.id;
+    service.status = ServiceStatus.ACTIVE;
+    service.customerId = currentUser;
     ref.set(service.toMap(), SetOptions(merge: true));
+    return ref.id;
   }
 
   getRealTimeServices(Function(List<Service>) callBack) {
     _firestore
-        .collection("Users")
-        .doc()
         .collection("Services")
-        .where("lookForRider", isEqualTo: true)
+        .where("status", isEqualTo: ServiceStatus.ACTIVE)
         .snapshots()
         .listen((event) {
       callBack(event.docs
@@ -61,18 +58,31 @@ class _FirebaseHelper {
     });
   }
 
-  Future<List<ErrundUser>> getOnlineRiders() async {
-    var onlineRiders = await _firestore
-        .collection("Users")
-        .where("onlineRider", isEqualTo: true)
-        .get();
-    return onlineRiders.docs
-        .map(
-          (e) => ErrundUser.fromMap(
-            e.data(),
+  getServiceById(String serviceId, Function(Service) callback) {
+    _firestore
+        .collection("services")
+        .doc(serviceId)
+        .snapshots()
+        .listen((event) {
+      callback(
+        event.get(
+          Service.fromMap(
+            event.data(),
           ),
-        )
-        .toList();
+        ),
+      );
+    });
+  }
+
+  Future<bool> lockTheService(String serviceId) async {
+    try {
+      await _firestore.collection("services").doc(serviceId).set({
+        "status": getKeyFromServiceStatusType(ServiceStatus.STARTED),
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<ErrundUser> getUserInfo() async {
@@ -81,8 +91,16 @@ class _FirebaseHelper {
       errundUser = ErrundUser.fromMap(user.data());
       return errundUser;
     } catch (e) {
-      // ignore: avoid_print
       print(e);
+    }
+  }
+
+  Future<ErrundUser> getUserById(String userId) async {
+    try {
+      var user = await _firestore.collection("Users").doc(userId).get();
+      return ErrundUser.fromMap(user.data());
+    } catch (e) {
+      print(e.message);
     }
   }
 
