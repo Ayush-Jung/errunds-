@@ -57,12 +57,17 @@ class _RiderHomePageState extends State<RiderHomePage> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Text(
-                  "Hi, ${errundUser.fName}",
-                  style: TextStyle(
-                      color: buttonBackgroundColor,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
+                child: InkWell(
+                  onTap: () {
+                    firebase.logOut();
+                  },
+                  child: Text(
+                    "Hi, ${errundUser.fName}",
+                    style: TextStyle(
+                        color: buttonBackgroundColor,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               Container(

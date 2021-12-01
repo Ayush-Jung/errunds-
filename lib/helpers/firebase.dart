@@ -34,23 +34,20 @@ class _FirebaseHelper {
     }
   }
 
-  Future setService(Service service) {
-    var ref = _firestore
-        .collection("Users")
-        .doc(currentUser)
-        .collection("Services")
-        .doc(service.id);
+  Future<String> setService(Service service) async {
+    var ref = _firestore.collection("services").doc(service.id);
     //it detects for update or new service.
     service.id = ref.id;
+    service.status = ServiceStatus.ACTIVE;
+    service.customerId = currentUser;
     ref.set(service.toMap(), SetOptions(merge: true));
+    return ref.id;
   }
 
   getRealTimeServices(Function(List<Service>) callBack) {
     _firestore
-        .collection("Users")
-        .doc()
         .collection("Services")
-        .where("lookForRider", isEqualTo: true)
+        .where("status", isEqualTo: ServiceStatus.ACTIVE)
         .snapshots()
         .listen((event) {
       callBack(event.docs
@@ -61,10 +58,15 @@ class _FirebaseHelper {
     });
   }
 
+  Future<Service> getServiceById(String serviceId) async {
+    var service = await _firestore.collection("services").doc(serviceId).get();
+    return Service.fromMap(service.data());
+  }
+
   Future<List<ErrundUser>> getOnlineRiders() async {
     var onlineRiders = await _firestore
-        .collection("Users")
-        .where("onlineRider", isEqualTo: true)
+        .collection("services")
+        .where("status", isEqualTo: ServiceStatus.STARTED)
         .get();
     return onlineRiders.docs
         .map(

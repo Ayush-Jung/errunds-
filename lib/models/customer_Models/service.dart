@@ -3,6 +3,8 @@
 class Service {
   String route,
       id,
+      riderId,
+      customerId,
       payment,
       total_amount,
       delivery_address,
@@ -15,7 +17,8 @@ class Service {
       serviceName,
       product;
   bool expressRate;
-  bool lookForRider = false;
+  ServiceStatus status;
+
   Service({
     this.contact_num,
     this.id,
@@ -23,34 +26,37 @@ class Service {
     this.expressRate,
     this.laundry_shop,
     this.necessary_detail,
+    this.customerId,
+    this.riderId,
     this.payment,
     this.pick_up_address,
     this.product,
     this.resturant_name,
     this.route,
+    this.status,
     this.serviceName,
     this.special_request,
     this.total_amount,
-    this.lookForRider,
   });
 
   factory Service.fromMap(Map<String, dynamic> json) => Service(
-        id: json["id"],
-        contact_num: json["contact_num"],
-        delivery_address: json["delivery_address"],
-        expressRate: json["expressRate"],
-        laundry_shop: json["laundry_shop"],
-        necessary_detail: json["necessary_detail"],
-        payment: json["payment"],
-        pick_up_address: json["pick_up_address"],
-        product: json["product"],
-        resturant_name: json["resturant_name"],
-        route: json["route"],
-        special_request: json["special_request"],
-        total_amount: json["total_amount"],
-        serviceName: json["serviceName"],
-        lookForRider: json["lookForRider"],
-      );
+      id: json["id"],
+      contact_num: json["contact_num"],
+      delivery_address: json["delivery_address"],
+      expressRate: json["expressRate"],
+      laundry_shop: json["laundry_shop"],
+      necessary_detail: json["necessary_detail"],
+      payment: json["payment"],
+      pick_up_address: json["pick_up_address"],
+      product: json["product"],
+      resturant_name: json["resturant_name"],
+      route: json["route"],
+      special_request: json["special_request"],
+      total_amount: json["total_amount"],
+      serviceName: json["serviceName"],
+      status: getServiceStatusType(json["status"]),
+      customerId: json["customerId"],
+      riderId: json["riderId"]);
 
   Map<String, dynamic> toMap() => {
         "id": id,
@@ -67,6 +73,39 @@ class Service {
         "special_request": special_request,
         "total_amount": total_amount,
         "serviceName": serviceName,
-        "lookForRider": lookForRider,
+        "customerId": customerId,
+        "riderId": riderId,
+        "status": getKeyFromServiceStatusType(status),
       };
+}
+
+enum ServiceStatus {
+  COMPLETED,
+  STARTED,
+  ACTIVE,
+}
+ServiceStatus getServiceStatusType(String key) {
+  switch (key) {
+    case "completed":
+      return ServiceStatus.COMPLETED;
+    case "started":
+      return ServiceStatus.STARTED;
+    case "active":
+      return ServiceStatus.ACTIVE;
+    default:
+      return null;
+  }
+}
+
+String getKeyFromServiceStatusType(ServiceStatus status) {
+  switch (status) {
+    case ServiceStatus.COMPLETED:
+      return "completed";
+    case ServiceStatus.STARTED:
+      return "started";
+    case ServiceStatus.ACTIVE:
+      return "active";
+    default:
+      return null;
+  }
 }
