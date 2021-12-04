@@ -31,25 +31,34 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   }
 
   searchRider() {
-    isSearching = true;
+    getLoading(true);
     Timer(const Duration(seconds: 10), () {
-      print("called 1");
       isSearching = false;
-      setState(() {
-        isSearching = null;
-        print("null");
-      });
+      getLoading(null);
     });
     firebase.getServiceById(widget.serviceId, (Service service) async {
-      print("called 2");
-
       this.service = service;
       if (service.riderId != null) {
-        onlineRider = await firebase.getUserById(service.riderId);
-        setState(() {});
+        await firebase.getUserById(service.riderId).then((user) {
+          onlineRider = user;
+          setState(() {});
+        });
       }
       setState(() {});
-      print("called 3");
+    });
+  }
+
+  getLoading(value) {
+    setState(() {
+      isSearching = value;
+    });
+  }
+
+  cancelService() {
+    firebase
+        .lockTheService(service.id, status: ServiceStatus.ABORTED)
+        .then((value) {
+      Navigator.pop(context);
     });
   }
 
@@ -59,79 +68,72 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: <Widget>[
-        Container(
-          constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height * 0.6),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.vertical,
-            children: <Widget>[
-              if (isSearching == null) ...[
-                Container(
-                  height: 60,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      const Text("Rider Not Found"),
-                      const SizedBox(height: 10),
-                      CustomButton(
-                        label: "Retry",
-                        onPress: () => searchRider,
-                      ),
-                    ],
-                  ),
-                )
-              ] else if (isSearching) ...[
-                AvatarGlow(
-                  endRadius: 130.0,
-                  glowColor: Colors.blue,
-                  duration: const Duration(milliseconds: 2000),
-                  repeat: true,
-                  showTwoGlows: true,
-                  repeatPauseDuration: const Duration(milliseconds: 100),
-                  child: Material(
-                    elevation: 8.0,
-                    shape: const CircleBorder(),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey[100],
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 5,
-                      ),
-                      radius: 10.0,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            if (isSearching == null) ...[
+              const SizedBox(height: 10),
+              const Text("Rider Not Found"),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                child: const Text("Retry"),
+                onPressed: () => searchRider(),
+              ),
+              ElevatedButton(
+                child: const Text("Cancel"),
+                onPressed: () => cancelService(),
+              )
+            ] else if (isSearching) ...[
+              AvatarGlow(
+                endRadius: 130.0,
+                glowColor: Colors.blue,
+                duration: const Duration(milliseconds: 2000),
+                repeat: true,
+                showTwoGlows: true,
+                repeatPauseDuration: const Duration(milliseconds: 100),
+                child: Material(
+                  elevation: 8.0,
+                  shape: const CircleBorder(),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.grey[100],
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      radius: 5,
                     ),
+                    radius: 10.0,
                   ),
                 ),
-                const SizedBox(height: 10),
-                const Text("Scanning for Online Riders..."),
-              ] else if (onlineRider != null) ...[
-                const SizedBox(height: 5),
-                const Text("Rider Found"),
-                const SizedBox(height: 5),
-                StyledRiderCard(
-                  riderName: onlineRider.fName,
-                ),
-                StyledRiderCard(
-                  riderName: onlineRider.phoneNumber,
-                ),
-                const SizedBox(height: 10),
-                CustomButton(
-                    label: "Continue",
-                    onPress: () {
-                      Navigator.pop(context, true);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => RiderDetailScreen(
-                            rider: onlineRider,
-                            service: service,
-                          ),
-                        ),
-                      );
-                    }),
-              ]
-            ],
-          ),
+              ),
+              const SizedBox(height: 10),
+              const Text("Searching for Online Riders..."),
+            ] else if (onlineRider != null) ...[
+              const SizedBox(height: 5),
+              const Text("Rider Found"),
+              const SizedBox(height: 5),
+              StyledRiderCard(
+                riderName: onlineRider.fName,
+              ),
+              StyledRiderCard(
+                riderName: onlineRider.phoneNumber,
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                child: const Text("Continue"),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => RiderDetailScreen(
+                        rider: onlineRider,
+                        service: service,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ]
+          ],
         ),
       ],
     );

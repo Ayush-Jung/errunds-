@@ -11,6 +11,14 @@ class RiderProfileScreen extends StatefulWidget {
 class _RiderProfileScreenState extends State<RiderProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Profile"),
+      ),
+      body: SafeArea(
+          child: Column(
+        children: [],
+      )),
+    );
   }
 }

@@ -88,11 +88,7 @@ class Service {
       };
 }
 
-enum ServiceStatus {
-  COMPLETED,
-  STARTED,
-  ACTIVE,
-}
+enum ServiceStatus { COMPLETED, STARTED, ACTIVE, ABORTED }
 ServiceStatus getServiceStatusType(String key) {
   switch (key) {
     case "completed":
@@ -101,6 +97,8 @@ ServiceStatus getServiceStatusType(String key) {
       return ServiceStatus.STARTED;
     case "active":
       return ServiceStatus.ACTIVE;
+    case "aborted":
+      return ServiceStatus.ABORTED;
     default:
       return null;
   }
@@ -114,6 +112,8 @@ String getKeyFromServiceStatusType(ServiceStatus status) {
       return "started";
     case ServiceStatus.ACTIVE:
       return "active";
+    case ServiceStatus.ABORTED:
+      return "aborted";
     default:
       return null;
   }

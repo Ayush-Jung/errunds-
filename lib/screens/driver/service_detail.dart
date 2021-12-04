@@ -5,6 +5,7 @@ import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class ServiceDetailScreen extends StatefulWidget {
@@ -31,15 +32,36 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     super.initState();
   }
 
-  finishJob() async {
-    setState(() {
-      loading == true;
-    });
-    await firebase.unLockTheService(currentService.id);
-    setState(() {
-      loading == false;
-    });
-    Navigator.pop(context);
+  showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Finish Service?"),
+          content: const Text(
+              "payment is not completed. Do you want to complete with cash?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Yes"),
+              onPressed: () async {
+                await firebase.unLockTheService(currentService.id);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const RiderWelcomeScreen()),
+                    (route) => false);
+              },
+            ),
+            TextButton(
+              child: const Text("No"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -85,7 +107,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   CustomButton(
                     label: "Finish",
                     loading: loading,
-                    onPress: () => finishJob(),
+                    onPress: () => showConfirmationDialog(context),
                   )
                 ],
               ),

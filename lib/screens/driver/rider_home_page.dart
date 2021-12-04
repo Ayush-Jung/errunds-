@@ -4,6 +4,7 @@ import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -88,14 +89,19 @@ class _RiderHomePageState extends State<RiderHomePage> {
                 ),
               ),
               if (activeServices == null || activeServices.isEmpty)
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 50),
-                    padding: const EdgeInsets.all(8),
-                    child: const Text(
-                      "No active task found.",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                GestureDetector(
+                  onTap: () => firebase.logOut().then((value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => AuthChooser()))),
+                  child: Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      padding: const EdgeInsets.all(8),
+                      child: const Text(
+                        "No active task found.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
@@ -141,15 +147,15 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   void initState() {
+    widget.serviceInfo.status == ServiceStatus.ACTIVE ? active = true : false;
+    setState(() {});
     getCustomerInfo();
     super.initState();
   }
 
   getCustomerInfo() async {
     customerInfo = await firebase.getUserById(widget.serviceInfo?.customerId);
-    setState(() {
-      widget.serviceInfo.status == ServiceStatus.ACTIVE ? active = true : false;
-    });
+    setState(() {});
   }
 
   @override
@@ -179,16 +185,11 @@ class _TaskCardState extends State<TaskCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             customerInfo?.imageUrl == null
-                ? Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      color: Colors.black,
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    height: 90,
-                    width: 90,
-                    child: const CircleAvatar(
-                      radius: 80,
+                ? const CircleAvatar(
+                    backgroundColor: Colors.black,
+                    radius: 40,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Add image",
                         textAlign: TextAlign.center,
@@ -205,30 +206,47 @@ class _TaskCardState extends State<TaskCard> {
                     ),
                   ),
             const SizedBox(
-              width: 15,
+              width: 10,
             ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(customerInfo?.fName ?? ""),
-                  Text(widget.serviceInfo?.serviceName ?? ""),
-                  Text(widget.serviceInfo?.route ?? ""),
+                  Text("Client Name: ${customerInfo?.fName ?? ""}",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text("Task: ${widget.serviceInfo?.serviceName ?? ""}",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text("Route: ${widget.serviceInfo?.route ?? ""}",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            Visibility(
-              visible: active,
-              child: MaterialButton(
-                onPressed: () => activateService(),
-                child: const Text(
-                  "Accept",
-                  style: TextStyle(color: Colors.white),
-                ),
-                color: buttonBackgroundColor,
-              ),
-            ),
+            active
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    child: MaterialButton(
+                      minWidth: 25,
+                      onPressed: () => activateService(),
+                      child: const Text(
+                        "Accept",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      color: buttonBackgroundColor,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    child: MaterialButton(
+                      minWidth: 25,
+                      onPressed: () {},
+                      child: const Text(
+                        "Accepted",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      color: buttonBackgroundColor,
+                    ),
+                  ),
           ],
         ),
       ),

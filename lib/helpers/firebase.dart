@@ -39,6 +39,7 @@ class _FirebaseHelper {
     //it detects for update or new service.
     service.id = ref.id;
     service.status = ServiceStatus.ACTIVE;
+    service.paymentStatus = PaymentStatus.PENDING;
     service.customerId = currentUser;
     ref.set(service.toMap(), SetOptions(merge: true));
     return ref.id;
@@ -72,10 +73,11 @@ class _FirebaseHelper {
     });
   }
 
-  Future<bool> lockTheService(String serviceId) async {
+  Future<bool> lockTheService(String serviceId,
+      {ServiceStatus status = ServiceStatus.STARTED}) async {
     try {
       await _firestore.collection("services").doc(serviceId).set({
-        "status": getKeyFromServiceStatusType(ServiceStatus.STARTED),
+        "status": getKeyFromServiceStatusType(status),
       }, SetOptions(merge: true));
       return true;
     } catch (e) {
@@ -86,6 +88,7 @@ class _FirebaseHelper {
   Future<bool> unLockTheService(String serviceId) async {
     try {
       await _firestore.collection("services").doc(serviceId).set({
+        "paymentStatus": getKeyFromPaymentStatus(PaymentStatus.PAID),
         "status": getKeyFromServiceStatusType(ServiceStatus.COMPLETED),
       }, SetOptions(merge: true));
       return true;
