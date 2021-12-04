@@ -133,6 +133,8 @@ class _LogInScreenState extends State<LogInScreen> {
                             value = value.trim();
                             if (value.isEmpty) {
                               return "Mandatory Field";
+                            } else if (!isEmail(value)) {
+                              return "Invalid email";
                             }
                             return null;
                           },

@@ -59,7 +59,7 @@ class _RiderHomePageState extends State<RiderHomePage> {
                     firebase.logOut();
                   },
                   child: Text(
-                    "Hi, ${currentRider.fName}",
+                    "Hi, ${currentRider?.fName ?? ""}",
                     style: TextStyle(
                         color: buttonBackgroundColor,
                         fontSize: 30,
@@ -69,10 +69,10 @@ class _RiderHomePageState extends State<RiderHomePage> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(
-                    vertical: 12,
+                    vertical: 8,
                     horizontal: MediaQuery.of(context).size.width * 0.19),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
                 decoration: BoxDecoration(
                   color: buttonBackgroundColor,
                   borderRadius: const BorderRadius.all(
@@ -84,25 +84,25 @@ class _RiderHomePageState extends State<RiderHomePage> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30),
+                      fontSize: 25),
                 ),
               ),
               if (activeServices == null)
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
-              else if (activeServices.isEmpty)
                 Container(
                   padding: const EdgeInsets.all(8),
                   child: const Text("No active task found"),
-                )
-              else
+                ),
+              if (activeServices != null) ...[
                 Column(
                     children: activeServices
-                        .map((service) => TaskCard(
-                              serviceInfo: service,
+                        ?.map((service) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TaskCard(
+                                serviceInfo: service,
+                              ),
                             ))
-                        .toList()),
+                        ?.toList()),
+              ],
             ],
           ),
         ),
@@ -112,20 +112,37 @@ class _RiderHomePageState extends State<RiderHomePage> {
 }
 
 class TaskCard extends StatefulWidget {
-  final ErrundUser customerInfo;
   final Service serviceInfo;
-  const TaskCard({Key key, this.customerInfo, this.serviceInfo})
-      : super(key: key);
+  const TaskCard({Key key, this.serviceInfo}) : super(key: key);
 
   @override
   State<TaskCard> createState() => _TaskCardState();
 }
 
 class _TaskCardState extends State<TaskCard> {
-  bool changebutton = false;
+  ErrundUser customerInfo;
+
+  bool active = false;
   activateService() async {
-    changebutton = await firebase.lockTheService(widget.serviceInfo.id);
-    setState(() {});
+    if (active) {
+      await firebase.lockTheService(widget.serviceInfo.id);
+    }
+    setState(() {
+      active = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getCustomerInfo();
+    super.initState();
+  }
+
+  getCustomerInfo() async {
+    customerInfo = await firebase.getUserById(widget.serviceInfo?.customerId);
+    setState(() {
+      widget.serviceInfo.status == ServiceStatus.ACTIVE ? active = true : false;
+    });
   }
 
   @override
@@ -137,7 +154,7 @@ class _TaskCardState extends State<TaskCard> {
           MaterialPageRoute(
             builder: (_) => ServiceDetailScreen(
               service: widget.serviceInfo,
-              customer: widget.customerInfo,
+              customer: customerInfo,
             ),
           ),
         );
@@ -154,44 +171,57 @@ class _TaskCardState extends State<TaskCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            widget.customerInfo.imageUrl != null
+            customerInfo?.imageUrl == null
                 ? Container(
-                    height: 100,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(widget.customerInfo.imageUrl)),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      color: Colors.black,
                     ),
-                  )
-                : Container(
-                    color: Colors.black,
                     padding: const EdgeInsets.all(8),
-                    height: 100,
-                    width: 120,
+                    height: 90,
+                    width: 90,
                     child: const CircleAvatar(
                       radius: 80,
                       child: Text(
-                        "add image",
+                        "Add image",
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
+                  )
+                : Container(
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(customerInfo?.imageUrl)),
+                    ),
                   ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(widget.customerInfo.fName),
-                Text(widget.serviceInfo.serviceName),
-                Text(widget.serviceInfo.route),
-              ],
+            const SizedBox(
+              width: 15,
             ),
             Expanded(
-              child: CustomButton(
-                label: changebutton ? "Accepted" : "Accept Task",
-                onPress: () {
-                  activateService();
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(customerInfo?.fName ?? ""),
+                  Text(widget.serviceInfo?.serviceName ?? ""),
+                  Text(widget.serviceInfo?.route ?? ""),
+                ],
               ),
-            )
+            ),
+            Visibility(
+              visible: active,
+              child: MaterialButton(
+                onPressed: () => activateService(),
+                child: const Text(
+                  "Accept",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: buttonBackgroundColor,
+              ),
+            ),
           ],
         ),
       ),

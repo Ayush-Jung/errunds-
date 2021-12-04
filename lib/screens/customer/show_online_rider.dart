@@ -37,6 +37,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       isSearching = false;
       setState(() {
         isSearching = null;
+        print("null");
       });
     });
     firebase.getServiceById(widget.serviceId, (Service service) async {
@@ -58,71 +59,79 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            if (isSearching == null) ...[
-              const SizedBox(height: 10),
-              const Text("Rider Not Found"),
-              const SizedBox(height: 20),
-              CustomButton(
-                label: "Retry",
-                onPress: () => searchRider,
-              ),
-            ] else if (isSearching) ...[
-              AvatarGlow(
-                endRadius: 130.0,
-                glowColor: Colors.blue,
-                duration: const Duration(milliseconds: 2000),
-                repeat: true,
-                showTwoGlows: true,
-                repeatPauseDuration: const Duration(milliseconds: 100),
-                child: Material(
-                  elevation: 8.0,
-                  shape: const CircleBorder(),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey[100],
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      radius: 5,
+        Container(
+          constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height * 0.6),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            direction: Axis.vertical,
+            children: <Widget>[
+              if (isSearching == null) ...[
+                Container(
+                  height: 60,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      const Text("Rider Not Found"),
+                      const SizedBox(height: 10),
+                      CustomButton(
+                        label: "Retry",
+                        onPress: () => searchRider,
+                      ),
+                    ],
+                  ),
+                )
+              ] else if (isSearching) ...[
+                AvatarGlow(
+                  endRadius: 130.0,
+                  glowColor: Colors.blue,
+                  duration: const Duration(milliseconds: 2000),
+                  repeat: true,
+                  showTwoGlows: true,
+                  repeatPauseDuration: const Duration(milliseconds: 100),
+                  child: Material(
+                    elevation: 8.0,
+                    shape: const CircleBorder(),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[100],
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        radius: 5,
+                      ),
+                      radius: 10.0,
                     ),
-                    radius: 10.0,
                   ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              const Text("Scanning for Online Riders..."),
-            ] else if (onlineRider != null) ...[
-              const SizedBox(height: 10),
-              const Icon(
-                MdiIcons.checkCircleOutline,
-                color: Colors.green,
-              ),
-              const SizedBox(height: 10),
-              const Text("Rider Found"),
-              const SizedBox(height: 10),
-              StyledRiderCard(
-                riderName: onlineRider.fName,
-              ),
-              StyledRiderCard(
-                riderName: onlineRider.phoneNumber,
-              ),
-              const SizedBox(height: 10),
-              CustomButton(
-                  label: "Continue",
-                  onPress: () {
-                    Navigator.pop(context, true);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => RiderDetailScreen(
-                          rider: onlineRider,
-                          service: service,
+                const SizedBox(height: 10),
+                const Text("Scanning for Online Riders..."),
+              ] else if (onlineRider != null) ...[
+                const SizedBox(height: 5),
+                const Text("Rider Found"),
+                const SizedBox(height: 5),
+                StyledRiderCard(
+                  riderName: onlineRider.fName,
+                ),
+                StyledRiderCard(
+                  riderName: onlineRider.phoneNumber,
+                ),
+                const SizedBox(height: 10),
+                CustomButton(
+                    label: "Continue",
+                    onPress: () {
+                      Navigator.pop(context, true);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => RiderDetailScreen(
+                            rider: onlineRider,
+                            service: service,
+                          ),
                         ),
-                      ),
-                    );
-                  }),
-            ]
-          ],
+                      );
+                    }),
+              ]
+            ],
+          ),
         ),
       ],
     );

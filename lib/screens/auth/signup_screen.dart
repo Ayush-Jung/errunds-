@@ -3,7 +3,6 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
-import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   submitRequest() {
     if (_formKey.currentState.validate()) _formKey.currentState.save();
-    if (email == null || password == null || cpassword == null) {
-      showSnackBar("Mandatory Field.");
-    }
     if (password != cpassword) {
       showSnackBar("Password doesnot matched.");
     }
@@ -192,6 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
@@ -255,6 +252,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         value = value.trim();
                         if (value.isEmpty) {
                           return "Mandatory Field";
+                        } else if (!isEmail(value)) {
+                          return "Invalid email";
                         }
                         return null;
                       },
@@ -330,6 +329,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         value = value.trim();
                         if (value.isEmpty) {
                           return "Mandatory Field";
+                        } else if (value.length < 6) {
+                          return "Week Password";
                         }
                         return null;
                       },
@@ -369,6 +370,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         value = value.trim();
                         if (value.isEmpty) {
                           return "Mandatory Field";
+                        } else if (value.length < 6) {
+                          return "Week Password";
                         }
                         return null;
                       },
