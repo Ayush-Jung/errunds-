@@ -85,7 +85,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   CustomButton(
                     label: "Finish",
                     loading: loading,
-                    onPress: () => finishJob,
+                    onPress: () => finishJob(),
                   )
                 ],
               ),

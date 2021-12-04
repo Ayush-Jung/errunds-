@@ -87,10 +87,17 @@ class _RiderHomePageState extends State<RiderHomePage> {
                       fontSize: 25),
                 ),
               ),
-              if (activeServices == null)
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text("No active task found"),
+              if (activeServices == null || activeServices.isEmpty)
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.all(8),
+                    child: const Text(
+                      "No active task found.",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  ),
                 ),
               if (activeServices != null) ...[
                 Column(
