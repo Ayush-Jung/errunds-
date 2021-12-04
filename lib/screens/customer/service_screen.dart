@@ -75,6 +75,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       await showConfirmationDialog(onYes: () async {
         try {
           service.serviceName = widget.title;
+          service.createdDate = DateTime.now().millisecondsSinceEpoch;
           String serviceId = await firebase.setService(service);
           await showScannerDialog(context, serviceId);
         } catch (e) {

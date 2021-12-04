@@ -20,6 +20,8 @@ class Service {
   ServiceStatus status;
   PaymentStatus paymentStatus;
 
+  int createdDate;
+
   Service({
     this.contact_num,
     this.id,
@@ -32,6 +34,7 @@ class Service {
     this.payment,
     this.pick_up_address,
     this.product,
+    this.createdDate,
     this.resturant_name,
     this.route,
     this.status,
@@ -59,6 +62,7 @@ class Service {
       status: getServiceStatusType(json["status"]),
       paymentStatus: getPaymentStatusType(json["paymentStatus"]),
       customerId: json["customerId"],
+      createdDate: json["createdDate"],
       riderId: json["riderId"]);
 
   Map<String, dynamic> toMap() => {
@@ -78,6 +82,7 @@ class Service {
         "serviceName": serviceName,
         "customerId": customerId,
         "riderId": riderId,
+        "createdDate": createdDate,
         "status": getKeyFromServiceStatusType(status),
         "paymentStatus": getKeyFromPaymentStatus(paymentStatus),
       };

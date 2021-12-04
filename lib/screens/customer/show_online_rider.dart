@@ -26,11 +26,18 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   @override
   void initState() {
+    searchRider();
+    super.initState();
+  }
+
+  searchRider() {
     isSearching = true;
     Timer(const Duration(seconds: 10), () {
       print("called 1");
       isSearching = false;
-      if (mounted) setState(() {});
+      setState(() {
+        isSearching = null;
+      });
     });
     firebase.getServiceById(widget.serviceId, (Service service) async {
       print("called 2");
@@ -43,7 +50,6 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       setState(() {});
       print("called 3");
     });
-    super.initState();
   }
 
   @override
@@ -60,6 +66,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               const SizedBox(height: 20),
               CustomButton(
                 label: "Retry",
+                onPress: () => searchRider,
               ),
             ] else if (isSearching) ...[
               AvatarGlow(
@@ -93,10 +100,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               const SizedBox(height: 10),
               const Text("Rider Found"),
               const SizedBox(height: 10),
-              StyledMarkerTextCard(
+              StyledRiderCard(
                 riderName: onlineRider.fName,
               ),
-              StyledMarkerTextCard(
+              StyledRiderCard(
                 riderName: onlineRider.phoneNumber,
               ),
               const SizedBox(height: 10),
@@ -122,11 +129,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   }
 }
 
-class StyledMarkerTextCard extends StatelessWidget {
+class StyledRiderCard extends StatelessWidget {
   final String riderName;
   final bool showMoreInfo;
-  const StyledMarkerTextCard(
-      {Key key, this.riderName, this.showMoreInfo = false})
+  const StyledRiderCard({Key key, this.riderName, this.showMoreInfo = false})
       : super(key: key);
 
   @override

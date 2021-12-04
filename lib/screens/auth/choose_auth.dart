@@ -40,8 +40,8 @@ class _AuthChooserState extends State<AuthChooser> {
               errunds,
               const Spacer(),
               Container(
-                margin: EdgeInsets.only(
-                    left: size.width * 0.3, right: size.width * 0.3),
+                margin: EdgeInsets.fromLTRB(
+                    size.width * 0.3, 8, size.width * 0.3, 8),
                 child: CustomButton(
                   label: "CUSTOMER",
                   onPress: () {
@@ -58,6 +58,7 @@ class _AuthChooserState extends State<AuthChooser> {
                 height: 18,
               ),
               Container(
+                padding: const EdgeInsets.all(6),
                 margin: EdgeInsets.only(
                     left: size.width * 0.3, right: size.width * 0.3),
                 child: CustomButton(

@@ -65,10 +65,8 @@ class _FirebaseHelper {
         .snapshots()
         .listen((event) {
       callback(
-        event.get(
-          Service.fromMap(
-            event.data(),
-          ),
+        Service.fromMap(
+          event.data(),
         ),
       );
     });
