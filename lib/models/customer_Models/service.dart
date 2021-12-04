@@ -20,6 +20,8 @@ class Service {
   ServiceStatus status;
   PaymentStatus paymentStatus;
 
+  int createdDate;
+
   Service({
     this.contact_num,
     this.id,
@@ -32,6 +34,7 @@ class Service {
     this.payment,
     this.pick_up_address,
     this.product,
+    this.createdDate,
     this.resturant_name,
     this.route,
     this.status,
@@ -59,6 +62,7 @@ class Service {
       status: getServiceStatusType(json["status"]),
       paymentStatus: getPaymentStatusType(json["paymentStatus"]),
       customerId: json["customerId"],
+      createdDate: json["createdDate"],
       riderId: json["riderId"]);
 
   Map<String, dynamic> toMap() => {
@@ -78,16 +82,13 @@ class Service {
         "serviceName": serviceName,
         "customerId": customerId,
         "riderId": riderId,
+        "createdDate": createdDate,
         "status": getKeyFromServiceStatusType(status),
         "paymentStatus": getKeyFromPaymentStatus(paymentStatus),
       };
 }
 
-enum ServiceStatus {
-  COMPLETED,
-  STARTED,
-  ACTIVE,
-}
+enum ServiceStatus { COMPLETED, STARTED, ACTIVE, ABORTED }
 ServiceStatus getServiceStatusType(String key) {
   switch (key) {
     case "completed":
@@ -96,6 +97,8 @@ ServiceStatus getServiceStatusType(String key) {
       return ServiceStatus.STARTED;
     case "active":
       return ServiceStatus.ACTIVE;
+    case "aborted":
+      return ServiceStatus.ABORTED;
     default:
       return null;
   }
@@ -109,6 +112,8 @@ String getKeyFromServiceStatusType(ServiceStatus status) {
       return "started";
     case ServiceStatus.ACTIVE:
       return "active";
+    case ServiceStatus.ABORTED:
+      return "aborted";
     default:
       return null;
   }

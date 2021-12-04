@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final bool loading;
   final double width;
   final IconData suffixIcon;
+  final double labelSize;
   final Color color;
   final Color textColor;
   final bool borderRadius;
@@ -15,6 +16,7 @@ class CustomButton extends StatelessWidget {
 
   CustomButton(
       {this.onPress,
+      this.labelSize,
       this.suffixIcon,
       this.prefix,
       this.label,
@@ -39,7 +41,7 @@ class CustomButton extends StatelessWidget {
                 ? 12
                 : constraints.biggest.height * 0.2),
             width: width ?? double.maxFinite,
-            constraints: const BoxConstraints(maxHeight: 44),
+            constraints: const BoxConstraints(maxHeight: 55),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: color ?? buttonBackgroundColor,
@@ -49,6 +51,7 @@ class CustomButton extends StatelessWidget {
             child: loading
                 ? const CircularProgressIndicator(
                     strokeWidth: 2,
+                    color: Colors.red,
                   )
                 : LayoutBuilder(
                     builder: (context, constraints) {
@@ -62,11 +65,8 @@ class CustomButton extends StatelessWidget {
                             ],
                             Text(label,
                                 style: TextStyle(
-                                  color: textColor ?? Colors.white,
-                                  fontSize: constraints.biggest.height > 15
-                                      ? 18
-                                      : constraints.biggest.height,
-                                )),
+                                    color: textColor ?? Colors.white,
+                                    fontSize: labelSize ?? 16)),
                             if (suffixIcon != null)
                               Icon(suffixIcon,
                                   color: Theme.of(context).backgroundColor),

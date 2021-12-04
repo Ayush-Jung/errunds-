@@ -75,6 +75,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       await showConfirmationDialog(onYes: () async {
         try {
           service.serviceName = widget.title;
+          service.createdDate = DateTime.now().millisecondsSinceEpoch;
           String serviceId = await firebase.setService(service);
           await showScannerDialog(context, serviceId);
         } catch (e) {
@@ -849,7 +850,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         margin: const EdgeInsets.fromLTRB(50, 10, 50, 30),
                         child: CustomButton(
                             label: "Look for a Rider",
-                            color: primaryColor,
+                            color: Colors.white,
+                            textColor: buttonBackgroundColor,
+                            labelSize: 18,
                             loading: loading,
                             onPress: submitData),
                       )

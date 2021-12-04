@@ -5,7 +5,6 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
-import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,14 +44,12 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   manageRoute() {
     if (errundUser != null &&
         (!errundUser.isRider || errundUser.companyId == null)) {
-      if (mounted) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const CustomerWelcomeScreen(),
-            ),
-            (route) => false);
-      }
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const CustomerWelcomeScreen(),
+          ),
+          (route) => false);
     } else {
       Navigator.pushAndRemoveUntil(
           context,

@@ -4,6 +4,7 @@ import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +60,7 @@ class _RiderHomePageState extends State<RiderHomePage> {
                     firebase.logOut();
                   },
                   child: Text(
-                    "Hi, ${currentRider.fName}",
+                    "Hi, ${currentRider?.fName ?? ""}",
                     style: TextStyle(
                         color: buttonBackgroundColor,
                         fontSize: 30,
@@ -69,10 +70,10 @@ class _RiderHomePageState extends State<RiderHomePage> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(
-                    vertical: 12,
+                    vertical: 8,
                     horizontal: MediaQuery.of(context).size.width * 0.19),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
                 decoration: BoxDecoration(
                   color: buttonBackgroundColor,
                   borderRadius: const BorderRadius.all(
@@ -84,25 +85,37 @@ class _RiderHomePageState extends State<RiderHomePage> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30),
+                      fontSize: 25),
                 ),
               ),
-              if (activeServices == null)
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
-              else if (activeServices.isEmpty)
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text("No active task found"),
-                )
-              else
+              if (activeServices == null || activeServices.isEmpty)
+                GestureDetector(
+                  onTap: () => firebase.logOut().then((value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => AuthChooser()))),
+                  child: Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      padding: const EdgeInsets.all(8),
+                      child: const Text(
+                        "No active task found.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              if (activeServices != null) ...[
                 Column(
                     children: activeServices
-                        .map((service) => TaskCard(
-                              serviceInfo: service,
+                        ?.map((service) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TaskCard(
+                                serviceInfo: service,
+                              ),
                             ))
-                        .toList()),
+                        ?.toList()),
+              ],
             ],
           ),
         ),
@@ -112,19 +125,36 @@ class _RiderHomePageState extends State<RiderHomePage> {
 }
 
 class TaskCard extends StatefulWidget {
-  final ErrundUser customerInfo;
   final Service serviceInfo;
-  const TaskCard({Key key, this.customerInfo, this.serviceInfo})
-      : super(key: key);
+  const TaskCard({Key key, this.serviceInfo}) : super(key: key);
 
   @override
   State<TaskCard> createState() => _TaskCardState();
 }
 
 class _TaskCardState extends State<TaskCard> {
-  bool changebutton = false;
+  ErrundUser customerInfo;
+
+  bool active = false;
   activateService() async {
-    changebutton = await firebase.lockTheService(widget.serviceInfo.id);
+    if (active) {
+      await firebase.lockTheService(widget.serviceInfo.id);
+    }
+    setState(() {
+      active = false;
+    });
+  }
+
+  @override
+  void initState() {
+    widget.serviceInfo.status == ServiceStatus.ACTIVE ? active = true : false;
+    setState(() {});
+    getCustomerInfo();
+    super.initState();
+  }
+
+  getCustomerInfo() async {
+    customerInfo = await firebase.getUserById(widget.serviceInfo?.customerId);
     setState(() {});
   }
 
@@ -137,7 +167,7 @@ class _TaskCardState extends State<TaskCard> {
           MaterialPageRoute(
             builder: (_) => ServiceDetailScreen(
               service: widget.serviceInfo,
-              customer: widget.customerInfo,
+              customer: customerInfo,
             ),
           ),
         );
@@ -154,44 +184,69 @@ class _TaskCardState extends State<TaskCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            widget.customerInfo.imageUrl != null
-                ? Container(
-                    height: 100,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(widget.customerInfo.imageUrl)),
-                    ),
-                  )
-                : Container(
-                    color: Colors.black,
-                    padding: const EdgeInsets.all(8),
-                    height: 100,
-                    width: 120,
-                    child: const CircleAvatar(
-                      radius: 80,
+            customerInfo?.imageUrl == null
+                ? const CircleAvatar(
+                    backgroundColor: Colors.black,
+                    radius: 40,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "add image",
+                        "Add image",
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
+                  )
+                : Container(
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(customerInfo?.imageUrl)),
+                    ),
                   ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(widget.customerInfo.fName),
-                Text(widget.serviceInfo.serviceName),
-                Text(widget.serviceInfo.route),
-              ],
+            const SizedBox(
+              width: 10,
             ),
             Expanded(
-              child: CustomButton(
-                label: changebutton ? "Accepted" : "Accept Task",
-                onPress: () {
-                  activateService();
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Client Name: ${customerInfo?.fName ?? ""}",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text("Task: ${widget.serviceInfo?.serviceName ?? ""}",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text("Route: ${widget.serviceInfo?.route ?? ""}",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
               ),
-            )
+            ),
+            active
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    child: MaterialButton(
+                      minWidth: 25,
+                      onPressed: () => activateService(),
+                      child: const Text(
+                        "Accept",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      color: buttonBackgroundColor,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(40)),
+                    child: MaterialButton(
+                      minWidth: 25,
+                      onPressed: () {},
+                      child: const Text(
+                        "Accepted",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      color: buttonBackgroundColor,
+                    ),
+                  ),
           ],
         ),
       ),

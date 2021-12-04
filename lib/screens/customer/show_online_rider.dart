@@ -26,24 +26,40 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   @override
   void initState() {
-    isSearching = true;
+    searchRider();
+    super.initState();
+  }
+
+  searchRider() {
+    getLoading(true);
     Timer(const Duration(seconds: 10), () {
-      print("called 1");
       isSearching = false;
-      if (mounted) setState(() {});
+      getLoading(null);
     });
     firebase.getServiceById(widget.serviceId, (Service service) async {
-      print("called 2");
-
       this.service = service;
       if (service.riderId != null) {
-        onlineRider = await firebase.getUserById(service.riderId);
-        setState(() {});
+        await firebase.getUserById(service.riderId).then((user) {
+          onlineRider = user;
+          setState(() {});
+        });
       }
       setState(() {});
-      print("called 3");
     });
-    super.initState();
+  }
+
+  getLoading(value) {
+    setState(() {
+      isSearching = value;
+    });
+  }
+
+  cancelService() {
+    firebase
+        .lockTheService(service.id, status: ServiceStatus.ABORTED)
+        .then((value) {
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -53,14 +69,20 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: <Widget>[
         Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             if (isSearching == null) ...[
               const SizedBox(height: 10),
               const Text("Rider Not Found"),
-              const SizedBox(height: 20),
-              CustomButton(
-                label: "Retry",
+              const SizedBox(height: 10),
+              ElevatedButton(
+                child: const Text("Retry"),
+                onPressed: () => searchRider(),
               ),
+              ElevatedButton(
+                child: const Text("Cancel"),
+                onPressed: () => cancelService(),
+              )
             ] else if (isSearching) ...[
               AvatarGlow(
                 endRadius: 130.0,
@@ -82,38 +104,34 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
-              const Text("Scanning for Online Riders..."),
+              const SizedBox(height: 10),
+              const Text("Searching for Online Riders..."),
             ] else if (onlineRider != null) ...[
-              const SizedBox(height: 10),
-              const Icon(
-                MdiIcons.checkCircleOutline,
-                color: Colors.green,
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               const Text("Rider Found"),
-              const SizedBox(height: 10),
-              StyledMarkerTextCard(
+              const SizedBox(height: 5),
+              StyledRiderCard(
                 riderName: onlineRider.fName,
               ),
-              StyledMarkerTextCard(
+              StyledRiderCard(
                 riderName: onlineRider.phoneNumber,
               ),
               const SizedBox(height: 10),
-              CustomButton(
-                  label: "Continue",
-                  onPress: () {
-                    Navigator.pop(context, true);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => RiderDetailScreen(
-                          rider: onlineRider,
-                          service: service,
-                        ),
+              ElevatedButton(
+                child: const Text("Continue"),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => RiderDetailScreen(
+                        rider: onlineRider,
+                        service: service,
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
             ]
           ],
         ),
@@ -122,11 +140,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   }
 }
 
-class StyledMarkerTextCard extends StatelessWidget {
+class StyledRiderCard extends StatelessWidget {
   final String riderName;
   final bool showMoreInfo;
-  const StyledMarkerTextCard(
-      {Key key, this.riderName, this.showMoreInfo = false})
+  const StyledRiderCard({Key key, this.riderName, this.showMoreInfo = false})
       : super(key: key);
 
   @override

@@ -1,12 +1,9 @@
-// ignore_for_file: curly_braces_in_flow_control_structures
-
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/screens/auth/signup_screen.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
-import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -133,6 +130,8 @@ class _LogInScreenState extends State<LogInScreen> {
                             value = value.trim();
                             if (value.isEmpty) {
                               return "Mandatory Field";
+                            } else if (!isEmail(value)) {
+                              return "Invalid email";
                             }
                             return null;
                           },

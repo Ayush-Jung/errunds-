@@ -39,22 +39,23 @@ class _FirebaseHelper {
     //it detects for update or new service.
     service.id = ref.id;
     service.status = ServiceStatus.ACTIVE;
+    service.paymentStatus = PaymentStatus.PENDING;
     service.customerId = currentUser;
     ref.set(service.toMap(), SetOptions(merge: true));
     return ref.id;
   }
 
   getRealTimeServices(Function(List<Service>) callBack) {
-    _firestore
-        .collection("Services")
-        .where("status", isEqualTo: ServiceStatus.ACTIVE)
-        .snapshots()
-        .listen((event) {
-      callBack(event.docs
-          .map(
-            (e) => Service.fromMap(e.data()),
-          )
-          .toList());
+    _firestore.collection("services").snapshots().listen((event) {
+      List<Service> activeService = [];
+      for (var element in event.docs) {
+        Service service = Service.fromMap(element.data());
+        if (service.status == ServiceStatus.ACTIVE ||
+            service.status == ServiceStatus.STARTED) {
+          activeService.add(service);
+        }
+      }
+      callBack(activeService);
     });
   }
 
@@ -65,19 +66,30 @@ class _FirebaseHelper {
         .snapshots()
         .listen((event) {
       callback(
-        event.get(
-          Service.fromMap(
-            event.data(),
-          ),
+        Service.fromMap(
+          event.data(),
         ),
       );
     });
   }
 
-  Future<bool> lockTheService(String serviceId) async {
+  Future<bool> lockTheService(String serviceId,
+      {ServiceStatus status = ServiceStatus.STARTED}) async {
     try {
       await _firestore.collection("services").doc(serviceId).set({
-        "status": getKeyFromServiceStatusType(ServiceStatus.STARTED),
+        "status": getKeyFromServiceStatusType(status),
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> unLockTheService(String serviceId) async {
+    try {
+      await _firestore.collection("services").doc(serviceId).set({
+        "paymentStatus": getKeyFromPaymentStatus(PaymentStatus.PAID),
+        "status": getKeyFromServiceStatusType(ServiceStatus.COMPLETED),
       }, SetOptions(merge: true));
       return true;
     } catch (e) {
