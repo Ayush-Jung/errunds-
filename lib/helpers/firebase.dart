@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
@@ -27,8 +29,10 @@ class _FirebaseHelper {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      getUserInfo();
-      return result.user;
+      if (result?.user != null) {
+        getUserInfo();
+        return result.user;
+      }
     } catch (e) {
       print(e);
     }
@@ -78,6 +82,7 @@ class _FirebaseHelper {
     try {
       await _firestore.collection("services").doc(serviceId).set({
         "status": getKeyFromServiceStatusType(status),
+        "riderId": currentUser,
       }, SetOptions(merge: true));
       return true;
     } catch (e) {

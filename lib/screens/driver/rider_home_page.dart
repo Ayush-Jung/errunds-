@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
@@ -23,9 +25,11 @@ class _RiderHomePageState extends State<RiderHomePage> {
   @override
   void initState() {
     firebase.getRealTimeServices((List<Service> allActiveServices) {
-      setState(() {
-        activeServices = allActiveServices;
-      });
+      if (mounted) {
+        setState(() {
+          activeServices = allActiveServices;
+        });
+      }
     });
     getUserInfo();
     super.initState();

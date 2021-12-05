@@ -32,12 +32,13 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   searchRider() {
     getLoading(true);
-    Timer(const Duration(seconds: 10), () {
+    Timer(const Duration(minutes: 1), () {
       isSearching = false;
       getLoading(null);
     });
     firebase.getServiceById(widget.serviceId, (Service service) async {
       this.service = service;
+      print(service.toMap());
       if (service.riderId != null) {
         await firebase.getUserById(service.riderId).then((user) {
           onlineRider = user;
