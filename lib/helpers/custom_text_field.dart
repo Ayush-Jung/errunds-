@@ -43,11 +43,15 @@ class CustomTextField extends StatelessWidget {
 }
 
 getKeyValue(BuildContext context, String key,
-    {Widget icon, String value, Widget widgetValue, bool div = true}) {
+    {Widget icon,
+    String value,
+    Widget widgetValue,
+    bool div = true,
+    Color valueColor}) {
   return Column(
     children: <Widget>[
       Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -63,7 +67,7 @@ getKeyValue(BuildContext context, String key,
                     style: Theme.of(context)
                         .accentTextTheme
                         .subtitle2
-                        .copyWith(color: buttonBackgroundColor)),
+                        .copyWith(color: valueColor ?? buttonBackgroundColor)),
               ],
             ),
             if (widgetValue != null)
@@ -74,7 +78,7 @@ getKeyValue(BuildContext context, String key,
                   value ?? "",
                   textAlign: TextAlign.end,
                   style: Theme.of(context).accentTextTheme.subtitle1.copyWith(
-                        color: buttonBackgroundColor,
+                        color: valueColor ?? buttonBackgroundColor,
                         fontSize: 12,
                       ),
                 ),

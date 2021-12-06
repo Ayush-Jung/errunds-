@@ -63,6 +63,15 @@ class _FirebaseHelper {
     });
   }
 
+  Future<List<Service>> getActiveServices() async {
+    var services = await _firestore
+        .collection("services")
+        .where("customerId", isEqualTo: currentUser)
+        .where("status", isEqualTo: "started")
+        .get();
+    return services.docs.map((e) => Service.fromMap(e.data())).toList();
+  }
+
   getServiceById(String serviceId, Function(Service) callback) {
     _firestore
         .collection("services")
@@ -75,6 +84,19 @@ class _FirebaseHelper {
         ),
       );
     });
+  }
+
+  Future<List<Service>> getCompletedServices() async {
+    var services = await _firestore
+        .collection("services")
+        .where("customerId", isEqualTo: currentUser)
+        .where("status", isEqualTo: "completed")
+        .get();
+    return services.docs
+        .map(
+          (service) => Service.fromMap(service.data()),
+        )
+        .toList();
   }
 
   Future<bool> lockTheService(String serviceId,

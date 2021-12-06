@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
