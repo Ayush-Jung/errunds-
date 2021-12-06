@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
@@ -31,12 +32,12 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
         if (mounted) setState(() {});
         manageRoute();
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const AuthChooser(),
-          ),
-        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const AuthChooser(),
+            ),
+            (route) => false);
       }
     });
   }
@@ -44,12 +45,12 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   manageRoute() {
     if (errundUser != null &&
         (!errundUser.isRider || errundUser.companyId == null)) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const CustomerWelcomeScreen(),
-          ),
-          (route) => false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const CustomerWelcomeScreen(),
+        ),
+      );
     } else {
       Navigator.pushAndRemoveUntil(
           context,

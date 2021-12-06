@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 class ServiceDetailScreen extends StatefulWidget {
   final Service service;
   final ErrundUser customer;
-  const ServiceDetailScreen({Key key, this.service, this.customer})
+  final ErrundUser riderInfo;
+  const ServiceDetailScreen(
+      {Key key, this.service, this.riderInfo, this.customer})
       : super(key: key);
 
   @override
@@ -85,14 +87,24 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   else ...[
                     getKeyValue(context, "Service Name",
                         value: currentService.serviceName ?? ""),
-                    getKeyValue(context, "Customer Name",
-                        value: customerInfo?.fName ?? ""),
-                    getKeyValue(context, "Customer contact",
-                        value: customerInfo?.phoneNumber ?? ""),
-                    getKeyValue(context, "Customer Address",
-                        value: customerInfo?.address ?? ""),
-                    getKeyValue(context, "Pick-Up Address",
-                        value: currentService?.pick_up_address ?? ""),
+                    if (customerInfo != null) ...[
+                      getKeyValue(context, "Customer Name",
+                          value: customerInfo?.fName ?? ""),
+                      getKeyValue(context, "Customer contact",
+                          value: customerInfo?.phoneNumber ?? ""),
+                      getKeyValue(context, "Customer Address",
+                          value: customerInfo?.address ?? ""),
+                      getKeyValue(context, "Pick-Up Address",
+                          value: currentService?.pick_up_address ?? ""),
+                    ],
+                    if (widget.riderInfo != null) ...[
+                      getKeyValue(context, "Rider Name",
+                          value: widget.riderInfo?.fName ?? ""),
+                      getKeyValue(context, "Customer Contact",
+                          value: widget.riderInfo?.phoneNumber ?? ""),
+                      getKeyValue(context, "Rider Address",
+                          value: widget.riderInfo?.address ?? ""),
+                    ],
                     getKeyValue(context, "Service status",
                         value: getKeyFromServiceStatusType(
                                 currentService.status) ??
@@ -104,11 +116,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     getKeyValue(context, "Service Amount",
                         value: currentService.total_amount ?? ""),
                   ],
-                  CustomButton(
-                    label: "Finish",
-                    loading: loading,
-                    onPress: () => showConfirmationDialog(context),
-                  )
+                  if (widget.riderInfo == null)
+                    CustomButton(
+                      label: "Finish",
+                      loading: loading,
+                      onPress: () => showConfirmationDialog(context),
+                    ),
                 ],
               ),
             ),

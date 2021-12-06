@@ -51,7 +51,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                       child: Text(
                         "About us ",
                         style: TextStyle(
-                            fontSize: 35,
+                            fontSize: 30,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),
@@ -61,7 +61,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                       child: Text(
                         "This is demo for about us screen. we will add our info later. ",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
@@ -76,50 +76,50 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                         children: <Widget>[
                           Text(
                             "PROJECT BY:",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            "AREOLA, VENUS KATE C",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "AREOLA, VENUS KATE C",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "AURELIO, PATRICIA C",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 25,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "DAGUYO, ABIGAIL P",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 25,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "DAHULORAN VASIL JAY-AR S",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 25,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "DIANA, NIKKI LOUSIE T",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 25,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
                     Align(
@@ -128,7 +128,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                         children: [
                           Text(
                             "Developed by: AYUSH JUNG KARKI",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           SizedBox(
                             height: 8,

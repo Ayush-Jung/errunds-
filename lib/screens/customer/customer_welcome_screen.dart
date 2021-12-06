@@ -52,7 +52,6 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
     currentIndex = navigationProvider.currentIndex;
     return Scaffold(
       bottomNavigationBar: Container(
-        // margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             color: buttonBackgroundColor),

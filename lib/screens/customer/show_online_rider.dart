@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/rider_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -23,6 +23,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   ErrundUser onlineRider;
   Service service;
   bool isSearching = false;
+  bool riderNotFound = false;
 
   @override
   void initState() {
@@ -32,19 +33,29 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   searchRider() {
     getLoading(true);
-    Timer(const Duration(seconds: 10), () {
-      isSearching = false;
-      getLoading(null);
-    });
-    firebase.getServiceById(widget.serviceId, (Service service) async {
-      this.service = service;
-      if (service.riderId != null) {
-        await firebase.getUserById(service.riderId).then((user) {
-          onlineRider = user;
-          setState(() {});
+    Timer(const Duration(minutes: 1), () {
+      if (onlineRider == null) {
+        setState(() {
+          riderNotFound = true;
         });
       }
+      getLoading(false);
+    });
+    firebase.getServiceById(widget.serviceId, (Service service) {
+      this.service = service;
+      if (service.riderId != null) {
+        getRider(service.riderId);
+      }
       setState(() {});
+    });
+  }
+
+  getRider(String riderId) async {
+    await firebase.getUserById(service.riderId).then((user) {
+      setState(() {
+        onlineRider = user;
+        isSearching = false;
+      });
     });
   }
 
@@ -58,7 +69,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     firebase
         .lockTheService(service.id, status: ServiceStatus.ABORTED)
         .then((value) {
-      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
+          (route) => false);
     });
   }
 
@@ -71,7 +85,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (isSearching == null) ...[
+            if (riderNotFound) ...[
               const SizedBox(height: 10),
               const Text("Rider Not Found"),
               const SizedBox(height: 10),
@@ -106,7 +120,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               ),
               const SizedBox(height: 10),
               const Text("Searching for Online Riders..."),
-            ] else if (onlineRider != null) ...[
+            ] else if (!isSearching && onlineRider != null) ...[
               const SizedBox(height: 5),
               const Text("Rider Found"),
               const SizedBox(height: 5),
