@@ -31,12 +31,12 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
         if (mounted) setState(() {});
         manageRoute();
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const AuthChooser(),
-          ),
-        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const AuthChooser(),
+            ),
+            (route) => false);
       }
     });
   }
@@ -44,12 +44,12 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   manageRoute() {
     if (errundUser != null &&
         (!errundUser.isRider || errundUser.companyId == null)) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const CustomerWelcomeScreen(),
-          ),
-          (route) => false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const CustomerWelcomeScreen(),
+        ),
+      );
     } else {
       Navigator.pushAndRemoveUntil(
           context,

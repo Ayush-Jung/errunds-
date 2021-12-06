@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/rider_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -69,7 +69,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     firebase
         .lockTheService(service.id, status: ServiceStatus.ABORTED)
         .then((value) {
-      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
+          (route) => false);
     });
   }
 

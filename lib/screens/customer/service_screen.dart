@@ -34,10 +34,12 @@ class _ServiceScreenState extends State<ServiceScreen> {
   Service service = Service();
   bool checkedRate = false;
   List<String> routes = [
+    "Within Poblacion",
     "Poblacion - Dologon",
     "Poblacion - Panadtalan",
     "Poblacion - Base Camp",
     "Anahawon - Poblacion",
+    "Anahawon - Base Camp",
     "Anahawon - Camp 1",
     "Anahawon - Panadtalan",
     "Anahawon - Dologon",
@@ -63,8 +65,17 @@ class _ServiceScreenState extends State<ServiceScreen> {
     "Panadtalan - Water District",
     "Dologon -  Water District",
   ];
-  String _currentSelectedValue;
+  List<String> selectRoute() {
+    if (widget.ispayBillService) {
+      return utilityRoutes;
+    } else {
+      return routes;
+    }
+  }
 
+  String _currentSelectedValue;
+  List<String> paymentsFor = ["Water", "Electricity"];
+  String _currentSelectedBillPayment;
   String _currentSelectedValueUtility;
   bool loading = false;
 
@@ -231,7 +242,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                       state.didChange(newValue);
                                     });
                                   },
-                                  items: routes.map((String value) {
+                                  items: selectRoute().map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -285,17 +296,17 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 ),
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
-                                    value: _currentSelectedValueUtility,
+                                    value: _currentSelectedBillPayment,
                                     hint: const Text("Select Payment"),
                                     isDense: true,
                                     onChanged: (String newValue) {
                                       setState(() {
-                                        _currentSelectedValueUtility = newValue;
-                                        service.payment = newValue;
+                                        _currentSelectedBillPayment = newValue;
+                                        service.bill_payments = newValue;
                                         state.didChange(newValue);
                                       });
                                     },
-                                    items: utilityRoutes.map((String value) {
+                                    items: paymentsFor.map((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: Text(value),

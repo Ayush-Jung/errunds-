@@ -15,6 +15,7 @@ class Service {
       laundry_shop,
       necessary_detail,
       serviceName,
+      bill_payments,
       product;
   bool expressRate;
   ServiceStatus status;
@@ -34,6 +35,7 @@ class Service {
     this.payment,
     this.pick_up_address,
     this.product,
+    this.bill_payments,
     this.createdDate,
     this.resturant_name,
     this.route,
@@ -58,6 +60,7 @@ class Service {
       route: json["route"],
       special_request: json["special_request"],
       total_amount: json["total_amount"],
+      bill_payments: json["bill_payments"],
       serviceName: json["serviceName"],
       status: getServiceStatusType(json["status"]),
       paymentStatus: getPaymentStatusType(json["paymentStatus"]),
@@ -74,6 +77,7 @@ class Service {
         "necessary_detail": necessary_detail,
         "payment": payment,
         "product": product,
+        "bill_payments": bill_payments,
         "pick_up_address": pick_up_address,
         "resturant_name": resturant_name,
         "route": route,

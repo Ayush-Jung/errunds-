@@ -34,7 +34,7 @@ class _FirebaseHelper {
         return result.user;
       }
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 
