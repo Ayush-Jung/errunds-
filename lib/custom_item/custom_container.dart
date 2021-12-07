@@ -1,3 +1,4 @@
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainer extends StatelessWidget {
@@ -25,7 +26,7 @@ class CustomContainer extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(8),
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: color ?? Theme.of(context).backgroundColor,
+        color: color ?? primaryColor,
         borderRadius:
             borderRadius ?? const BorderRadius.all(Radius.circular(10)),
         border: this.border ??
