@@ -76,13 +76,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
   String _currentSelectedValue;
   List<String> paymentsFor = ["Water", "Electricity"];
   String _currentSelectedBillPayment;
-  String _currentSelectedValueUtility;
-  bool loading = false;
 
   submitData() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      getLoading(true);
       await showConfirmationDialog(onYes: () async {
         try {
           service.serviceName = widget.title;
@@ -94,16 +91,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
               e.message ?? "Unable to perform the action. Please try again!");
         }
       });
-      getLoading(false);
 
       Navigator.pop(context);
     }
-  }
-
-  getLoading(bool value) {
-    setState(() {
-      loading = value;
-    });
   }
 
   Future<bool> showConfirmationDialog({
@@ -864,7 +854,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             color: Colors.white,
                             textColor: buttonBackgroundColor,
                             labelSize: 18,
-                            loading: loading,
                             onPress: submitData),
                       )
                     ],

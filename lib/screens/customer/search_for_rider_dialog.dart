@@ -6,10 +6,8 @@ Future<void> showScannerDialog(BuildContext context, String serviceId) {
     context: context,
     barrierDismissible: false,
     builder: (_) {
-      return Expanded(
-        child: ScanOnlineRider(
-          serviceId: serviceId,
-        ),
+      return ScanOnlineRider(
+        serviceId: serviceId,
       );
     },
   );

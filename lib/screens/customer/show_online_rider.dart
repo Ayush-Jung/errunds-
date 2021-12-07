@@ -65,15 +65,12 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     });
   }
 
-  cancelService() {
-    firebase
-        .lockTheService(service.id, status: ServiceStatus.ABORTED)
-        .then((value) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
-          (route) => false);
-    });
+  cancelService() async {
+    await firebase.abortService(service.id, status: ServiceStatus.ABORTED);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
+        (route) => false);
   }
 
   @override

@@ -99,12 +99,21 @@ class _FirebaseHelper {
         .toList();
   }
 
-  Future<bool> lockTheService(String serviceId,
+  Future lockTheService(String serviceId,
       {ServiceStatus status = ServiceStatus.STARTED}) async {
     try {
       await _firestore.collection("services").doc(serviceId).set({
         "status": getKeyFromServiceStatusType(status),
         "riderId": currentUser,
+      }, SetOptions(merge: true));
+    } catch (e) {}
+  }
+
+  Future<bool> abortService(String serviceId,
+      {ServiceStatus status = ServiceStatus.STARTED}) async {
+    try {
+      await _firestore.collection("services").doc(serviceId).set({
+        "status": getKeyFromServiceStatusType(status),
       }, SetOptions(merge: true));
       return true;
     } catch (e) {
