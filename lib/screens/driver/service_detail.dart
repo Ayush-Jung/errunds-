@@ -80,7 +80,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             child: CustomContainer(
               child: Column(
                 children: [
-                  if (currentService == null || customerInfo == null)
+                  if (currentService == null)
                     const Center(
                       child: CircularProgressIndicator(),
                     )
