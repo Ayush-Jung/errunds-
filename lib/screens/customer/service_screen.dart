@@ -33,49 +33,53 @@ class _ServiceScreenState extends State<ServiceScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Service service = Service();
   bool checkedRate = false;
-  List<String> routes = [
-    "Within Poblacion",
-    "Poblacion - Dologon",
-    "Poblacion - Panadtalan",
-    "Poblacion - Base Camp",
-    "Anahawon - Poblacion",
-    "Anahawon - Base Camp",
-    "Anahawon - Camp 1",
-    "Anahawon - Panadtalan",
-    "Anahawon - Dologon",
-    "Base Camp - Camp 1",
-    "Base Camp - Panadtalan",
-    "Base Camp - Dologon",
-    "Camp 1 - Poblacion",
-    "Camp 1 - Panadtalan",
-    "Camp 1 - Dologon",
-    "Panadtalan - Dologon",
-    "Panadtalan - Poblacion",
-  ];
-  List<String> utilityRoutes = [
-    "Poblacion - FIBECO",
-    "Anahawon - FIBECO",
-    "Camp 1 - FIBECO",
-    "Panadtalan - FIBECO",
-    "Dologon - FIBECO",
-    "Poblacion - Water District",
-    "Anahawon - Water District",
-    "Base Camp - Water District",
-    "Camp 1 - Water District",
-    "Panadtalan - Water District",
-    "Dologon -  Water District",
-  ];
+  Map<String, int> routes = {
+    "Within Poblacion": 35,
+    "Poblacion - Dologon": 50,
+    "Poblacion - Panadtalan": 40,
+    "Poblacion - Base Camp": 40,
+    "Anahawon - Poblacion": 40,
+    "Anahawon - Base Camp": 45,
+    "Anahawon - Camp 1": 45,
+    "Anahawon - Panadtalan": 35,
+    "Anahawon - Dologon": 45,
+    "Base Camp - Camp 1": 50,
+    "Base Camp - Panadtalan": 45,
+    "Base Camp - Dologon": 65,
+    "Camp 1 - Poblacion": 40,
+    "Camp 1 - Panadtalan": 45,
+    "Camp 1 - Dologon": 65,
+    "Panadtalan - Dologon": 45,
+    "Panadtalan - Poblacion": 40,
+  };
+  Map<String, int> utilityRoutes = {
+    "Poblacion-FIBECO": 50,
+    "Anahawon-FIBECO": 40,
+    "Base Camp-FIBECO": 55,
+    "Camp 1-FIBECO": 55,
+    "Panadtalan-FIBECO": 45,
+    "Dologon-FIBECO": 55,
+    "Poblacion-Water District": 45,
+    "Anahawon-Water District": 50,
+    "Base Camp-Water District": 50,
+    "Camp 1-Water District": 50,
+    "Panadtalan-Water District": 50,
+    "Dologon-Water District": 60,
+  };
   List<String> selectRoute() {
-    if (widget.ispayBillService) {
-      return utilityRoutes;
+    if (!widget.ispayBillService) {
+      return routes.keys.toList();
     } else {
-      return routes;
+      return utilityRoutes.keys.toList();
     }
   }
 
+  bool showPrice = false;
   String _currentSelectedValue;
   List<String> paymentsFor = ["Water", "Electricity"];
   String _currentSelectedBillPayment;
+  int billCharge = 0;
+  Map<String, int> routesPrice = {};
 
   submitData() async {
     if (_formKey.currentState.validate()) {
@@ -83,6 +87,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       await showConfirmationDialog(onYes: () async {
         try {
           service.serviceName = widget.title;
+          service.total_amount = calculateTotalPrice();
           service.createdDate = DateTime.now().millisecondsSinceEpoch;
           String serviceId = await firebase.setService(service);
           await showScannerDialog(context, serviceId);
@@ -93,6 +98,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
       });
 
       Navigator.pop(context);
+    }
+  }
+
+  String calculateTotalPrice() {
+    if (!widget.ispayBillService) {
+      int price = routes[_currentSelectedValue] ?? 0 + 10;
+      return price.toString();
+    } else {
+      int price = utilityRoutes[_currentSelectedValue] ?? 0 + billCharge + 10;
+      return price.toString();
     }
   }
 
@@ -228,7 +243,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _currentSelectedValue = newValue;
-                                      service.route = newValue;
+                                      Map<String, int> a = {};
+                                      a[newValue] = routes[newValue] ??
+                                          utilityRoutes[newValue];
+                                      service.route = a;
                                       state.didChange(newValue);
                                     });
                                   },
@@ -292,7 +310,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     onChanged: (String newValue) {
                                       setState(() {
                                         _currentSelectedBillPayment = newValue;
-                                        service.bill_payments = newValue;
+                                        service.billType = newValue;
                                         state.didChange(newValue);
                                       });
                                     },
@@ -436,7 +454,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -467,7 +485,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               return null;
                             },
                             onChanged: (value) {
-                              service.total_amount = (value ?? "").trim();
+                              setState(() {
+                                service.billAmount = (value ?? "").trim();
+                                billCharge = int.parse(value);
+                              });
                             },
                           ),
                         ),
@@ -491,7 +512,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -752,7 +773,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 value: checkedRate,
                                 onChanged: (bool value) {
                                   checkedRate = value;
-                                  service.expressRate = value;
+                                  showPrice = true;
                                   setState(() {});
                                 },
                               ),
@@ -821,7 +842,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         child: Row(
                           children: [
                             Text(
-                              "SERVICE FEE TOTAL:",
+                              "TOTAL SERVICE FEE:",
                               style: TextStyle(
                                   color: primaryColor,
                                   fontSize: 18,
@@ -836,13 +857,12 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8))),
                               child: Text(
-                                "500",
+                                showPrice ? calculateTotalPrice() : "" ?? "",
                                 style: TextStyle(
                                   color: primaryColor,
                                   fontSize: 18,
                                 ),
                               ),
-                              //TODO later add dynamic fee from backend.
                             )
                           ],
                         ),

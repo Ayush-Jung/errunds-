@@ -33,11 +33,16 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   searchRider() {
     getLoading(true);
-    Timer(const Duration(minutes: 1), () {
+    setState(() {
+      riderNotFound = false;
+    });
+    Timer(const Duration(seconds: 40), () {
       if (onlineRider == null) {
-        setState(() {
-          riderNotFound = true;
-        });
+        if (mounted) {
+          setState(() {
+            riderNotFound = true;
+          });
+        }
       }
       getLoading(false);
     });
@@ -94,7 +99,8 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                 child: const Text("Cancel"),
                 onPressed: () => cancelService(),
               )
-            ] else if (isSearching) ...[
+            ],
+            if (isSearching) ...[
               AvatarGlow(
                 endRadius: 130.0,
                 glowColor: Colors.blue,
