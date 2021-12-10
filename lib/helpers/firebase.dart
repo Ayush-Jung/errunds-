@@ -158,6 +158,10 @@ class _FirebaseHelper {
     print("logged out");
   }
 
+  Future<void> updateUser(ErrundUser user) async {
+    await _firestore.collection("Users").doc(currentUser).update(user.toMap());
+  }
+
   Future signupUser(
     String email,
     String password,

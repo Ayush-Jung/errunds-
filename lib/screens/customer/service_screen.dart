@@ -345,8 +345,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -402,7 +402,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -564,7 +564,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -616,7 +616,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -722,7 +722,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           child: TextFormField(
                             maxLines: 10,
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -802,7 +802,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             vertical: 8, horizontal: 20),
                         child: TextFormField(
                           style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.sentences,
+                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             fillColor: Colors.white,
                             filled: true,

@@ -102,6 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                   labelStyle: TextStyle(
                                     color: buttonBackgroundColor,
@@ -143,6 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
