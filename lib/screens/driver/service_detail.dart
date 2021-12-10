@@ -87,11 +87,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   else ...[
                     getKeyValue(context, "Service Name",
                         value: currentService.serviceName ?? ""),
+                    getKeyValue(context, "Service Route",
+                        value: currentService.route.keys.first ?? ""),
                     if (customerInfo != null) ...[
                       getKeyValue(context, "Customer Name",
                           value: customerInfo?.fName ?? ""),
                       getKeyValue(context, "Customer contact",
-                          value: customerInfo?.phoneNumber ?? ""),
+                          value: currentService?.contact_num ??
+                              customerInfo?.phoneNumber ??
+                              ""),
                       getKeyValue(context, "Customer Address",
                           value: customerInfo?.address ?? ""),
                       getKeyValue(context, "Pick-Up Address",

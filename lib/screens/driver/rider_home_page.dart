@@ -223,36 +223,25 @@ class _TaskCardState extends State<TaskCard> {
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   Text("Task: ${widget.serviceInfo?.serviceName ?? ""}",
                       style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text("Route: ${widget.serviceInfo?.route ?? ""}",
+                  Text("Route: ${widget.serviceInfo?.route?.keys?.first ?? ""}",
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            active
-                ? ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    child: MaterialButton(
-                      minWidth: 25,
-                      onPressed: () => activateService(),
-                      child: const Text(
-                        "Accept",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: buttonBackgroundColor,
-                    ),
-                  )
-                : ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    child: MaterialButton(
-                      minWidth: 25,
-                      onPressed: () {},
-                      child: const Text(
-                        "Accepted",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: buttonBackgroundColor,
-                    ),
-                  ),
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              child: MaterialButton(
+                minWidth: 25,
+                onPressed: () {
+                  active ? activateService() : null;
+                },
+                child: Text(
+                  active ? "Accept" : "Accepted",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                color: buttonBackgroundColor,
+              ),
+            )
           ],
         ),
       ),

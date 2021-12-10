@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
-import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
@@ -19,6 +18,7 @@ class CustomSplasScreen extends StatefulWidget {
 
 class _CustomSplasScreenState extends State<CustomSplasScreen> {
   ErrundUser errundUser;
+  StreamSubscription active;
   @override
   void initState() {
     Timer(const Duration(seconds: 2), () => checkUserStatus());
@@ -26,7 +26,7 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
   }
 
   checkUserStatus() async {
-    firebase.getUserStateListener().listen((event) async {
+    active = firebase.getUserStateListener().listen((event) async {
       if (event != null) {
         errundUser = await firebase.getUserInfo();
         if (mounted) setState(() {});
@@ -40,6 +40,12 @@ class _CustomSplasScreenState extends State<CustomSplasScreen> {
             (route) => false);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    active.cancel();
+    super.dispose();
   }
 
   manageRoute() {
