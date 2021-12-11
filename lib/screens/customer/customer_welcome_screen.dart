@@ -22,27 +22,27 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
   NavigationProvider navigationProvider;
 
   List<BottomNavigationBarItem> items = [
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
       icon: Icon(
         MdiIcons.home,
-        color: Colors.white,
+        color: primaryColor,
       ),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
       icon: Icon(
         MdiIcons.account,
-        color: Colors.white,
+        color: primaryColor,
       ),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.swapHorizontalBold, color: Colors.white),
+      icon: Icon(MdiIcons.swapHorizontalBold, color: primaryColor),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.menu, color: Colors.white),
+      icon: Icon(MdiIcons.menu, color: primaryColor),
     ),
   ];
 
@@ -71,10 +71,10 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
         child: IndexedStack(
           index: currentIndex,
           children: [
-            CustomerHomeScren(active: currentIndex == 0),
-            ProfileScreen(active: currentIndex == 1),
-            Transactionscreen(active: currentIndex == 2),
-            SettingScreen(active: currentIndex == 3),
+            CustomerHomeScren(),
+            ProfileScreen(),
+            Transactionscreen(),
+            SettingScreen(),
           ],
         ),
       ),

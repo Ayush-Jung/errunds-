@@ -8,6 +8,7 @@ import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 
@@ -56,7 +57,7 @@ class _FirebaseHelper {
     return ref.id;
   }
 
-  getRealTimeServices(Function(List<Service>) callBack) {
+  StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
     _firestore.collection("services").snapshots().listen((event) {
       List<Service> activeService = [];
       for (var element in event.docs) {
@@ -148,13 +149,30 @@ class _FirebaseHelper {
     }
   }
 
+  StreamSubscription<ErrundUser> getRealTimeUserInfo(
+      Function(ErrundUser) callback) {
+    try {
+      var user = _firestore
+          .collection("Users")
+          .doc(currentUser)
+          .snapshots()
+          .listen((event) {
+        callback(ErrundUser.fromMap(
+          event.data(),
+        ));
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<ErrundUser> getUserInfo() async {
     try {
       var user = await _firestore.collection("Users").doc(currentUser).get();
       errundUser = ErrundUser.fromMap(user.data());
       return errundUser;
     } catch (e) {
-      print(e);
+      print(e.message);
     }
   }
 

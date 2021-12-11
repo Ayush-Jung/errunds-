@@ -8,9 +8,9 @@ import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
 
 class RiderHomePage extends StatefulWidget {
-  final bool active;
-
-  const RiderHomePage({Key key, this.active}) : super(key: key);
+  const RiderHomePage({
+    Key key,
+  }) : super(key: key);
 
   @override
   _RiderHomePageState createState() => _RiderHomePageState();
@@ -85,10 +85,10 @@ class _RiderHomePageState extends State<RiderHomePage> {
                     Radius.circular(12),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "Available Task",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: primaryColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 25),
                 ),
@@ -98,10 +98,12 @@ class _RiderHomePageState extends State<RiderHomePage> {
                   child: Container(
                     margin: const EdgeInsets.only(top: 50),
                     padding: const EdgeInsets.all(8),
-                    child: const Text(
+                    child: Text(
                       "No active task found.",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: secondaryColor),
                     ),
                   ),
                 ),

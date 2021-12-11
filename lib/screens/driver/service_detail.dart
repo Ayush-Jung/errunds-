@@ -109,15 +109,18 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
         elevation: 1.2,
         backgroundColor: secondaryColor,
-        title: Center(
-          child: Text("Service Detail",
-              style: TextStyle(
-                color: primaryColor,
-              )),
-        ),
+        centerTitle: true,
+        title: Text("Service Detail",
+            style: TextStyle(
+              color: primaryColor,
+            )),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

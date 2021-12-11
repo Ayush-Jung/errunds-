@@ -132,12 +132,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: secondaryColor,
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        centerTitle: true,
         elevation: 1.2,
-        title: Center(
-          child: Text(
-            "Update Profile",
-            style: TextStyle(color: primaryColor),
-          ),
+        toolbarTextStyle: TextStyle(color: primaryColor),
+        title: Text(
+          "Update Profile",
+          style: TextStyle(color: primaryColor),
         ),
       ),
       body: Column(
@@ -210,7 +213,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: primaryColor),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: _fnameController,
@@ -218,12 +221,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.white, width: 4),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.white, width: 4.0),
+                                      color: primaryColor, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -234,9 +237,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                   ),
                                   borderSide: BorderSide(width: 4),
                                 ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
                                 label: Text(
                                   "First Name",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: primaryColor),
                                 ),
                               ),
                               validator: (value) {
@@ -252,7 +262,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: primaryColor),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: _lnameController,
@@ -260,12 +270,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.white, width: 4),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.white, width: 4.0),
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -278,7 +295,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 ),
                                 label: Text(
                                   "Last Name",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: primaryColor),
                                 ),
                               ),
                               validator: (value) {
@@ -294,7 +311,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: primaryColor),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: _phoneController,
@@ -302,12 +319,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.white, width: 4),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.white, width: 4.0),
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -320,7 +344,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 ),
                                 label: Text(
                                   "Phone Number",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: primaryColor),
                                 ),
                               ),
                               validator: (value) {
@@ -340,7 +364,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: primaryColor),
                               keyboardType: TextInputType.text,
                               textCapitalization: TextCapitalization.words,
                               autovalidateMode:
@@ -349,12 +373,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.white, width: 4),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.white, width: 4.0),
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -367,7 +398,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 ),
                                 label: Text(
                                   "Address",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: primaryColor),
                                 ),
                               ),
                               onChanged: (value) {
@@ -391,7 +422,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               textColor: secondaryColor,
                               loading: loading,
                               onPress: onCompleted,
-                              color: Colors.white,
+                              color: primaryColor,
+                              circleColor: secondaryColor,
                             ),
                           ),
                           const SizedBox(height: 5),

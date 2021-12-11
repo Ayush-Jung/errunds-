@@ -49,17 +49,17 @@ class _SettingScreenState extends State<SettingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         "About us ",
                         style: TextStyle(
                             fontSize: 30,
-                            color: Colors.white,
+                            color: primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
                         """In these times, it is evident that the people in the society constantly battle hectic schedules and time-consuming execution of work-related activities that take much of the limited number of hours a day. However, due to demanding workload and obligations, most people cannot incorporate work with daily personal affairs thus, being unable to: pay water and electric utilities, purchase necessaries, deliver items, or pick up products. 
@@ -67,7 +67,7 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
 """,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: primaryColor,
                         ),
                       ),
                     ),
@@ -145,7 +145,10 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
                                                 const AuthChooser()),
                                         (route) => false));
                               },
-                              child: const Text("Log-out"),
+                              child: Text(
+                                "Log-out",
+                                style: TextStyle(color: primaryColor),
+                              ),
                             ),
                           ),
                         ],

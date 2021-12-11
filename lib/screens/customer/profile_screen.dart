@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:errunds_application/custom_item/custom_container.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/custom_text_field.dart';
@@ -17,15 +19,21 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ErrundUser user;
+  StreamSubscription userSub;
   @override
   void initState() {
-    getUserInfo();
+    userSub = firebase.getRealTimeUserInfo((errundUser) {
+      setState(() {
+        user = errundUser;
+      });
+    });
     super.initState();
   }
 
-  getUserInfo() async {
-    user = await firebase.getUserInfo();
-    setState(() {});
+  @override
+  void dispose() {
+    userSub.cancel();
+    super.dispose();
   }
 
   @override
@@ -80,10 +88,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: CircleAvatar(
                         backgroundColor:
                             Theme.of(context).primaryColor.withAlpha(40),
-                        backgroundImage: NetworkImage(user.imageUrl ?? ""),
-                        child: user.imageUrl == null
+                        backgroundImage: NetworkImage(user?.imageUrl ?? ""),
+                        child: user?.imageUrl == null
                             ? Icon(Icons.person,
-                                color: secondaryColor,
+                                color: primaryColor,
                                 size: MediaQuery.of(context).size.width * 0.25)
                             : const SizedBox(),
                         radius: MediaQuery.of(context).size.width * 0.15,
@@ -98,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            user.fName ?? "",
+                            user?.fName ?? "",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -108,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 6,
                           ),
                           Text(
-                            user.lName ?? "",
+                            user?.lName ?? "",
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -140,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width: 30,
                             ),
                             Text(
-                              user.phoneNumber ?? "",
+                              user?.phoneNumber ?? "",
                               style:
                                   TextStyle(fontSize: 20, color: primaryColor),
                             ),
@@ -157,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width: 30,
                             ),
                             Text(
-                              user.email ?? "",
+                              user?.email ?? "",
                               style:
                                   TextStyle(fontSize: 20, color: primaryColor),
                             ),
@@ -175,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width: 30,
                             ),
                             Text(
-                              user.address ?? "",
+                              user?.address ?? "",
                               style:
                                   TextStyle(fontSize: 20, color: primaryColor),
                             ),

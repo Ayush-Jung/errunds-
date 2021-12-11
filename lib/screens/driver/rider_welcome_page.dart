@@ -22,29 +22,34 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
   NavigationProvider navigationProvider;
 
   List<BottomNavigationBarItem> items = [
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
       icon: Icon(
         MdiIcons.home,
-        color: Colors.white,
+        color: primaryColor,
       ),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
       icon: Icon(
         MdiIcons.account,
-        color: Colors.white,
+        color: primaryColor,
       ),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.swapHorizontalBold, color: Colors.white),
+      icon: Icon(MdiIcons.swapHorizontalBold, color: primaryColor),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.menu, color: Colors.white),
+      icon: Icon(MdiIcons.menu, color: primaryColor),
     ),
   ];
+  @override
+  void dispose() {
+    navigationProvider.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +76,12 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
         child: IndexedStack(
           index: currentIndex,
           children: [
-            RiderHomePage(active: currentIndex == 0),
-            ProfileScreen(active: currentIndex == 1),
+            RiderHomePage(),
+            ProfileScreen(),
             Transactionscreen(
-              active: currentIndex == 2,
               isRider: true,
             ),
-            SettingScreen(active: currentIndex == 3),
+            SettingScreen(),
           ],
         ),
       ),

@@ -68,8 +68,11 @@ class _LogInScreenState extends State<LogInScreen> {
 
   showSnackBar(String message) {
     _key.currentState.showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: primaryColor,
+      content: Text(
+        message,
+        style: TextStyle(color: primaryColor),
+      ),
+      backgroundColor: secondaryColor,
       duration: const Duration(seconds: 2),
     ));
   }
