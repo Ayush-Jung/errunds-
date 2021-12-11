@@ -6,15 +6,15 @@ import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomerSettingScreen extends StatefulWidget {
-  const CustomerSettingScreen({Key key, this.active}) : super(key: key);
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({Key key, this.active}) : super(key: key);
   final bool active;
 
   @override
-  _CustomerSettingScreenState createState() => _CustomerSettingScreenState();
+  _SettingScreenState createState() => _SettingScreenState();
 }
 
-class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
+class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,9 +43,8 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
               ),
               Container(
                 width: double.infinity,
-                height: size.height * 0.65,
                 decoration: BoxDecoration(
-                  color: buttonBackgroundColor,
+                  color: secondaryColor,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,15 +62,14 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "E-rrunds application is a bridge between the customer and Rider where customer search for rider to do some work like parcel Delivery, postal service , pay Bils and so on. ",
+                        """In these times, it is evident that the people in the society constantly battle hectic schedules and time-consuming execution of work-related activities that take much of the limited number of hours a day. However, due to demanding workload and obligations, most people cannot incorporate work with daily personal affairs thus, being unable to: pay water and electric utilities, purchase necessaries, deliver items, or pick up products. 
+E-RRUNDS is an errand service, a privately-held partnership of the researchers: Venus Kate Areola, Patricia Aurelio, Abigail Daguyo, Vasil Jay-ar Dahuloran, and Nikki Louise Diana. E-RRUNDS offers to do the errands people cannot perform in the meantime; it has runners (riders) who will perform essential errand services that the customers cannot attend.Basic errand services include grocery shopping, personal shopping, paying bills, picking up laundry, food delivery, mailing a package, and dropping some items to different stores. E-RRUNDS cater to customers of all ages who cannot do their errands because they are too busy, do not have enough time, or are frustrated with the hassle of the protocols brought by the COVID-19 pandemic. Thanks to E-RRUNDS, busy people can focus on their job instead of monotonous activities.
+""",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
-                    ),
-                    const Spacer(
-                      flex: 2,
                     ),
                     CustomContainer(
                       child: Column(
@@ -96,7 +94,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                           Text(
                             "DAHULORAN VASIL JAY-AR S",
                             style: TextStyle(
-                                color: buttonBackgroundColor,
+                                color: secondaryColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -115,8 +113,8 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                         children: [
                           Text(
                             "Developed by: AYUSH JUNG KARKI",
-                            style: TextStyle(
-                                color: buttonBackgroundColor, fontSize: 18),
+                            style:
+                                TextStyle(color: secondaryColor, fontSize: 18),
                           ),
                           const SizedBox(
                             height: 8,
@@ -124,7 +122,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                           Text(
                             "VERSION: 1.0",
                             style: TextStyle(
-                                color: buttonBackgroundColor,
+                                color: secondaryColor,
                                 fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
@@ -134,6 +132,10 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 12),
                             child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(secondaryColor),
+                              ),
                               onPressed: () async {
                                 await firebase.logOut().then((value) =>
                                     Navigator.pushAndRemoveUntil(
@@ -160,5 +162,5 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
   }
 }
 
-TextStyle textStyle = TextStyle(
-    color: buttonBackgroundColor, fontSize: 18, fontWeight: FontWeight.bold);
+TextStyle textStyle =
+    TextStyle(color: secondaryColor, fontSize: 18, fontWeight: FontWeight.bold);

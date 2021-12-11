@@ -1,4 +1,5 @@
 import 'package:errunds_application/custom_item/custom_container.dart';
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
@@ -18,7 +19,12 @@ class _RiderDetailScreenState extends State<RiderDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Service Detail"),
+        elevation: 1.2,
+        title: Center(
+            child: Text(
+          "Service Detail",
+          style: TextStyle(color: primaryColor),
+        )),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

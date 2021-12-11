@@ -26,7 +26,7 @@ class HomeCard extends StatelessWidget {
           Icon(
             icon,
             size: 70,
-            color: buttonBackgroundColor,
+            color: secondaryColor,
           ),
           const SizedBox(height: 8),
           Text(

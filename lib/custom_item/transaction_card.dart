@@ -1,3 +1,4 @@
+import 'package:errunds_application/custom_item/custom_container.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/helpers/firebase.dart';
@@ -5,12 +6,15 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionCard extends StatefulWidget {
   final Service completedService;
+  final bool isRider;
   const TransactionCard({
     Key key,
     this.completedService,
+    this.isRider = false,
   }) : super(key: key);
 
   @override
@@ -18,15 +22,22 @@ class TransactionCard extends StatefulWidget {
 }
 
 class _TransactionCardState extends State<TransactionCard> {
-  ErrundUser currentUser, riderInfo;
+  ErrundUser currentUser, userInfo;
+  Service completed;
+  DateFormat formatter = DateFormat("hh:mm a, dd MMM");
+
   @override
   void initState() {
+    setState(() {
+      completed = widget.completedService;
+    });
     getRiderInfo();
     super.initState();
   }
 
   getRiderInfo() async {
-    riderInfo = await firebase.getUserById(widget.completedService.riderId);
+    userInfo = await firebase.getUserById(
+        userId: widget.isRider ? completed.riderId : completed.customerId);
     setState(() {});
   }
 
@@ -38,15 +49,12 @@ class _TransactionCardState extends State<TransactionCard> {
             context,
             MaterialPageRoute(
                 builder: (_) => ServiceDetailScreen(
+                      isRider: widget.isRider,
                       service: widget.completedService,
-                      riderInfo: riderInfo,
+                      riderInfo: userInfo,
                     )));
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: buttonBackgroundColor,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-        ),
+      child: CustomContainer(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,22 +62,40 @@ class _TransactionCardState extends State<TransactionCard> {
             getKeyValue(
               context,
               "Service Name",
-              value: widget.completedService?.serviceName ?? "",
-              valueColor: Colors.white,
+              value: completed?.serviceName ?? "",
+              valueColor: secondaryColor,
             ),
-            getKeyValue(
-              context,
-              "Rider Name",
-              value: riderInfo?.fName ?? "",
-              valueColor: Colors.white,
-            ),
+            if (completed.createdDate != null)
+              getKeyValue(
+                context,
+                "Created Date",
+                value: formatter.format(
+                    DateTime.fromMillisecondsSinceEpoch(completed.createdDate)),
+                valueColor: secondaryColor,
+              ),
+            if (!widget.isRider) ...[
+              getKeyValue(
+                context,
+                "Rider Name",
+                value: userInfo?.fName ?? "",
+                valueColor: secondaryColor,
+              ),
+            ],
+            if (widget.isRider) ...[
+              getKeyValue(
+                context,
+                "Customer Name",
+                value: userInfo?.fName ?? "",
+                valueColor: secondaryColor,
+              ),
+            ],
             getKeyValue(
               context,
               "Service Status",
               value:
                   getKeyFromServiceStatusType(widget.completedService.status) ??
                       "",
-              valueColor: Colors.white,
+              valueColor: secondaryColor,
             )
           ],
         ),

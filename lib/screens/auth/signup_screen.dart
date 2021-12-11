@@ -105,16 +105,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                   labelStyle: TextStyle(
-                                    color: buttonBackgroundColor,
+                                    color: secondaryColor,
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(25.0),
-                                    borderSide: const BorderSide(
-                                        color: Colors.red, width: 4),
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.red, width: 4.0),
+                                        color: secondaryColor, width: 4),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: secondaryColor, width: 4.0),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(18),
                                     ),
@@ -124,6 +124,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       Radius.circular(18),
                                     ),
                                     borderSide: BorderSide(width: 4),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: secondaryColor, width: 4.0),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(18),
+                                    ),
                                   ),
                                   labelText: "First Name",
                                   hintText: "Enter first name"),
@@ -148,12 +155,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.red, width: 4),
+                                  borderSide: BorderSide(
+                                      color: secondaryColor, width: 4),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 4.0),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: secondaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: secondaryColor, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -166,8 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 label: Text(
                                   "Last Name",
-                                  style:
-                                      TextStyle(color: buttonBackgroundColor),
+                                  style: TextStyle(color: secondaryColor),
                                 ),
                                 hintText: "Enter last name"),
                             validator: (value) {
@@ -193,11 +206,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             borderSide:
-                                const BorderSide(color: Colors.red, width: 4),
+                                BorderSide(color: secondaryColor, width: 4),
                           ),
-                          enabledBorder: const OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 4.0),
+                                BorderSide(color: secondaryColor, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -208,8 +221,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             borderSide: BorderSide(width: 4),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: secondaryColor, width: 4.0),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(18),
+                            ),
+                          ),
                           labelText: 'Phone Number',
-                          labelStyle: TextStyle(color: buttonBackgroundColor),
+                          labelStyle: TextStyle(color: secondaryColor),
                           hintText: 'Phone Number'),
                       validator: (value) {
                         value = value.trim();
@@ -231,11 +251,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             borderSide:
-                                const BorderSide(color: Colors.red, width: 4),
+                                BorderSide(color: secondaryColor, width: 4),
                           ),
-                          enabledBorder: const OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 4.0),
+                                BorderSide(color: secondaryColor, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -246,8 +266,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             borderSide: BorderSide(width: 4),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: secondaryColor, width: 4.0),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(18),
+                            ),
+                          ),
                           labelText: 'E-mail',
-                          labelStyle: TextStyle(color: buttonBackgroundColor),
+                          labelStyle: TextStyle(color: secondaryColor),
                           hintText: 'Enter Email'),
                       validator: (value) {
                         value = value.trim();
@@ -271,11 +298,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide:
-                                  const BorderSide(color: Colors.red, width: 4),
+                                  BorderSide(color: secondaryColor, width: 4),
                             ),
-                            enabledBorder: const OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: Colors.red, width: 4.0),
+                                  BorderSide(color: secondaryColor, width: 4.0),
                               borderRadius: BorderRadius.all(
                                 Radius.circular(18),
                               ),
@@ -286,8 +313,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               borderSide: BorderSide(width: 4),
                             ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: secondaryColor, width: 4.0),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(18),
+                              ),
+                            ),
                             labelText: 'Company Id',
-                            labelStyle: TextStyle(color: buttonBackgroundColor),
+                            labelStyle: TextStyle(color: secondaryColor),
                             hintText: 'Enter company Id'),
                         validator: (value) {
                           value = value.trim();
@@ -308,11 +342,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             borderSide:
-                                const BorderSide(color: Colors.red, width: 4),
+                                BorderSide(color: secondaryColor, width: 4),
                           ),
-                          enabledBorder: const OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 4.0),
+                                BorderSide(color: secondaryColor, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -323,8 +357,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             borderSide: BorderSide(width: 4),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: secondaryColor, width: 4.0),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(18),
+                            ),
+                          ),
                           labelText: 'Password',
-                          labelStyle: TextStyle(color: buttonBackgroundColor),
+                          labelStyle: TextStyle(color: secondaryColor),
                           hintText: 'Enter Password'),
                       validator: (value) {
                         value = value.trim();
@@ -347,11 +388,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             borderSide:
-                                const BorderSide(color: Colors.red, width: 4),
+                                BorderSide(color: secondaryColor, width: 4),
                           ),
-                          enabledBorder: const OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 4.0),
+                                BorderSide(color: secondaryColor, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
                             ),
@@ -362,9 +403,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             borderSide: BorderSide(width: 4),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: secondaryColor, width: 4.0),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(18),
+                            ),
+                          ),
                           label: Text(
                             'Re-type Password',
-                            style: TextStyle(color: buttonBackgroundColor),
+                            style: TextStyle(color: secondaryColor),
                           ),
                           hintText: 'Re- type Password'),
                       validator: (value) {
@@ -387,7 +435,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Row(
                       children: [
                         Checkbox(
-                          activeColor: primaryColor,
+                          activeColor: secondaryColor,
                           value: acceptCondition,
                           onChanged: (value) {
                             setState(() {
@@ -411,7 +459,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                       ),
                                 style: TextStyle(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   decoration: TextDecoration.underline,
                                 ))
                           ]),
@@ -425,8 +473,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: CustomButton(
                         width: MediaQuery.of(context).size.width * 0.3,
-                        color: primaryColor,
-                        textColor: buttonBackgroundColor,
+                        color: secondaryColor,
+                        textColor: primaryColor,
                         onPress: submitRequest,
                         label: "SIGN-UP",
                         loading: loading,

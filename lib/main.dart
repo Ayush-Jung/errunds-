@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
-          statusBarColor: buttonBackgroundColor,
+          statusBarColor: secondaryColor,
           systemNavigationBarIconBrightness: Brightness.dark),
     );
     super.initState();

@@ -24,6 +24,7 @@ class _FirebaseHelper {
     await Firebase.initializeApp();
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
+    _storage = FirebaseStorage.instance;
   }
 
   get currentUser => _auth?.currentUser?.uid;
@@ -69,12 +70,16 @@ class _FirebaseHelper {
     });
   }
 
-  Future<List<Service>> getActiveServices() async {
-    var services = await _firestore
+  Future<List<Service>> getActiveServices({bool isRider}) async {
+    var servicesRef = await _firestore
         .collection("services")
-        .where("customerId", isEqualTo: currentUser)
-        .where("status", isEqualTo: "started")
-        .get();
+        .where("status", isEqualTo: "started");
+    if (isRider) {
+      servicesRef = servicesRef.where("riderId", isEqualTo: currentUser);
+    } else {
+      servicesRef = servicesRef.where("customerId", isEqualTo: currentUser);
+    }
+    QuerySnapshot services = await servicesRef.get();
     return services.docs.map((e) => Service.fromMap(e.data())).toList();
   }
 
@@ -92,12 +97,16 @@ class _FirebaseHelper {
     });
   }
 
-  Future<List<Service>> getCompletedServices() async {
-    var services = await _firestore
+  Future<List<Service>> getCompletedServices({bool isRider}) async {
+    var servicesRef = await _firestore
         .collection("services")
-        .where("customerId", isEqualTo: currentUser)
-        .where("status", isEqualTo: "completed")
-        .get();
+        .where("status", isEqualTo: "completed");
+    if (isRider) {
+      servicesRef = servicesRef.where("riderId", isEqualTo: currentUser);
+    } else {
+      servicesRef = servicesRef.where("customerId", isEqualTo: currentUser);
+    }
+    QuerySnapshot services = await servicesRef.get();
     return services.docs
         .map(
           (service) => Service.fromMap(service.data()),
@@ -149,7 +158,7 @@ class _FirebaseHelper {
     }
   }
 
-  Future<ErrundUser> getUserById(String userId) async {
+  Future<ErrundUser> getUserById({String userId}) async {
     try {
       var user = await _firestore.collection("Users").doc(userId).get();
       return ErrundUser.fromMap(user.data());
@@ -215,7 +224,7 @@ class _FirebaseHelper {
 
   Future uploadFile(File image,
       {String path, int quality: 60, int resize = 0}) async {
-    var fileName = _user.uid + "." + image.path.split(".")[1];
+    var fileName = currentUser + "." + image.path.split(".")[1];
     var ref = _storage.ref().child(path ?? "/profile_pictures/$fileName");
     await ref
         .putFile(await compressImage(image, quality: quality, resize: resize));

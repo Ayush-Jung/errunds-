@@ -8,8 +8,13 @@ class TermsAndConditionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: buttonBackgroundColor,
-          title: const Text("Terms and Conditions."),
+          backgroundColor: secondaryColor,
+          title: Center(
+            child: Text(
+              "Terms and Conditions.",
+              style: TextStyle(color: primaryColor),
+            ),
+          ),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -22,7 +27,7 @@ class TermsAndConditionScreen extends StatelessWidget {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(buttonBackgroundColor)),
+                            MaterialStateProperty.all(secondaryColor)),
                     onPressed: () {
                       Navigator.pop(context);
                     },

@@ -35,7 +35,7 @@ class HorizontalMenuLab extends StatelessWidget {
                   padding: padding ?? const EdgeInsets.all(6),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: selected == item ? primaryColor : Colors.white,
+                    color: selected == item ? primaryColor : secondaryColor,
                     borderRadius: isFirst || isLast
                         ? BorderRadius.only(
                             topLeft: Radius.circular(isFirst ? 12 : 0),
@@ -50,9 +50,8 @@ class HorizontalMenuLab extends StatelessWidget {
                     item,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).accentTextTheme.subtitle1.copyWith(
-                          color: selected == item
-                              ? Colors.white
-                              : buttonBackgroundColor,
+                          color:
+                              selected == item ? secondaryColor : primaryColor,
                           fontSize: fontSize ?? 12,
                         ),
                   ),

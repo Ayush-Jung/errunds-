@@ -188,7 +188,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(color: buttonBackgroundColor),
+                decoration: BoxDecoration(color: secondaryColor),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -217,7 +217,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: buttonBackgroundColor,
+                                    color: secondaryColor,
                                   ),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(18),
@@ -284,7 +284,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: buttonBackgroundColor,
+                                      color: secondaryColor,
                                     ),
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(18),
@@ -352,7 +352,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -408,7 +408,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -460,7 +460,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -518,7 +518,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -570,7 +570,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -622,7 +622,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -675,7 +675,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -728,7 +728,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -765,7 +765,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             Transform.scale(
                               scale: 1.5,
                               child: Checkbox(
-                                checkColor: buttonBackgroundColor,
+                                checkColor: secondaryColor,
                                 side: MaterialStateBorderSide.resolveWith(
                                   (states) => const BorderSide(
                                       width: 2.0, color: Colors.white),
@@ -808,7 +808,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                                color: secondaryColor,
                               ),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(18),
@@ -872,7 +872,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         child: CustomButton(
                             label: "Look for a Rider",
                             color: Colors.white,
-                            textColor: buttonBackgroundColor,
+                            textColor: secondaryColor,
                             labelSize: 18,
                             onPress: submitData),
                       )

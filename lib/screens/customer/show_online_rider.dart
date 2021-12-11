@@ -56,7 +56,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   }
 
   getRider(String riderId) async {
-    await firebase.getUserById(service.riderId).then((user) {
+    await firebase.getUserById(userId: service.riderId).then((user) {
       setState(() {
         onlineRider = user;
         isSearching = false;

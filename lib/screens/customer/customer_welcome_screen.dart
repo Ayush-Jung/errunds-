@@ -1,9 +1,9 @@
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/screens/customer/customer_home_screen.dart';
-import 'package:errunds_application/screens/customer/customer_profile.dart';
-import 'package:errunds_application/screens/customer/customer_setting.dart';
-import 'package:errunds_application/screens/customer/customer_transaction_screen.dart';
+import 'package:errunds_application/screens/customer/profile_screen.dart';
+import 'package:errunds_application/screens/customer/seeting_screen.dart';
+import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +54,7 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
-            color: buttonBackgroundColor),
+            color: secondaryColor),
         child: BottomNavigationBar(
           currentIndex: currentIndex,
           iconSize: 35,
@@ -64,7 +64,7 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: primaryColor,
           items: items,
-          backgroundColor: buttonBackgroundColor,
+          backgroundColor: secondaryColor,
         ),
       ),
       body: SafeArea(
@@ -72,9 +72,9 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
           index: currentIndex,
           children: [
             CustomerHomeScren(active: currentIndex == 0),
-            CustomerProfileScreen(active: currentIndex == 1),
-            CustomerTransactionScreen(active: currentIndex == 2),
-            CustomerSettingScreen(active: currentIndex == 3),
+            ProfileScreen(active: currentIndex == 1),
+            Transactionscreen(active: currentIndex == 2),
+            SettingScreen(active: currentIndex == 3),
           ],
         ),
       ),

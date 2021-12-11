@@ -7,15 +7,15 @@ import 'package:errunds_application/screens/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CustomerProfileScreen extends StatefulWidget {
-  const CustomerProfileScreen({Key key, this.active}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key key, this.active}) : super(key: key);
   final bool active;
 
   @override
-  _CustomerProfileScreenState createState() => _CustomerProfileScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   ErrundUser user;
   @override
   void initState() {
@@ -33,40 +33,57 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
+        elevation: 6,
+        backgroundColor: secondaryColor,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const UpdateProfileScreen()),
           );
         },
-        child: const Text("Edit"),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text(
+                "Edit",
+                style: TextStyle(color: primaryColor),
+              ),
+              Icon(MdiIcons.plus, color: primaryColor),
+            ],
+          ),
+        ),
       ),
-      backgroundColor: primaryColor,
+      backgroundColor: secondaryColor,
       appBar: AppBar(
-        backgroundColor: buttonBackgroundColor,
-        title: const Center(
-          child: Text("Profile"),
+        elevation: 1.2,
+        backgroundColor: secondaryColor,
+        title: Center(
+          child: Text(
+            "Profile",
+            style: TextStyle(color: primaryColor),
+          ),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.zero,
-                color: primaryColor,
+              CustomContainer(
+                borderColor: primaryColor,
+                color: secondaryColor,
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 16.0, top: 16),
+                      padding: const EdgeInsets.only(
+                          left: 16.0, top: 16, bottom: 16),
                       child: CircleAvatar(
                         backgroundColor:
                             Theme.of(context).primaryColor.withAlpha(40),
                         backgroundImage: NetworkImage(user.imageUrl ?? ""),
                         child: user.imageUrl == null
                             ? Icon(Icons.person,
-                                color: buttonBackgroundColor,
+                                color: secondaryColor,
                                 size: MediaQuery.of(context).size.width * 0.25)
                             : const SizedBox(),
                         radius: MediaQuery.of(context).size.width * 0.15,
@@ -82,27 +99,34 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         children: [
                           Text(
                             user.fName ?? "",
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor),
                           ),
                           const SizedBox(
                             height: 6,
                           ),
                           Text(
                             user.lName ?? "",
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: primaryColor),
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 50),
               Container(
                 height: size.height * 0.8,
-                color: buttonBackgroundColor,
+                color: secondaryColor,
                 child: Container(
                   margin: const EdgeInsets.only(left: 16, top: 16),
                   child: Column(
@@ -111,15 +135,14 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            const Icon(MdiIcons.phone,
-                                size: 40, color: Colors.white),
+                            Icon(MdiIcons.phone, size: 40, color: primaryColor),
                             const SizedBox(
                               width: 30,
                             ),
                             Text(
                               user.phoneNumber ?? "",
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 20, color: primaryColor),
                             ),
                           ],
                         ),
@@ -129,15 +152,14 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            const Icon(MdiIcons.mail,
-                                size: 40, color: Colors.white),
+                            Icon(MdiIcons.mail, size: 40, color: primaryColor),
                             const SizedBox(
                               width: 30,
                             ),
                             Text(
                               user.email ?? "",
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 20, color: primaryColor),
                             ),
                           ],
                         ),
@@ -147,15 +169,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            const Icon(MdiIcons.mapMarker,
-                                size: 40, color: Colors.white),
+                            Icon(MdiIcons.mapMarker,
+                                size: 40, color: primaryColor),
                             const SizedBox(
                               width: 30,
                             ),
                             Text(
                               user.address ?? "",
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 20, color: primaryColor),
                             ),
                           ],
                         ),

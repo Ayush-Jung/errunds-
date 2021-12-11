@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
-
 import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -66,27 +64,23 @@ class _RiderHomePageState extends State<RiderHomePage> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: InkWell(
-                  onTap: () {
-                    firebase.logOut();
-                  },
-                  child: Text(
-                    "Hi, ${currentRider?.fName ?? ""}",
-                    style: TextStyle(
-                        color: buttonBackgroundColor,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+                child: Text(
+                  "Hi, ${currentRider?.fName ?? ""}",
+                  style: TextStyle(
+                      color: secondaryColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
+                alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(
                     vertical: 8,
                     horizontal: MediaQuery.of(context).size.width * 0.19),
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
                 decoration: BoxDecoration(
-                  color: buttonBackgroundColor,
+                  color: secondaryColor,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(12),
                   ),
@@ -160,7 +154,8 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   getCustomerInfo() async {
-    customerInfo = await firebase.getUserById(widget.serviceInfo?.customerId);
+    customerInfo =
+        await firebase.getUserById(userId: widget.serviceInfo?.customerId);
     setState(() {});
   }
 
@@ -239,7 +234,7 @@ class _TaskCardState extends State<TaskCard> {
                   active ? "Accept" : "Accepted",
                   style: const TextStyle(color: Colors.white),
                 ),
-                color: buttonBackgroundColor,
+                color: secondaryColor,
               ),
             )
           ],

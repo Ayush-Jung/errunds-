@@ -44,7 +44,7 @@ class CustomButton extends StatelessWidget {
             constraints: const BoxConstraints(maxHeight: 55),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: color ?? buttonBackgroundColor,
+              color: color ?? secondaryColor,
               border: border,
               borderRadius: BorderRadius.circular(16),
             ),
