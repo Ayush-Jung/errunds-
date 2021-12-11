@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image/image.dart' as Im;
 
 class _FirebaseHelper {
   FirebaseAuth _auth;
@@ -13,6 +18,7 @@ class _FirebaseHelper {
   bool trueUser = false;
   UserCredential userCredential;
   ErrundUser errundUser;
+  FirebaseStorage _storage;
 
   initFirebase() async {
     await Firebase.initializeApp();
@@ -206,6 +212,33 @@ class _FirebaseHelper {
   Stream<User> getUserStateListener() {
     return _auth.authStateChanges();
   }
+
+  Future uploadFile(File image,
+      {String path, int quality: 60, int resize = 0}) async {
+    var fileName = _user.uid + "." + image.path.split(".")[1];
+    var ref = _storage.ref().child(path ?? "/profile_pictures/$fileName");
+    await ref
+        .putFile(await compressImage(image, quality: quality, resize: resize));
+    return await ref.getDownloadURL();
+  }
+}
+
+Future<File> compressImage(file, {int quality = 60, int resize = 0}) async {
+  final tempDir = await getTemporaryDirectory();
+  final path = tempDir.path;
+  int rand = Random().nextInt(10000);
+  Im.Image image = Im.decodeImage(file.readAsBytesSync());
+  if (resize != 0) {
+    image = Im.copyResize(image, width: resize);
+  }
+
+  return File('$path/img_$rand.jpg')
+    ..writeAsBytesSync(
+      Im.encodeJpg(
+        image,
+        quality: quality,
+      ),
+    );
 }
 
 final firebase = _FirebaseHelper();

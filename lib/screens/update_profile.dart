@@ -4,6 +4,7 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -101,6 +102,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       showLoading(true);
+      if (image != null) {
+        try {
+          currentUser.imageUrl =
+              await firebase.uploadFile(image, quality: 40, resize: 300);
+        } catch (e) {
+          showLoading(false);
+          if (e is PlatformException) {
+            _showSnackbar(e.message);
+          } else {
+            _showSnackbar("Something Went Wrong. Try again Later");
+          }
+          return;
+        }
+      }
       await firebase.updateUser(currentUser);
       showLoading(false);
       Navigator.pop(context);
