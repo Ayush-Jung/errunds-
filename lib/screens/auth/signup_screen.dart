@@ -2,6 +2,7 @@ import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/helpers/terms_and_condition_screen.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/gestures.dart';
@@ -19,9 +20,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final retypedPasswordController = TextEditingController();
   bool loading = false;
   bool acceptCondition = false;
   String email = "", password = "", cpassword = "";
@@ -104,6 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
                                   labelStyle: TextStyle(
                                     color: buttonBackgroundColor,
@@ -145,6 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
@@ -226,6 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
@@ -402,8 +403,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextSpan(
                                 text: "Terms & Conditions.",
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap =
-                                      () => print("show terms and conditions."),
+                                  ..onTap = () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              const TermsAndConditionScreen(),
+                                        ),
+                                      ),
                                 style: TextStyle(
                                   color: primaryColor,
                                   decoration: TextDecoration.underline,

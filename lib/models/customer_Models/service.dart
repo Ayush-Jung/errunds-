@@ -1,11 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
 class Service {
-  String route,
-      id,
+  String id,
       riderId,
       customerId,
-      payment,
+      billAmount,
       total_amount,
       delivery_address,
       pick_up_address,
@@ -15,27 +14,25 @@ class Service {
       laundry_shop,
       necessary_detail,
       serviceName,
-      bill_payments,
+      billType,
       product;
-  bool expressRate;
   ServiceStatus status;
   PaymentStatus paymentStatus;
-
+  Map<String, int> route;
   int createdDate;
 
   Service({
     this.contact_num,
     this.id,
     this.delivery_address,
-    this.expressRate,
     this.laundry_shop,
     this.necessary_detail,
     this.customerId,
     this.riderId,
-    this.payment,
+    this.billAmount,
     this.pick_up_address,
     this.product,
-    this.bill_payments,
+    this.billType,
     this.createdDate,
     this.resturant_name,
     this.route,
@@ -50,17 +47,16 @@ class Service {
       id: json["id"],
       contact_num: json["contact_num"],
       delivery_address: json["delivery_address"],
-      expressRate: json["expressRate"],
       laundry_shop: json["laundry_shop"],
       necessary_detail: json["necessary_detail"],
-      payment: json["payment"],
+      billAmount: json["billAmount"],
       pick_up_address: json["pick_up_address"],
       product: json["product"],
       resturant_name: json["resturant_name"],
-      route: json["route"],
+      route: Map<String, int>.from(json["route"]) ?? {},
       special_request: json["special_request"],
       total_amount: json["total_amount"],
-      bill_payments: json["bill_payments"],
+      billType: json["bill_payments"],
       serviceName: json["serviceName"],
       status: getServiceStatusType(json["status"]),
       paymentStatus: getPaymentStatusType(json["paymentStatus"]),
@@ -72,12 +68,11 @@ class Service {
         "id": id,
         "contact_num": contact_num,
         "delivery_address": delivery_address,
-        "expressRate": expressRate,
         "laundry_shop": laundry_shop,
         "necessary_detail": necessary_detail,
-        "payment": payment,
+        "billAmount": billAmount,
         "product": product,
-        "bill_payments": bill_payments,
+        "bill_payments": billType,
         "pick_up_address": pick_up_address,
         "resturant_name": resturant_name,
         "route": route,

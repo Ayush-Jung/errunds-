@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
-import 'package:errunds_application/screens/auth/choose_auth.dart';
+
 import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +21,11 @@ class RiderHomePage extends StatefulWidget {
 class _RiderHomePageState extends State<RiderHomePage> {
   ErrundUser currentRider;
   List<Service> activeServices;
+  StreamSubscription activeServicesSub;
   @override
   void initState() {
-    firebase.getRealTimeServices((List<Service> allActiveServices) {
+    activeServicesSub =
+        firebase.getRealTimeServices((List<Service> allActiveServices) {
       if (mounted) {
         setState(() {
           activeServices = allActiveServices;
@@ -35,6 +39,12 @@ class _RiderHomePageState extends State<RiderHomePage> {
   getUserInfo() async {
     currentRider = await firebase.getUserInfo();
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    activeServicesSub.cancel();
+    super.dispose();
   }
 
   @override
@@ -90,19 +100,14 @@ class _RiderHomePageState extends State<RiderHomePage> {
                 ),
               ),
               if (activeServices == null || activeServices.isEmpty)
-                GestureDetector(
-                  onTap: () => firebase.logOut().then((value) => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => AuthChooser()))),
-                  child: Center(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 50),
-                      padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        "No active task found.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.all(8),
+                    child: const Text(
+                      "No active task found.",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ),
@@ -218,36 +223,25 @@ class _TaskCardState extends State<TaskCard> {
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   Text("Task: ${widget.serviceInfo?.serviceName ?? ""}",
                       style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text("Route: ${widget.serviceInfo?.route ?? ""}",
+                  Text("Route: ${widget.serviceInfo?.route?.keys?.first ?? ""}",
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            active
-                ? ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    child: MaterialButton(
-                      minWidth: 25,
-                      onPressed: () => activateService(),
-                      child: const Text(
-                        "Accept",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: buttonBackgroundColor,
-                    ),
-                  )
-                : ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(40)),
-                    child: MaterialButton(
-                      minWidth: 25,
-                      onPressed: () {},
-                      child: const Text(
-                        "Accepted",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: buttonBackgroundColor,
-                    ),
-                  ),
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              child: MaterialButton(
+                minWidth: 25,
+                onPressed: () {
+                  active ? activateService() : null;
+                },
+                child: Text(
+                  active ? "Accept" : "Accepted",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                color: buttonBackgroundColor,
+              ),
+            )
           ],
         ),
       ),

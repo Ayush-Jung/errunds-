@@ -33,11 +33,16 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   searchRider() {
     getLoading(true);
-    Timer(const Duration(minutes: 1), () {
+    setState(() {
+      riderNotFound = false;
+    });
+    Timer(const Duration(seconds: 40), () {
       if (onlineRider == null) {
-        setState(() {
-          riderNotFound = true;
-        });
+        if (mounted) {
+          setState(() {
+            riderNotFound = true;
+          });
+        }
       }
       getLoading(false);
     });
@@ -65,15 +70,12 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     });
   }
 
-  cancelService() {
-    firebase
-        .lockTheService(service.id, status: ServiceStatus.ABORTED)
-        .then((value) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
-          (route) => false);
-    });
+  cancelService() async {
+    await firebase.abortService(service.id, status: ServiceStatus.ABORTED);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
+        (route) => false);
   }
 
   @override
@@ -97,7 +99,8 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                 child: const Text("Cancel"),
                 onPressed: () => cancelService(),
               )
-            ] else if (isSearching) ...[
+            ],
+            if (isSearching) ...[
               AvatarGlow(
                 endRadius: 130.0,
                 glowColor: Colors.blue,

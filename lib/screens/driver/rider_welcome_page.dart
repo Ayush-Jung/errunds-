@@ -77,7 +77,7 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
           index: currentIndex,
           children: [
             RiderHomePage(active: currentIndex == 0),
-            RiderProfileScreen(active: currentIndex == 1),
+            CustomerProfileScreen(active: currentIndex == 1),
             RiderTransactionScreen(active: currentIndex == 2),
             RiderSettingScreen(active: currentIndex == 3),
           ],

@@ -80,18 +80,22 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             child: CustomContainer(
               child: Column(
                 children: [
-                  if (currentService == null || customerInfo == null)
+                  if (currentService == null)
                     const Center(
                       child: CircularProgressIndicator(),
                     )
                   else ...[
                     getKeyValue(context, "Service Name",
                         value: currentService.serviceName ?? ""),
+                    getKeyValue(context, "Service Route",
+                        value: currentService.route.keys.first ?? ""),
                     if (customerInfo != null) ...[
                       getKeyValue(context, "Customer Name",
                           value: customerInfo?.fName ?? ""),
                       getKeyValue(context, "Customer contact",
-                          value: customerInfo?.phoneNumber ?? ""),
+                          value: currentService?.contact_num ??
+                              customerInfo?.phoneNumber ??
+                              ""),
                       getKeyValue(context, "Customer Address",
                           value: customerInfo?.address ?? ""),
                       getKeyValue(context, "Pick-Up Address",

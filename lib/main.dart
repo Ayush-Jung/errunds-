@@ -1,9 +1,11 @@
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/models/customer_Models/home_item.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
 import 'package:errunds_application/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -21,8 +23,25 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+          statusBarColor: buttonBackgroundColor,
+          systemNavigationBarIconBrightness: Brightness.dark),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,11 +3,8 @@ import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/home_item.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
-import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:errunds_application/screens/customer/home_card.dart';
-import 'package:errunds_application/screens/customer/search_for_rider_dialog.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
-import 'package:errunds_application/screens/splash_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -118,6 +115,17 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
       ];
 
   @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    errundUser = await firebase.getUserInfo();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
@@ -129,7 +137,7 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
             maxWidth: MediaQuery.of(context).size.width,
           ),
           child: CustomScrollView(slivers: [
-            if (firebase.errundUser == null)
+            if (errundUser == null)
               SliverToBoxAdapter(
                 child: Center(
                   child: CircularProgressIndicator(
@@ -155,22 +163,11 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
                         color: buttonBackgroundColor),
                     children: [
                       TextSpan(
-                        text: firebase.errundUser?.fName,
+                        text: errundUser?.fName,
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: GestureDetector(
-                onTap: () => firebase.logOut().then((value) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const CustomSplasScreen()));
-                }),
-                child: Text("Log-Out"),
               ),
             ),
             SliverGrid.count(

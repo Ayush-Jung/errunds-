@@ -1,5 +1,8 @@
+import 'package:errunds_application/custom_item/custom_container.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
+import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/screens/auth/choose_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,29 +20,30 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: size.height * 0.3,
-              decoration: BoxDecoration(
-                color: primaryColor,
-              ),
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    "assets/logo-errunds.svg",
-                    color: Colors.red[300],
-                    height: size.height * 0.2,
-                    width: size.width * 0.2,
-                  ),
-                  errunds,
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
                 width: double.infinity,
+                height: size.height * 0.3,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                      "assets/logo-errunds.svg",
+                      color: Colors.red[300],
+                      height: size.height * 0.2,
+                      width: size.width * 0.2,
+                    ),
+                    errunds,
+                  ],
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: size.height * 0.65,
                 decoration: BoxDecoration(
                   color: buttonBackgroundColor,
                 ),
@@ -59,7 +63,7 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                     const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "This is demo for about us screen. we will add our info later. ",
+                        "E-rrunds application is a bridge between the customer and Rider where customer search for rider to do some work like parcel Delivery, postal service , pay Bils and so on. ",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.white,
@@ -69,52 +73,36 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                     const Spacer(
                       flex: 2,
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
+                    CustomContainer(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             "PROJECT BY:",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
+                            style: textStyle,
                           ),
                           Text(
                             "AREOLA, VENUS KATE C",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: textStyle,
                           ),
                           Text(
                             "AURELIO, PATRICIA C",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: textStyle,
                           ),
                           Text(
                             "DAGUYO, ABIGAIL P",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: textStyle,
                           ),
                           Text(
                             "DAHULORAN VASIL JAY-AR S",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: buttonBackgroundColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "DIANA, NIKKI LOUSIE T",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: textStyle,
                           ),
                         ],
                       ),
@@ -122,25 +110,41 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                     const SizedBox(
                       height: 12,
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
+                    CustomContainer(
                       child: Column(
                         children: [
                           Text(
                             "Developed by: AYUSH JUNG KARKI",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: TextStyle(
+                                color: buttonBackgroundColor, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Text(
                             "VERSION: 1.0",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: buttonBackgroundColor,
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 12),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await firebase.logOut().then((value) =>
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const AuthChooser()),
+                                        (route) => false));
+                              },
+                              child: const Text("Log-out"),
+                            ),
                           ),
                         ],
                       ),
@@ -148,10 +152,13 @@ class _CustomerSettingScreenState extends State<CustomerSettingScreen> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+TextStyle textStyle = TextStyle(
+    color: buttonBackgroundColor, fontSize: 18, fontWeight: FontWeight.bold);
