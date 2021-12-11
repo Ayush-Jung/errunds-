@@ -1,13 +1,9 @@
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/navigation_provider.dart';
-import 'package:errunds_application/screens/customer/customer_home_screen.dart';
-import 'package:errunds_application/screens/customer/customer_profile.dart';
-import 'package:errunds_application/screens/customer/customer_setting.dart';
-import 'package:errunds_application/screens/customer/customer_transaction_screen.dart';
+import 'package:errunds_application/screens/customer/profile_screen.dart';
+import 'package:errunds_application/screens/customer/seeting_screen.dart';
+import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
-import 'package:errunds_application/screens/driver/rider_profie_screen.dart';
-import 'package:errunds_application/screens/driver/rider_setting_screen.dart';
-import 'package:errunds_application/screens/driver/rider_transaction_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -26,29 +22,34 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
   NavigationProvider navigationProvider;
 
   List<BottomNavigationBarItem> items = [
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
       icon: Icon(
         MdiIcons.home,
-        color: Colors.white,
+        color: primaryColor,
       ),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
       icon: Icon(
         MdiIcons.account,
-        color: Colors.white,
+        color: primaryColor,
       ),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.swapHorizontalBold, color: Colors.white),
+      icon: Icon(MdiIcons.swapHorizontalBold, color: primaryColor),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "",
-      icon: Icon(MdiIcons.menu, color: Colors.white),
+      icon: Icon(MdiIcons.menu, color: primaryColor),
     ),
   ];
+  @override
+  void dispose() {
+    navigationProvider.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +57,9 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
     currentIndex = navigationProvider.currentIndex;
     return Scaffold(
       bottomNavigationBar: Container(
-        // margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
-            color: buttonBackgroundColor),
+            color: secondaryColor),
         child: BottomNavigationBar(
           currentIndex: currentIndex,
           iconSize: 35,
@@ -69,17 +69,19 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: primaryColor,
           items: items,
-          backgroundColor: buttonBackgroundColor,
+          backgroundColor: secondaryColor,
         ),
       ),
       body: SafeArea(
         child: IndexedStack(
           index: currentIndex,
           children: [
-            RiderHomePage(active: currentIndex == 0),
-            CustomerProfileScreen(active: currentIndex == 1),
-            RiderTransactionScreen(active: currentIndex == 2),
-            RiderSettingScreen(active: currentIndex == 3),
+            RiderHomePage(),
+            ProfileScreen(),
+            Transactionscreen(
+              isRider: true,
+            ),
+            SettingScreen(),
           ],
         ),
       ),

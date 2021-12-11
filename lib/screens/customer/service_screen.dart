@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
@@ -81,24 +82,34 @@ class _ServiceScreenState extends State<ServiceScreen> {
   int billCharge = 0;
   Map<String, int> routesPrice = {};
 
-  submitData() async {
+  submitData() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      await showConfirmationDialog(onYes: () async {
-        try {
-          service.serviceName = widget.title;
-          service.total_amount = calculateTotalPrice();
-          service.createdDate = DateTime.now().millisecondsSinceEpoch;
-          String serviceId = await firebase.setService(service);
-          await showScannerDialog(context, serviceId);
-        } catch (e) {
-          showSnackBar(
-              e.message ?? "Unable to perform the action. Please try again!");
-        }
-      });
-
-      Navigator.pop(context);
+      if (_currentSelectedValue == null) {
+        showSnackBar("Please select a route.");
+      } else if (widget.ispayBillService &&
+          _currentSelectedBillPayment == null) {
+        showSnackBar("Please select a payment for.");
+      } else {
+        openDialog();
+      }
     }
+  }
+
+  openDialog() async {
+    await showConfirmationDialog(onYes: () async {
+      try {
+        service.serviceName = widget.title;
+        service.total_amount = calculateTotalPrice();
+        service.createdDate = DateTime.now().millisecondsSinceEpoch;
+        String serviceId = await firebase.setService(service);
+        await showScannerDialog(context, serviceId);
+      } catch (e) {
+        showSnackBar(
+            e.message ?? "Unable to perform the action. Please try again!");
+      }
+    });
+    Navigator.pop(context);
   }
 
   String calculateTotalPrice() {
@@ -112,24 +123,27 @@ class _ServiceScreenState extends State<ServiceScreen> {
   }
 
   Future<bool> showConfirmationDialog({
-    VoidCallback onYes,
+    Function onYes,
   }) {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Rider Request?"),
-          content: const Text("Are you sure?"),
+          backgroundColor: primaryColor,
+          title:
+              Text("Rider Request?", style: TextStyle(color: secondaryColor)),
+          content: Text("Look for a rider?",
+              style: TextStyle(color: secondaryColor)),
           actions: <Widget>[
             TextButton(
-              child: const Text("Yes"),
+              child: Text("Yes", style: TextStyle(color: secondaryColor)),
               onPressed: () {
                 Navigator.pop(context, true);
                 onYes?.call();
               },
             ),
             TextButton(
-              child: const Text("No"),
+              child: Text("No", style: TextStyle(color: secondaryColor)),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -142,7 +156,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
   showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
+      content: Text(
+        message,
+        style: TextStyle(color: secondaryColor),
+      ),
       backgroundColor: primaryColor,
       duration: const Duration(seconds: 2),
     ));
@@ -168,7 +185,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                     Text(
                       widget.title,
                       style: TextStyle(
-                          color: Colors.red[300],
+                          color: secondaryColor,
                           fontSize: 32,
                           fontWeight: FontWeight.bold),
                     ),
@@ -188,7 +205,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(color: buttonBackgroundColor),
+                decoration: BoxDecoration(color: secondaryColor),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -212,12 +229,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           builder: (FormFieldState<String> state) {
                             return InputDecorator(
                               decoration: InputDecoration(
-                                hintText: "Select route",
-                                fillColor: Colors.white,
+                                fillColor: primaryColor,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: buttonBackgroundColor,
+                                    color: secondaryColor,
                                   ),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(18),
@@ -238,8 +254,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                   value: _currentSelectedValue,
-                                  hint: const Text("Select route"),
+                                  hint: Text(
+                                    "Select route",
+                                    style: TextStyle(color: secondaryColor),
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                  style: TextStyle(color: secondaryColor),
                                   isDense: true,
+                                  iconEnabledColor: secondaryColor,
+                                  dropdownColor: primaryColor,
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _currentSelectedValue = newValue;
@@ -280,11 +304,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             builder: (FormFieldState<String> state) {
                               return InputDecorator(
                                 decoration: InputDecoration(
-                                  fillColor: Colors.white,
+                                  fillColor: primaryColor,
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: buttonBackgroundColor,
+                                      color: secondaryColor,
                                     ),
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(18),
@@ -305,8 +329,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     value: _currentSelectedBillPayment,
-                                    hint: const Text("Select Payment"),
+                                    iconEnabledColor: secondaryColor,
+                                    style: TextStyle(color: secondaryColor),
+                                    hint: Text(
+                                      "Select Payment",
+                                      style: TextStyle(color: secondaryColor),
+                                    ),
                                     isDense: true,
+                                    dropdownColor: primaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
                                     onChanged: (String newValue) {
                                       setState(() {
                                         _currentSelectedBillPayment = newValue;
@@ -348,11 +380,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             textCapitalization: TextCapitalization.words,
                             style: const TextStyle(fontSize: 16),
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -404,11 +436,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -456,11 +488,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -514,11 +546,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -566,11 +598,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -618,11 +650,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -671,11 +703,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -692,13 +724,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 ),
                               ),
                             ),
-                            // validator: (value) {
-                            //   value = value.trim();
-                            //   if (value.isEmpty) {
-                            //     return "Mandatory Field";
-                            //   }
-                            //   return null;
-                            // },
                             onChanged: (value) {
                               service.necessary_detail = (value ?? "").trim();
                             },
@@ -724,11 +749,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             style: const TextStyle(fontSize: 16),
                             textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: primaryColor,
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: buttonBackgroundColor,
+                                  color: secondaryColor,
                                 ),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(18),
@@ -765,10 +790,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             Transform.scale(
                               scale: 1.5,
                               child: Checkbox(
-                                checkColor: buttonBackgroundColor,
+                                activeColor: primaryColor,
+                                checkColor: secondaryColor,
                                 side: MaterialStateBorderSide.resolveWith(
-                                  (states) => const BorderSide(
-                                      width: 2.0, color: Colors.white),
+                                  (states) => BorderSide(
+                                    width: 2.0,
+                                    color: primaryColor,
+                                  ),
                                 ),
                                 value: checkedRate,
                                 onChanged: (bool value) {
@@ -804,11 +832,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           style: const TextStyle(fontSize: 16),
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
-                            fillColor: Colors.white,
+                            fillColor: primaryColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: buttonBackgroundColor,
+                                color: secondaryColor,
                               ),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(18),
@@ -825,21 +853,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               ),
                             ),
                           ),
-                          // validator: (value) {
-                          //   value = value.trim();
-                          //   if (value.isEmpty) {
-                          //     return "Mandatory Field";
-                          //   }
-                          //   return null;
-                          // },
                           onChanged: (value) {
                             service.special_request = (value ?? "").trim();
                           },
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(22, 4, 0, 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25.0, vertical: 6),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "TOTAL SERVICE FEE:",
@@ -849,17 +872,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 80),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 16),
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8))),
                               child: Text(
-                                showPrice ? calculateTotalPrice() : "" ?? "",
+                                "0",
                                 style: TextStyle(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   fontSize: 18,
                                 ),
                               ),
@@ -871,8 +893,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         margin: const EdgeInsets.fromLTRB(50, 10, 50, 30),
                         child: CustomButton(
                             label: "Look for a Rider",
-                            color: Colors.white,
-                            textColor: buttonBackgroundColor,
+                            color: primaryColor,
+                            textColor: secondaryColor,
                             labelSize: 18,
                             onPress: submitData),
                       )

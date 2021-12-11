@@ -5,23 +5,25 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:flutter/material.dart';
 
-class CustomerTransactionScreen extends StatefulWidget {
-  const CustomerTransactionScreen({Key key, this.active}) : super(key: key);
-  final bool active;
+class Transactionscreen extends StatefulWidget {
+  const Transactionscreen({Key key, this.active, this.isRider = false})
+      : super(key: key);
+  final bool active, isRider;
 
   @override
-  _CustomerTransactionScreenState createState() =>
-      _CustomerTransactionScreenState();
+  _TransactionscreenState createState() => _TransactionscreenState();
 }
 
-class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
+class _TransactionscreenState extends State<Transactionscreen> {
   List<Service> completedServices, startedServices;
   String filter = "Active-service";
   List<String> menu = ["Active-service", "Completed-service"];
 
   @override
   void initState() {
-    firebase.getCompletedServices().then((List<Service> services) {
+    firebase
+        .getCompletedServices(isRider: widget.isRider)
+        .then((List<Service> services) {
       setState(() {
         completedServices = services;
       });
@@ -31,7 +33,7 @@ class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
   }
 
   getStartedServices() async {
-    startedServices = await firebase.getActiveServices();
+    startedServices = await firebase.getActiveServices(isRider: widget.isRider);
     setState(() {});
   }
 
@@ -52,7 +54,7 @@ class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
                 style: Theme.of(context)
                     .primaryTextTheme
                     .caption
-                    .copyWith(color: buttonBackgroundColor),
+                    .copyWith(color: primaryColor),
               ),
             ),
           )
@@ -63,6 +65,7 @@ class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TransactionCard(
+                    isRider: widget.isRider,
                     completedService: service,
                   ),
                 );
@@ -90,7 +93,7 @@ class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
                 style: Theme.of(context)
                     .primaryTextTheme
                     .caption
-                    .copyWith(color: buttonBackgroundColor),
+                    .copyWith(color: primaryColor),
               ),
             ),
           )
@@ -99,6 +102,7 @@ class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
             child: ListView(
               children: completedServices.map((service) {
                 return TransactionCard(
+                  isRider: widget.isRider,
                   completedService: service,
                 );
               }).toList(),
@@ -111,9 +115,14 @@ class _CustomerTransactionScreenState extends State<CustomerTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: AppBar(
-        title: const Text("Services"),
-        backgroundColor: buttonBackgroundColor,
+        title: Center(
+            child: Text(
+          "Services",
+          style: TextStyle(color: primaryColor),
+        )),
+        backgroundColor: secondaryColor,
       ),
       body: SafeArea(
         child: Column(

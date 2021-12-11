@@ -68,8 +68,11 @@ class _LogInScreenState extends State<LogInScreen> {
 
   showSnackBar(String message) {
     _key.currentState.showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: primaryColor,
+      content: Text(
+        message,
+        style: TextStyle(color: primaryColor),
+      ),
+      backgroundColor: secondaryColor,
       duration: const Duration(seconds: 2),
     ));
   }
@@ -107,12 +110,12 @@ class _LogInScreenState extends State<LogInScreen> {
                           decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
-                                borderSide: const BorderSide(
-                                    color: Colors.red, width: 4),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 4.0),
+                                    BorderSide(color: secondaryColor, width: 4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: secondaryColor, width: 4.0),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
@@ -123,8 +126,15 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ),
                                 borderSide: BorderSide(width: 4),
                               ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: secondaryColor, width: 4.0),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
                               labelText: 'Email',
-                              labelStyle: const TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: secondaryColor),
                               hintText: 'Enter Email'),
                           validator: (value) {
                             value = value.trim();
@@ -148,16 +158,15 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelStyle:
-                                    const TextStyle(color: Colors.black),
+                                labelStyle: TextStyle(color: secondaryColor),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.red, width: 4),
+                                  borderSide: BorderSide(
+                                      color: secondaryColor, width: 4),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 4.0),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: secondaryColor, width: 4.0),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(18),
                                   ),
@@ -167,6 +176,13 @@ class _LogInScreenState extends State<LogInScreen> {
                                     Radius.circular(18),
                                   ),
                                   borderSide: BorderSide(width: 4),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: secondaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
                                 ),
                                 labelText: 'company Id',
                                 hintText: 'Enter company Id'),
@@ -189,15 +205,15 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
-                              labelStyle: const TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(color: secondaryColor),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
-                                borderSide: const BorderSide(
-                                    color: Colors.red, width: 4),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 4.0),
+                                    BorderSide(color: secondaryColor, width: 4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: secondaryColor, width: 4.0),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(18),
                                 ),
@@ -208,6 +224,13 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ),
                                 borderSide: BorderSide(width: 4),
                               ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: secondaryColor, width: 4.0),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
+                              ),
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -216,7 +239,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                 },
                                 icon: Icon(
                                   showPassword ? MdiIcons.eye : MdiIcons.eyeOff,
-                                  color: Colors.grey,
+                                  color: secondaryColor,
                                 ),
                               ),
                               labelText: 'Password',
@@ -255,7 +278,8 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             );
                           },
-                          color: Colors.yellow[700],
+                          color: secondaryColor,
+                          textColor: primaryColor,
                         ),
                       ),
                     ),
@@ -266,7 +290,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           label: "LOG-IN",
                           onPress: login,
                           loading: loading,
-                          color: Colors.yellow[700],
+                          color: secondaryColor,
+                          textColor: primaryColor,
                         ),
                       ),
                     ),

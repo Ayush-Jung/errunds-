@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
@@ -56,7 +57,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   }
 
   getRider(String riderId) async {
-    await firebase.getUserById(service.riderId).then((user) {
+    await firebase.getUserById(userId: service.riderId).then((user) {
       setState(() {
         onlineRider = user;
         isSearching = false;
@@ -81,6 +82,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
+      backgroundColor: primaryColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: <Widget>[
@@ -89,21 +91,34 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
           children: <Widget>[
             if (riderNotFound) ...[
               const SizedBox(height: 10),
-              const Text("Rider Not Found"),
+              Text(
+                "Rider Not Found",
+                style: TextStyle(color: secondaryColor),
+              ),
               const SizedBox(height: 10),
               ElevatedButton(
-                child: const Text("Retry"),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(secondaryColor)),
+                child: Text(
+                  "Retry",
+                  style: TextStyle(color: primaryColor),
+                ),
                 onPressed: () => searchRider(),
               ),
               ElevatedButton(
-                child: const Text("Cancel"),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(secondaryColor)),
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: primaryColor),
+                ),
                 onPressed: () => cancelService(),
               )
             ],
             if (isSearching) ...[
               AvatarGlow(
                 endRadius: 130.0,
-                glowColor: Colors.blue,
+                glowColor: secondaryColor,
                 duration: const Duration(milliseconds: 2000),
                 repeat: true,
                 showTwoGlows: true,
@@ -112,9 +127,9 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                   elevation: 8.0,
                   shape: const CircleBorder(),
                   child: CircleAvatar(
-                    backgroundColor: Colors.grey[100],
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.blue,
+                    backgroundColor: secondaryColor.withOpacity(0.4),
+                    child: CircleAvatar(
+                      backgroundColor: secondaryColor,
                       radius: 5,
                     ),
                     radius: 10.0,
@@ -122,10 +137,16 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text("Searching for Online Riders..."),
+              Text(
+                "Searching for Online Riders...",
+                style: TextStyle(color: secondaryColor),
+              ),
             ] else if (!isSearching && onlineRider != null) ...[
               const SizedBox(height: 5),
-              const Text("Rider Found"),
+              Text(
+                "Rider Found",
+                style: TextStyle(color: secondaryColor),
+              ),
               const SizedBox(height: 5),
               StyledRiderCard(
                 riderName: onlineRider.fName,
@@ -159,9 +180,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
 class StyledRiderCard extends StatelessWidget {
   final String riderName;
-  final bool showMoreInfo;
-  const StyledRiderCard({Key key, this.riderName, this.showMoreInfo = false})
-      : super(key: key);
+  const StyledRiderCard({
+    Key key,
+    this.riderName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -184,35 +206,19 @@ class StyledRiderCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  riderName ?? "",
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                showMoreInfo
-                    ? const Padding(
-                        padding: EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          "Rider Found",
-                          style: TextStyle(
-                            color: Colors.green,
-                          ),
-                        ),
-                      )
-                    : const SizedBox()
-              ],
+            child: Text(
+              riderName ?? "",
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: secondaryColor,
+              ),
             ),
           ),
           const SizedBox(width: 5),
-          const Icon(
+          Icon(
             MdiIcons.checkCircleOutline,
-            color: Colors.green,
+            color: secondaryColor,
             size: 30,
           ),
         ],

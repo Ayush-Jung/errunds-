@@ -67,7 +67,7 @@ getKeyValue(BuildContext context, String key,
                     style: Theme.of(context)
                         .accentTextTheme
                         .subtitle2
-                        .copyWith(color: valueColor ?? buttonBackgroundColor)),
+                        .copyWith(color: valueColor ?? secondaryColor)),
               ],
             ),
             if (widgetValue != null)
@@ -78,7 +78,7 @@ getKeyValue(BuildContext context, String key,
                   value ?? "",
                   textAlign: TextAlign.end,
                   style: Theme.of(context).accentTextTheme.subtitle1.copyWith(
-                        color: valueColor ?? buttonBackgroundColor,
+                        color: valueColor ?? secondaryColor,
                         fontSize: 12,
                       ),
                 ),

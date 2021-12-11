@@ -88,7 +88,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   _showSnackbar(message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: secondaryColor,
       content: Text(message),
     ));
   }
@@ -128,17 +128,29 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: buttonBackgroundColor,
-        title: const Text("Update Profile"),
+        backgroundColor: secondaryColor,
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        centerTitle: true,
+        elevation: 1.2,
+        toolbarTextStyle: TextStyle(color: primaryColor),
+        title: Text(
+          "Update Profile",
+          style: TextStyle(color: primaryColor),
+        ),
       ),
       body: Column(
         children: [
           if (currentUser == null)
-            const Expanded(
+            Expanded(
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                ),
               ),
             )
           else
@@ -171,7 +183,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 child: image == null &&
                                         currentUser?.imageUrl == null
                                     ? Icon(Icons.person,
-                                        color: buttonBackgroundColor,
+                                        color: secondaryColor,
                                         size:
                                             MediaQuery.of(context).size.width *
                                                 0.3)
@@ -187,8 +199,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                       child: Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                            color: secondaryColor,
                                             borderRadius:
                                                 BorderRadius.circular(100),
                                           ),
@@ -198,92 +209,221 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                               size: 14))))
                             ],
                           ),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: _fnameController,
-                            textCapitalization: TextCapitalization.words,
-                            decoration: InputDecoration(
-                                labelText: "First Name",
-                                labelStyle:
-                                    Theme.of(context).textTheme.caption),
-                            validator: (value) {
-                              if (value.isEmpty) return "Mandatory Field";
-                              return null;
-                            },
-                            onChanged: (value) {
-                              currentUser.fName = value;
-                            },
+                          SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              style: TextStyle(color: primaryColor),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: _fnameController,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(width: 4),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                label: Text(
+                                  "First Name",
+                                  style: TextStyle(color: primaryColor),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) return "Mandatory Field";
+                                return null;
+                              },
+                              onChanged: (value) {
+                                currentUser.fName = value;
+                              },
+                            ),
                           ),
                           const SizedBox(height: 20.0),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: _lnameController,
-                            textCapitalization: TextCapitalization.words,
-                            decoration: InputDecoration(
-                                labelText: "Last Name",
-                                labelStyle:
-                                    Theme.of(context).textTheme.caption),
-                            validator: (value) {
-                              if (value.isEmpty) return "Mandatory Field";
-                              return null;
-                            },
-                            onChanged: (value) {
-                              currentUser.lName = value;
-                            },
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              style: TextStyle(color: primaryColor),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: _lnameController,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(width: 4),
+                                ),
+                                label: Text(
+                                  "Last Name",
+                                  style: TextStyle(color: primaryColor),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) return "Mandatory Field";
+                                return null;
+                              },
+                              onChanged: (value) {
+                                currentUser.lName = value;
+                              },
+                            ),
                           ),
                           const SizedBox(height: 20.0),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                labelText: "Phone Number",
-                                labelStyle:
-                                    Theme.of(context).textTheme.caption),
-                            validator: (value) {
-                              value = value.trim();
-                              if (value.isEmpty) {
-                                return "Mandatory Field";
-                              }
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              style: TextStyle(color: primaryColor),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: _phoneController,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(width: 4),
+                                ),
+                                label: Text(
+                                  "Phone Number",
+                                  style: TextStyle(color: primaryColor),
+                                ),
+                              ),
+                              validator: (value) {
+                                value = value.trim();
+                                if (value.isEmpty) {
+                                  return "Mandatory Field";
+                                }
 
-                              return null;
-                            },
-                            onChanged: (value) {
-                              currentUser.phoneNumber = (value ?? "").trim();
-                            },
+                                return null;
+                              },
+                              onChanged: (value) {
+                                currentUser.phoneNumber = (value ?? "").trim();
+                              },
+                            ),
                           ),
                           const SizedBox(height: 20.0),
-                          TextFormField(
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.words,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: _addressController,
-                            decoration: InputDecoration(
-                                labelText: "Address",
-                                labelStyle:
-                                    Theme.of(context).textTheme.caption),
-                            onChanged: (value) {
-                              currentUser.address = value;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "Mandatory Field";
-                              }
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              style: TextStyle(color: primaryColor),
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.words,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: _addressController,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide:
+                                      BorderSide(color: primaryColor, width: 4),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: primaryColor, width: 4.0),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
+                                  ),
+                                  borderSide: BorderSide(width: 4),
+                                ),
+                                label: Text(
+                                  "Address",
+                                  style: TextStyle(color: primaryColor),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                currentUser.address = value;
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Mandatory Field";
+                                }
 
-                              return null;
-                            },
+                                return null;
+                              },
+                            ),
                           ),
                           const SizedBox(height: 20.0),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: CustomButton(
                               label: "Update",
+                              labelSize: 18,
+                              textColor: secondaryColor,
                               loading: loading,
                               onPress: onCompleted,
+                              color: primaryColor,
+                              circleColor: secondaryColor,
                             ),
                           ),
                           const SizedBox(height: 5),

@@ -16,17 +16,17 @@ class ErrundUser {
   bool onlineRider = false;
 
   factory ErrundUser.fromMap(Map<String, dynamic> json) => ErrundUser(
-        id: json["id"],
-        fName: json["fName"],
-        conditionAccepted: json["conditionAccepted"],
-        lName: json["lName"],
-        email: json["email"],
-        isRider: json["isRider"],
-        phoneNumber: json["phoneNumber"],
-        onlineRider: json["onlineRider"],
-        companyId: json["companyId"],
-        imageUrl: json["imageUrl"],
-      );
+      id: json["id"],
+      fName: json["fName"],
+      conditionAccepted: json["conditionAccepted"],
+      lName: json["lName"],
+      email: json["email"],
+      isRider: json["isRider"],
+      phoneNumber: json["phoneNumber"],
+      onlineRider: json["onlineRider"],
+      companyId: json["companyId"],
+      imageUrl: json["imageUrl"],
+      address: json["address"]);
 
   Map<String, dynamic> toMap() => {
         "fName": fName,

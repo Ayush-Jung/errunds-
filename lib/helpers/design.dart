@@ -9,7 +9,7 @@ Widget errunds = RichText(
       TextSpan(
         text: "E-R",
         style: TextStyle(
-          color: buttonBackgroundColor,
+          color: secondaryColor,
         ),
       ),
       TextSpan(
@@ -21,7 +21,7 @@ Widget errunds = RichText(
       TextSpan(
         text: "DS",
         style: TextStyle(
-          color: buttonBackgroundColor,
+          color: secondaryColor,
         ),
       ),
     ],

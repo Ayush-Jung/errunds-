@@ -13,12 +13,14 @@ class CustomButton extends StatelessWidget {
   final Color textColor;
   final bool borderRadius;
   final Border border;
+  final Color circleColor;
 
   CustomButton(
       {this.onPress,
       this.labelSize,
       this.suffixIcon,
       this.prefix,
+      this.circleColor,
       this.label,
       this.loading = false,
       this.width,
@@ -44,14 +46,14 @@ class CustomButton extends StatelessWidget {
             constraints: const BoxConstraints(maxHeight: 55),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: color ?? buttonBackgroundColor,
+              color: color ?? secondaryColor,
               border: border,
               borderRadius: BorderRadius.circular(16),
             ),
             child: loading
-                ? const CircularProgressIndicator(
+                ? CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.red,
+                    color: primaryColor,
                   )
                 : LayoutBuilder(
                     builder: (context, constraints) {

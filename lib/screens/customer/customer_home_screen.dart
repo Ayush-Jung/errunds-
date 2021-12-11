@@ -141,7 +141,7 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
               SliverToBoxAdapter(
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: buttonBackgroundColor,
+                    color: secondaryColor,
                   ),
                 ),
               ),
@@ -160,7 +160,7 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: buttonBackgroundColor),
+                        color: secondaryColor),
                     children: [
                       TextSpan(
                         text: errundUser?.fName,
