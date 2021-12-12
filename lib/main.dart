@@ -1,3 +1,4 @@
+import 'package:errunds_application/helpers/calculate_price_provider.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/helpers/navigation_provider.dart';
@@ -17,6 +18,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider<NavigationProvider>(
           create: (_) => NavigationProvider(),
+        ),
+        ChangeNotifierProvider<PriceProvicver>(
+          create: (_) => PriceProvicver(),
         ),
       ],
     ),

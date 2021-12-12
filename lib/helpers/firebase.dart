@@ -48,7 +48,6 @@ class _FirebaseHelper {
 
   Future<String> setService(Service service) async {
     var ref = _firestore.collection("services").doc(service.id);
-    //it detects for update or new service.
     service.id = ref.id;
     service.status = ServiceStatus.ACTIVE;
     service.paymentStatus = PaymentStatus.PENDING;

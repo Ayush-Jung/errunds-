@@ -4,8 +4,8 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
-import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/rider_detail.dart';
+import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -71,12 +71,36 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     });
   }
 
-  cancelService() async {
-    await firebase.abortService(service.id, status: ServiceStatus.ABORTED);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
-        (route) => false);
+  cancelService() {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("Archived service",
+                style: TextStyle(color: secondaryColor)),
+            content: Text(
+              "You can again cancel before 30 min from dispatch. This service request will be stored in transaction active action.If you dont want to continue then you can abort it from there.",
+              style: TextStyle(color: secondaryColor),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Ok", style: TextStyle(color: secondaryColor)),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => Transactionscreen()),
+                    (p) => false,
+                  );
+                },
+              ),
+            ],
+          );
+        });
+    // await firebase.abortService(service.id, status: ServiceStatus.ABORTED);
+    // Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
+    //     (route) => false);
   }
 
   @override

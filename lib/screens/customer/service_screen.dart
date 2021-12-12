@@ -1,11 +1,15 @@
 import 'dart:ui';
 import 'package:errunds_application/custom_item/custom_button.dart';
+import 'package:errunds_application/helpers/calculate_price_provider.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
+import 'package:errunds_application/helpers/terms_and_condition_screen.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/search_for_rider_dialog.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen(
@@ -34,6 +38,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Service service = Service();
   bool checkedRate = false;
+  PriceProvicver priceProvicver;
+  bool acceptTerms = false;
+
   Map<String, int> routes = {
     "Within Poblacion": 35,
     "Poblacion - Dologon": 50,
@@ -87,9 +94,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
       _formKey.currentState.save();
       if (_currentSelectedValue == null) {
         showSnackBar("Please select a route.");
+      } else if (!checkedRate) {
+        showSnackBar("Please accpect the express rate.");
       } else if (widget.ispayBillService &&
           _currentSelectedBillPayment == null) {
         showSnackBar("Please select a payment for.");
+      } else if (!acceptTerms) {
+        showSnackBar("Please accept terms and condition.");
       } else {
         openDialog();
       }
@@ -100,7 +111,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
     await showConfirmationDialog(onYes: () async {
       try {
         service.serviceName = widget.title;
-        service.total_amount = calculateTotalPrice();
+        service.total_amount = priceProvicver.totalAmount.toString();
         service.createdDate = DateTime.now().millisecondsSinceEpoch;
         String serviceId = await firebase.setService(service);
         await showScannerDialog(context, serviceId);
@@ -108,22 +119,14 @@ class _ServiceScreenState extends State<ServiceScreen> {
         showSnackBar(
             e.message ?? "Unable to perform the action. Please try again!");
       }
+    }, onNo: () {
+      Navigator.pop(context);
     });
-    Navigator.pop(context);
-  }
-
-  String calculateTotalPrice() {
-    if (!widget.ispayBillService) {
-      int price = routes[_currentSelectedValue] ?? 0 + 10;
-      return price.toString();
-    } else {
-      int price = utilityRoutes[_currentSelectedValue] ?? 0 + billCharge + 10;
-      return price.toString();
-    }
   }
 
   Future<bool> showConfirmationDialog({
     Function onYes,
+    Function onNo,
   }) {
     return showDialog(
       context: context,
@@ -138,7 +141,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             TextButton(
               child: Text("Yes", style: TextStyle(color: secondaryColor)),
               onPressed: () {
-                Navigator.pop(context, true);
+                Navigator.pop(context);
                 onYes?.call();
               },
             ),
@@ -146,6 +149,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
               child: Text("No", style: TextStyle(color: secondaryColor)),
               onPressed: () {
                 Navigator.pop(context);
+                onNo.call();
               },
             )
           ],
@@ -167,6 +171,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    priceProvicver = Provider.of<PriceProvicver>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -271,6 +276,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                       a[newValue] = routes[newValue] ??
                                           utilityRoutes[newValue];
                                       service.route = a;
+                                      priceProvicver.setPriceAccordingToRoute(
+                                          a.values.first);
                                       state.didChange(newValue);
                                     });
                                   },
@@ -520,6 +527,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               setState(() {
                                 service.billAmount = (value ?? "").trim();
                                 billCharge = int.parse(value);
+                                priceProvicver.setAmount(billCharge);
                               });
                             },
                           ),
@@ -801,7 +809,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 value: checkedRate,
                                 onChanged: (bool value) {
                                   checkedRate = value;
-                                  showPrice = true;
+                                  priceProvicver.setExpressRate(10);
                                   setState(() {});
                                 },
                               ),
@@ -879,13 +887,68 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8))),
                               child: Text(
-                                "0",
+                                priceProvicver.totalAmount.toString(),
                                 style: TextStyle(
                                   color: secondaryColor,
                                   fontSize: 18,
                                 ),
                               ),
                             )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        margin: const EdgeInsets.only(left: 18),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              side:
+                                  MaterialStateBorderSide.resolveWith((states) {
+                                return BorderSide(
+                                    color: primaryColor, width: 21.3);
+                              }),
+                              activeColor: primaryColor,
+                              checkColor: secondaryColor,
+                              value: acceptTerms,
+                              onChanged: (value) {
+                                setState(() {
+                                  acceptTerms = value;
+                                });
+                              },
+                            ),
+                            RichText(
+                              text: TextSpan(text: "", children: [
+                                TextSpan(
+                                    text: "I agree with ",
+                                    style: TextStyle(color: primaryColor)),
+                                TextSpan(
+                                    text: "Terms & Conditions.",
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  TermsAndConditionScreen(
+                                                parcel: widget.isParcelService,
+                                                food_delivery:
+                                                    widget.isFoodDelivery,
+                                                grocery:
+                                                    widget.isGroceryService,
+                                                postal: widget.isPostalService,
+                                                delivery:
+                                                    widget.isLaundryservice,
+                                                utility:
+                                                    widget.ispayBillService,
+                                              ),
+                                            ),
+                                          ),
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      decoration: TextDecoration.underline,
+                                    ))
+                              ]),
+                            ),
                           ],
                         ),
                       ),
