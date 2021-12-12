@@ -1,12 +1,10 @@
 import 'package:errunds_application/helpers/colors.dart';
-import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/screens/customer/profile_screen.dart';
 import 'package:errunds_application/screens/customer/seeting_screen.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:errunds_application/screens/driver/rider_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 class RiderWelcomeScreen extends StatefulWidget {
   const RiderWelcomeScreen({
@@ -19,7 +17,6 @@ class RiderWelcomeScreen extends StatefulWidget {
 
 class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
   int currentIndex = 0;
-  NavigationProvider navigationProvider;
 
   List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
@@ -45,16 +42,15 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
       icon: Icon(MdiIcons.menu, color: primaryColor),
     ),
   ];
-  @override
-  void dispose() {
-    navigationProvider.dispose();
-    super.dispose();
+
+  setIndex(int index) {
+    setState(() {
+      currentIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    navigationProvider = Provider.of<NavigationProvider>(context);
-    currentIndex = navigationProvider.currentIndex;
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -64,7 +60,7 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
           currentIndex: currentIndex,
           iconSize: 35,
           onTap: (index) {
-            navigationProvider.setIndex(index);
+            setIndex(index);
           },
           type: BottomNavigationBarType.fixed,
           selectedItemColor: primaryColor,

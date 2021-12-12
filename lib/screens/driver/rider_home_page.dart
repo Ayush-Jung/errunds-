@@ -6,6 +6,7 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/driver/service_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RiderHomePage extends StatefulWidget {
   const RiderHomePage({
@@ -188,25 +189,22 @@ class _TaskCardState extends State<TaskCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             customerInfo?.imageUrl == null
-                ? const CircleAvatar(
-                    backgroundColor: Colors.black,
+                ? CircleAvatar(
+                    backgroundColor: primaryColor,
                     radius: 40,
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        "Add image",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
+                      child: Icon(
+                        MdiIcons.faceMan,
+                        color: secondaryColor,
+                        size: 30,
                       ),
                     ),
                   )
-                : Container(
-                    height: 90,
-                    width: 90,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(customerInfo?.imageUrl)),
-                    ),
+                : CircleAvatar(
+                    backgroundColor: primaryColor,
+                    radius: 40,
+                    backgroundImage: NetworkImage(customerInfo?.imageUrl),
                   ),
             const SizedBox(
               width: 10,

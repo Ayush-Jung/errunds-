@@ -908,7 +908,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 return BorderSide(
                                     color: primaryColor, width: 21.3);
                               }),
-                              activeColor: primaryColor,
+                              activeColor: Colors.redAccent,
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  primaryColor),
                               checkColor: secondaryColor,
                               value: acceptTerms,
                               onChanged: (value) {

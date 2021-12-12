@@ -79,6 +79,50 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     );
   }
 
+  _showSnackbar(message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: secondaryColor,
+      content: Text(message),
+    ));
+  }
+
+  showCancelDialog(
+    BuildContext ctx,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: primaryColor,
+          elevation: 1.2,
+          scrollable: true,
+          title: Text(
+            "Cancel the service request?",
+            style: TextStyle(color: secondaryColor),
+          ),
+          content: Text(
+            "Are you sure to cancel the request.",
+            style: TextStyle(color: secondaryColor),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                "ok",
+                style: TextStyle(color: secondaryColor),
+              ),
+              onPressed: () async {
+                await firebase.lockTheService(currentService.id,
+                    status: ServiceStatus.ABORTED);
+                Navigator.pop(context);
+                _showSnackbar("cancelled the service request.");
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   showInfoDialog(BuildContext context, String value, {String title}) {
     showDialog(
       context: context,
@@ -300,7 +344,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       label: "Finish",
                       loading: loading,
                       onPress: () => showConfirmationDialog(context),
-                    ),
+                    )
+                  else
+                    CustomButton(
+                      label: "Cancel",
+                      loading: loading,
+                      onPress: () => showCancelDialog(context),
+                    )
                 ],
               ),
             ),

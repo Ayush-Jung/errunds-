@@ -96,11 +96,6 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
             ],
           );
         });
-    // await firebase.abortService(service.id, status: ServiceStatus.ABORTED);
-    // Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
-    //     (route) => false);
   }
 
   @override
@@ -173,9 +168,11 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               ),
               const SizedBox(height: 5),
               StyledRiderCard(
+                titleVaue: "Rider Name:",
                 riderName: onlineRider.fName,
               ),
               StyledRiderCard(
+                titleVaue: "Contact no:",
                 riderName: onlineRider.phoneNumber,
               ),
               const SizedBox(height: 10),
@@ -204,15 +201,17 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
 class StyledRiderCard extends StatelessWidget {
   final String riderName;
+  final String titleVaue;
   const StyledRiderCard({
     Key key,
     this.riderName,
+    this.titleVaue,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
       padding: const EdgeInsets.all(8.0),
       decoration: const BoxDecoration(
         color: Color(0xffF1FDE5),
@@ -231,7 +230,7 @@ class StyledRiderCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              riderName ?? "",
+              titleVaue ?? "",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -239,11 +238,13 @@ class StyledRiderCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 5),
-          Icon(
-            MdiIcons.checkCircleOutline,
-            color: secondaryColor,
-            size: 30,
+          Text(
+            riderName ?? "",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: secondaryColor,
+            ),
           ),
         ],
       ),
