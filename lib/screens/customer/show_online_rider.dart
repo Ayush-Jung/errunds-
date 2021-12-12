@@ -4,8 +4,8 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
-import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/rider_detail.dart';
+import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -71,12 +71,31 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     });
   }
 
-  cancelService() async {
-    await firebase.abortService(service.id, status: ServiceStatus.ABORTED);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const CustomerWelcomeScreen()),
-        (route) => false);
+  cancelService() {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("Archived service",
+                style: TextStyle(color: secondaryColor)),
+            content: Text(
+              "You can again cancel before 30 min from dispatch. This service request will be stored in transaction active action.If you dont want to continue then you can abort it from there.",
+              style: TextStyle(color: secondaryColor),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Ok", style: TextStyle(color: secondaryColor)),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => Transactionscreen()),
+                    (p) => false,
+                  );
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -149,9 +168,11 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               ),
               const SizedBox(height: 5),
               StyledRiderCard(
+                titleVaue: "Rider Name:",
                 riderName: onlineRider.fName,
               ),
               StyledRiderCard(
+                titleVaue: "Contact no:",
                 riderName: onlineRider.phoneNumber,
               ),
               const SizedBox(height: 10),
@@ -180,15 +201,17 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
 class StyledRiderCard extends StatelessWidget {
   final String riderName;
+  final String titleVaue;
   const StyledRiderCard({
     Key key,
     this.riderName,
+    this.titleVaue,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
       padding: const EdgeInsets.all(8.0),
       decoration: const BoxDecoration(
         color: Color(0xffF1FDE5),
@@ -207,7 +230,7 @@ class StyledRiderCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              riderName ?? "",
+              titleVaue ?? "",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -215,11 +238,13 @@ class StyledRiderCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 5),
-          Icon(
-            MdiIcons.checkCircleOutline,
-            color: secondaryColor,
-            size: 30,
+          Text(
+            riderName ?? "",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: secondaryColor,
+            ),
           ),
         ],
       ),

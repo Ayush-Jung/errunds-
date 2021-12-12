@@ -6,9 +6,11 @@ import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:flutter/material.dart';
 
 class Transactionscreen extends StatefulWidget {
-  const Transactionscreen({Key key, this.active, this.isRider = false})
+  const Transactionscreen(
+      {Key key, this.active, this.isRider = false, this.filter})
       : super(key: key);
   final bool active, isRider;
+  final String filter;
 
   @override
   _TransactionscreenState createState() => _TransactionscreenState();
@@ -21,6 +23,10 @@ class _TransactionscreenState extends State<Transactionscreen> {
 
   @override
   void initState() {
+    if (widget.filter != null) {
+      filter = widget.filter;
+      setState(() {});
+    }
     firebase
         .getCompletedServices(isRider: widget.isRider)
         .then((List<Service> services) {

@@ -455,7 +455,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) =>
-                                              const TermsAndConditionScreen(),
+                                              TermsAndConditionScreen(
+                                            signup: true,
+                                          ),
                                         ),
                                       ),
                                 style: TextStyle(

@@ -5,6 +5,7 @@ import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -58,7 +59,11 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => const RiderWelcomeScreen()),
+                      builder: (_) => Transactionscreen(
+                        isRider: true,
+                        filter: "Completed-service",
+                      ),
+                    ),
                     (route) => false);
               },
             ),
@@ -68,6 +73,50 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 Navigator.pop(context);
               },
             )
+          ],
+        );
+      },
+    );
+  }
+
+  _showSnackbar(message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: secondaryColor,
+      content: Text(message),
+    ));
+  }
+
+  showCancelDialog(
+    BuildContext ctx,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: primaryColor,
+          elevation: 1.2,
+          scrollable: true,
+          title: Text(
+            "Cancel the service request?",
+            style: TextStyle(color: secondaryColor),
+          ),
+          content: Text(
+            "Are you sure to cancel the request.",
+            style: TextStyle(color: secondaryColor),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                "ok",
+                style: TextStyle(color: secondaryColor),
+              ),
+              onPressed: () async {
+                await firebase.lockTheService(currentService.id,
+                    status: ServiceStatus.ABORTED);
+                Navigator.pop(context);
+                _showSnackbar("cancelled the service request.");
+              },
+            ),
           ],
         );
       },
@@ -249,6 +298,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                           },
                           child: Container(
                             padding: EdgeInsets.all(4),
+                            margin: EdgeInsets.all(4),
                             decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
@@ -278,6 +328,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                               context, currentService.necessary_detail,
                               title: "Necessary details "),
                           child: Container(
+                            margin: EdgeInsets.all(4),
                             padding: EdgeInsets.all(4),
                             decoration: BoxDecoration(
                                 borderRadius:
@@ -293,7 +344,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       label: "Finish",
                       loading: loading,
                       onPress: () => showConfirmationDialog(context),
-                    ),
+                    )
+                  else
+                    CustomButton(
+                      label: "Cancel",
+                      loading: loading,
+                      onPress: () => showCancelDialog(context),
+                    )
                 ],
               ),
             ),

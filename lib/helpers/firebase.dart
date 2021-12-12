@@ -48,7 +48,6 @@ class _FirebaseHelper {
 
   Future<String> setService(Service service) async {
     var ref = _firestore.collection("services").doc(service.id);
-    //it detects for update or new service.
     service.id = ref.id;
     service.status = ServiceStatus.ACTIVE;
     service.paymentStatus = PaymentStatus.PENDING;
@@ -58,7 +57,16 @@ class _FirebaseHelper {
   }
 
   StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
-    _firestore.collection("services").snapshots().listen((event) {
+    _firestore
+        .collection("services")
+        .where(
+          "createdDate",
+          isGreaterThanOrEqualTo: DateTime.now().subtract(
+            Duration(minutes: 30),
+          ),
+        )
+        .snapshots()
+        .listen((event) {
       List<Service> activeService = [];
       for (var element in event.docs) {
         Service service = Service.fromMap(element.data());
