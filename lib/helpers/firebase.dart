@@ -59,6 +59,7 @@ class _FirebaseHelper {
   StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
     _firestore
         .collection("services")
+        .where("riderId", isEqualTo: currentUser)
         .where("createdDate",
             isGreaterThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
         .where(
