@@ -59,11 +59,15 @@ class _FirebaseHelper {
   StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
     _firestore
         .collection("services")
+        .where("createdDate",
+            isGreaterThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
         .where(
           "createdDate",
-          isGreaterThanOrEqualTo: DateTime.now().subtract(
-            Duration(minutes: 30),
-          ),
+          isLessThanOrEqualTo: DateTime.now()
+              .add(
+                Duration(minutes: 30),
+              )
+              .millisecondsSinceEpoch,
         )
         .snapshots()
         .listen((event) {
