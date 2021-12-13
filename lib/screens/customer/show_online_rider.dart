@@ -39,7 +39,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     setState(() {
       riderNotFound = false;
     });
-    Timer(const Duration(seconds: kDebugMode ? 5 : 40), () {
+    Timer(const Duration(seconds: 40), () {
       if (onlineRider == null) {
         if (mounted) {
           setState(() {
@@ -50,11 +50,13 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       getLoading(false);
     });
     serviceSub = firebase.getServiceById(widget.serviceId, (Service service) {
-      this.service = service;
-      if (service.riderId != null) {
-        getRider(service.riderId);
+      if (mounted) {
+        this.service = service;
+        if (service.riderId != null) {
+          getRider(service.riderId);
+        }
+        setState(() {});
       }
-      setState(() {});
     });
   }
 
@@ -75,7 +77,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   @override
   void dispose() {
-    serviceSub.cancel();
+    serviceSub?.cancel();
     super.dispose();
   }
 
@@ -95,9 +97,6 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               TextButton(
                 child: Text("Ok", style: TextStyle(color: secondaryColor)),
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.canPop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
