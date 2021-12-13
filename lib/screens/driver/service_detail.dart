@@ -6,6 +6,7 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
+import 'package:errunds_application/screens/rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -410,7 +411,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       label: "Rate current Rider ",
                       textColor: primaryColor,
                       loading: loading,
-                      onPress: () => {},
+                      onPress: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => RatingScreen(
+                                    rider: widget.riderInfo,
+                                  )),
+                        ),
+                      },
                     ),
                 ],
               ),

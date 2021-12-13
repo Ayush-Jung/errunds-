@@ -198,8 +198,16 @@ class _FirebaseHelper {
     print("logged out");
   }
 
-  Future<void> updateUser(ErrundUser user) async {
+  Future<void> updateUser(
+    ErrundUser user,
+  ) async {
     await _firestore.collection("Users").doc(currentUser).update(user.toMap());
+  }
+
+  Future<void> updateUserById(
+    ErrundUser rider,
+  ) async {
+    await _firestore.collection("Users").doc(rider.id).update(rider.toMap());
   }
 
   Future signupUser(

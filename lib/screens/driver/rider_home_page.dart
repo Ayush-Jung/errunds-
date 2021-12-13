@@ -25,11 +25,9 @@ class _RiderHomePageState extends State<RiderHomePage> {
   void initState() {
     activeServicesSub =
         firebase.getRealTimeServices((List<Service> allActiveServices) {
-      if (mounted) {
-        setState(() {
-          activeServices = allActiveServices;
-        });
-      }
+      setState(() {
+        activeServices = allActiveServices;
+      });
     });
     getUserInfo();
     super.initState();

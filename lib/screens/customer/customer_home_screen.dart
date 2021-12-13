@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
@@ -117,6 +119,7 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   @override
   void initState() {
     getUserInfo();
+
     super.initState();
   }
 
