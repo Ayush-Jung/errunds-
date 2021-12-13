@@ -80,8 +80,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
 
   _showSnackbar(message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: secondaryColor,
-      content: Text(message),
+      backgroundColor: primaryColor,
+      content: Text(message, style: TextStyle(color: secondaryColor)),
     ));
   }
 
@@ -113,7 +113,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 DateTime beforeThirtyMinuteofServiceAccept =
                     DateTime.fromMillisecondsSinceEpoch(
                             currentService.createdDate)
-                        .subtract(Duration(minutes: 30));
+                        .subtract(Duration(minutes: 1));
                 if (DateTime.now()
                     .isBefore(beforeThirtyMinuteofServiceAccept)) {
                   await firebase.lockTheService(currentService.id,
@@ -121,7 +121,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   Navigator.pop(context);
                   _showSnackbar("cancelled the service request.");
                 } else {
-                  _showSnackbar("Can't Cancelled this service.");
+                  _showSnackbar(
+                      "You can only cancel before 30 min from service.");
+                  Navigator.pop(context);
                 }
               },
             ),

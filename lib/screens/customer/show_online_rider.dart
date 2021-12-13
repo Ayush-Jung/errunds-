@@ -39,7 +39,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     setState(() {
       riderNotFound = false;
     });
-    Timer(const Duration(seconds: kDebugMode ? 5 : 40), () {
+    Timer(const Duration(seconds: 40), () {
       if (onlineRider == null) {
         if (mounted) {
           setState(() {
@@ -50,11 +50,13 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       getLoading(false);
     });
     serviceSub = firebase.getServiceById(widget.serviceId, (Service service) {
-      this.service = service;
-      if (service.riderId != null) {
-        getRider(service.riderId);
+      if (mounted) {
+        this.service = service;
+        if (service.riderId != null) {
+          getRider(service.riderId);
+        }
+        setState(() {});
       }
-      setState(() {});
     });
   }
 
