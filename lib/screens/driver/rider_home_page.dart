@@ -42,7 +42,7 @@ class _RiderHomePageState extends State<RiderHomePage> {
 
   @override
   void dispose() {
-    activeServicesSub.cancel();
+    activeServicesSub?.cancel();
     super.dispose();
   }
 

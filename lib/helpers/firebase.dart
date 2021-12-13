@@ -57,7 +57,11 @@ class _FirebaseHelper {
   }
 
   StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
-    _firestore.collection("services").snapshots().listen((event) {
+    _firestore
+        .collection("services")
+        .orderBy("createdDate", descending: true)
+        .snapshots()
+        .listen((event) {
       List<Service> activeService = [];
       for (var element in event.docs) {
         Service service = Service.fromMap(element.data());
