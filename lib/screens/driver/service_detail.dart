@@ -165,6 +165,38 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     );
   }
 
+  showRatingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: primaryColor,
+          elevation: 1.2,
+          scrollable: true,
+          title: Text(
+            "Rate rider",
+            style: TextStyle(color: secondaryColor),
+          ),
+          content: Text(
+            "",
+            style: TextStyle(color: secondaryColor),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                "ok",
+                style: TextStyle(color: secondaryColor),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -378,9 +410,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       label: "Rate current Rider ",
                       textColor: primaryColor,
                       loading: loading,
-                      onPress: () => {
-                        //TODo rating bar show
-                      },
+                      onPress: () => {},
                     ),
                 ],
               ),

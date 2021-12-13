@@ -1,8 +1,10 @@
+import 'package:errunds_application/custom_item/custom_button.dart';
 import 'package:errunds_application/custom_item/custom_container.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class RiderDetailScreen extends StatefulWidget {
@@ -15,16 +17,21 @@ class RiderDetailScreen extends StatefulWidget {
 }
 
 class _RiderDetailScreenState extends State<RiderDetailScreen> {
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: secondaryColor,
         elevation: 1.2,
-        title: Center(
-            child: Text(
+        centerTitle: true,
+        title: Text(
           "Service Detail",
           style: TextStyle(color: primaryColor),
-        )),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -45,6 +52,23 @@ class _RiderDetailScreenState extends State<RiderDetailScreen> {
                           getKeyFromServiceStatusType(widget.service?.status)),
                   getKeyValue(context, "Customer contact",
                       value: widget.service?.contact_num ?? "-"),
+                  Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                          "You can cancel before 30 min of service time.",
+                          style: TextStyle(color: secondaryColor))),
+                  CustomButton(
+                      label: "Confirm",
+                      loading: loading,
+                      textColor: primaryColor,
+                      onPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => RiderWelcomeScreen(),
+                          ),
+                        );
+                      }),
                 ],
               ),
             ),
