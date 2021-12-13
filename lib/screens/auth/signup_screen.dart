@@ -391,6 +391,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onSaved: (value) {
                         password = (value ?? "").trim();
                       },
+                      obscureText: !showPassword,
                     ),
                   ),
                   Padding(
@@ -429,7 +430,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               });
                             },
                             icon: Icon(
-                              showPassword ? MdiIcons.eye : MdiIcons.eyeOff,
+                              showConfirmPassword
+                                  ? MdiIcons.eye
+                                  : MdiIcons.eyeOff,
                               color: secondaryColor,
                             ),
                           ),
@@ -450,6 +453,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onSaved: (value) {
                         cpassword = (value ?? "").trim();
                       },
+                      obscureText: !showConfirmPassword,
                     ),
                   ),
                   Container(
