@@ -150,6 +150,7 @@ class _TransactionscreenState extends State<Transactionscreen> {
     return Scaffold(
       backgroundColor: secondaryColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         iconTheme: IconThemeData(
           color: primaryColor,
         ),

@@ -97,7 +97,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               TextButton(
                 child: Text("Ok", style: TextStyle(color: secondaryColor)),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.canPop(context);
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (_) => CustomerWelcomeScreen(
