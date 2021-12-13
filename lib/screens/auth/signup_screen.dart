@@ -7,6 +7,7 @@ import 'package:errunds_application/screens/customer/customer_welcome_screen.dar
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key key, this.isRider}) : super(key: key);
@@ -364,6 +365,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Radius.circular(18),
                             ),
                           ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                showPassword = !showPassword;
+                              });
+                            },
+                            icon: Icon(
+                              showPassword ? MdiIcons.eye : MdiIcons.eyeOff,
+                              color: secondaryColor,
+                            ),
+                          ),
                           labelText: 'Password',
                           labelStyle: TextStyle(color: secondaryColor),
                           hintText: 'Enter Password'),
@@ -408,6 +420,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 BorderSide(color: secondaryColor, width: 4.0),
                             borderRadius: BorderRadius.all(
                               Radius.circular(18),
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                showConfirmPassword = !showConfirmPassword;
+                              });
+                            },
+                            icon: Icon(
+                              showPassword ? MdiIcons.eye : MdiIcons.eyeOff,
+                              color: secondaryColor,
                             ),
                           ),
                           label: Text(
