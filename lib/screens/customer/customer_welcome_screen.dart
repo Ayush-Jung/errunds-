@@ -1,25 +1,35 @@
 import 'package:errunds_application/helpers/colors.dart';
-import 'package:errunds_application/helpers/navigation_provider.dart';
 import 'package:errunds_application/screens/customer/customer_home_screen.dart';
 import 'package:errunds_application/screens/customer/profile_screen.dart';
 import 'package:errunds_application/screens/customer/seeting_screen.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 class CustomerWelcomeScreen extends StatefulWidget {
   const CustomerWelcomeScreen({
+    this.changeIndex,
     Key key,
   }) : super(key: key);
-
+  final int changeIndex;
   @override
   _CustomerWelcomeScreenState createState() => _CustomerWelcomeScreenState();
 }
 
 class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
-  int currentIndex = 0;
-  NavigationProvider navigationProvider;
+  int currentIndex;
+  @override
+  void initState() {
+    if (widget.changeIndex != null) {
+      setState(() {});
+      currentIndex = widget.changeIndex;
+    } else {
+      setState(() {
+        currentIndex = 0;
+      });
+    }
+    super.initState();
+  }
 
   List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
@@ -46,10 +56,14 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
     ),
   ];
 
+  setIndex(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    navigationProvider = Provider.of<NavigationProvider>(context);
-    currentIndex = navigationProvider.currentIndex;
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -59,7 +73,7 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
           currentIndex: currentIndex,
           iconSize: 35,
           onTap: (index) {
-            navigationProvider.setIndex(index);
+            setIndex(index);
           },
           type: BottomNavigationBarType.fixed,
           selectedItemColor: primaryColor,
@@ -68,13 +82,17 @@ class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
         ),
       ),
       body: SafeArea(
-        child: IndexedStack(
-          index: currentIndex,
+        child: PageView(
+          onPageChanged: (int index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
           children: [
-            CustomerHomeScren(),
-            ProfileScreen(),
-            Transactionscreen(),
-            SettingScreen(),
+            if (currentIndex == 0) CustomerHomeScren(),
+            if (currentIndex == 1) ProfileScreen(),
+            if (currentIndex == 2) Transactionscreen(),
+            if (currentIndex == 3) SettingScreen(),
           ],
         ),
       ),

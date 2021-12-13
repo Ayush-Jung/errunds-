@@ -59,11 +59,15 @@ class _FirebaseHelper {
   StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
     _firestore
         .collection("services")
+        .where("createdDate",
+            isGreaterThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
         .where(
           "createdDate",
-          isGreaterThanOrEqualTo: DateTime.now().subtract(
-            Duration(minutes: 30),
-          ),
+          isLessThanOrEqualTo: DateTime.now()
+              .add(
+                Duration(minutes: 30),
+              )
+              .millisecondsSinceEpoch,
         )
         .snapshots()
         .listen((event) {
@@ -80,9 +84,7 @@ class _FirebaseHelper {
   }
 
   Future<List<Service>> getActiveServices({bool isRider}) async {
-    var servicesRef = await _firestore
-        .collection("services")
-        .where("status", isEqualTo: "started");
+    Query servicesRef = await _firestore.collection("services");
     if (isRider) {
       servicesRef = servicesRef.where("riderId", isEqualTo: currentUser);
     } else {
@@ -92,7 +94,8 @@ class _FirebaseHelper {
     return services.docs.map((e) => Service.fromMap(e.data())).toList();
   }
 
-  getServiceById(String serviceId, Function(Service) callback) {
+  StreamSubscription getServiceById(
+      String serviceId, Function(Service) callback) {
     _firestore
         .collection("services")
         .doc(serviceId)

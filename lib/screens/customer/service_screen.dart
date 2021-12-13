@@ -148,7 +148,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
             TextButton(
               child: Text("No", style: TextStyle(color: secondaryColor)),
               onPressed: () {
-                Navigator.pop(context);
                 onNo.call();
               },
             )
@@ -384,7 +383,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.sentences,
                             style: const TextStyle(fontSize: 16),
                             decoration: InputDecoration(
                               fillColor: primaryColor,
@@ -441,7 +440,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               fillColor: primaryColor,
                               filled: true,
@@ -604,7 +603,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               fillColor: primaryColor,
                               filled: true,
@@ -656,7 +655,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                               vertical: 8, horizontal: 20),
                           child: TextFormField(
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               fillColor: primaryColor,
                               filled: true,
@@ -755,7 +754,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                           child: TextFormField(
                             maxLines: 10,
                             style: const TextStyle(fontSize: 16),
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               fillColor: primaryColor,
                               filled: true,
@@ -808,9 +807,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 ),
                                 value: checkedRate,
                                 onChanged: (bool value) {
-                                  checkedRate = value;
-                                  priceProvicver.setExpressRate(10);
-                                  setState(() {});
+                                  setState(() {
+                                    checkedRate = value;
+                                    priceProvicver.setExpressRate(10);
+                                  });
                                 },
                               ),
                             ),
@@ -838,7 +838,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                             vertical: 8, horizontal: 20),
                         child: TextFormField(
                           style: const TextStyle(fontSize: 16),
-                          textCapitalization: TextCapitalization.words,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             fillColor: primaryColor,
                             filled: true,
@@ -902,28 +902,32 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         margin: const EdgeInsets.only(left: 18),
                         child: Row(
                           children: [
-                            Checkbox(
-                              side:
-                                  MaterialStateBorderSide.resolveWith((states) {
-                                return BorderSide(
-                                    color: primaryColor, width: 21.3);
-                              }),
-                              activeColor: Colors.redAccent,
-                              fillColor: MaterialStateProperty.all<Color>(
-                                  primaryColor),
-                              checkColor: secondaryColor,
-                              value: acceptTerms,
-                              onChanged: (value) {
-                                setState(() {
-                                  acceptTerms = value;
-                                });
-                              },
+                            Transform.scale(
+                              scale: 1.5,
+                              child: Checkbox(
+                                activeColor: primaryColor,
+                                checkColor: secondaryColor,
+                                side: MaterialStateBorderSide.resolveWith(
+                                  (states) => BorderSide(
+                                    width: 2.0,
+                                    color: primaryColor,
+                                  ),
+                                ),
+                                value: acceptTerms,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    acceptTerms = value;
+                                  });
+                                },
+                              ),
                             ),
                             RichText(
                               text: TextSpan(text: "", children: [
                                 TextSpan(
                                     text: "I agree with ",
-                                    style: TextStyle(color: primaryColor)),
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                    )),
                                 TextSpan(
                                     text: "Terms & Conditions.",
                                     recognizer: TapGestureRecognizer()

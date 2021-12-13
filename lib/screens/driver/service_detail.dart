@@ -6,7 +6,6 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
-import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -111,6 +110,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 style: TextStyle(color: secondaryColor),
               ),
               onPressed: () async {
+                //TODO check if service createdTmeexceed 30 min or not.if yes then showsnackbar with timelimit cross.
                 await firebase.lockTheService(currentService.id,
                     status: ServiceStatus.ABORTED);
                 Navigator.pop(context);
@@ -196,8 +196,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                         value: currentService.route.keys.first ?? ""),
                     getKeyValue(context, "Route Fee",
                         value:
-                            "Rs.${currentService.route.values.first.toString()}"),
-                    getKeyValue(context, "Service Charge", value: " Rs. 10"),
+                            "Php. ${currentService.route.values.first.toString()}"),
+                    getKeyValue(context, "Service Charge", value: " Php. 10"),
                     if (currentService.delivery_address != null)
                       getKeyValue(context, "Delivery Address",
                           value: currentService?.delivery_address ?? ""),
@@ -246,9 +246,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                           value: currentService.billType ?? ""),
                     if (currentService.billAmount != null)
                       getKeyValue(context, "Bill Amount",
-                          value: currentService.billAmount ?? ""),
+                          value: "Php. ${currentService.billAmount}" ?? ""),
                     getKeyValue(context, "Total Amount",
-                        value: currentService.total_amount ?? ""),
+                        value: "Php. ${currentService.total_amount}" ?? ""),
                   ],
                   if (currentService.product != null)
                     Row(
@@ -339,18 +339,39 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                         ),
                       ],
                     ),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text("All currency are in Philippine peso ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: secondaryColor)),
+                  ),
                   if (widget.riderInfo == null)
                     CustomButton(
                       label: "Finish",
                       loading: loading,
+                      textColor: primaryColor,
                       onPress: () => showConfirmationDialog(context),
-                    )
-                  else
+                    ),
+                  if (widget.riderInfo != null &&
+                      (currentService.status == ServiceStatus.ACTIVE ||
+                          currentService.status == ServiceStatus.STARTED))
                     CustomButton(
                       label: "Cancel",
                       loading: loading,
+                      textColor: primaryColor,
                       onPress: () => showCancelDialog(context),
-                    )
+                    ),
+                  if (widget.riderInfo != null &&
+                      currentService.status == ServiceStatus.COMPLETED)
+                    CustomButton(
+                      label: "Rate current Rider ",
+                      textColor: primaryColor,
+                      loading: loading,
+                      onPress: () => {
+                        //TODo rating bar show
+                      },
+                    ),
                 ],
               ),
             ),

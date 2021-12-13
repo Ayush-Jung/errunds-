@@ -69,15 +69,20 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
         ),
       ),
       body: SafeArea(
-        child: IndexedStack(
-          index: currentIndex,
+        child: PageView(
+          onPageChanged: (int index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
           children: [
-            RiderHomePage(),
-            ProfileScreen(),
-            Transactionscreen(
-              isRider: true,
-            ),
-            SettingScreen(),
+            if (currentIndex == 0) RiderHomePage(),
+            if (currentIndex == 1) ProfileScreen(),
+            if (currentIndex == 2)
+              Transactionscreen(
+                isRider: true,
+              ),
+            if (currentIndex == 3) SettingScreen(),
           ],
         ),
       ),

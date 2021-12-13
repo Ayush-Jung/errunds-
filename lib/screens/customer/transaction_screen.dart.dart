@@ -18,6 +18,8 @@ class Transactionscreen extends StatefulWidget {
 
 class _TransactionscreenState extends State<Transactionscreen> {
   List<Service> completedServices, startedServices;
+  List<Service> cutomerActiveStartedServices = [];
+
   String filter = "Active-service";
   List<String> menu = ["Active-service", "Completed-service"];
 
@@ -34,22 +36,42 @@ class _TransactionscreenState extends State<Transactionscreen> {
         completedServices = services;
       });
     });
-    getStartedServices();
+    firebase
+        .getActiveServices(isRider: widget.isRider)
+        .then((List<Service> services) {
+      setState(() {
+        services.forEach((service) {
+          if (widget.isRider && service.status == ServiceStatus.STARTED) {
+            setState(() {
+              startedServices.add(service);
+            });
+          } else if (!widget.isRider &&
+              (service.status == ServiceStatus.ACTIVE ||
+                  service.status == ServiceStatus.STARTED)) {
+            setState(() {
+              cutomerActiveStartedServices.add(service);
+              startedServices = cutomerActiveStartedServices;
+            });
+          } else {
+            setState(() {
+              startedServices = [];
+            });
+          }
+        });
+      });
+    });
     super.initState();
-  }
-
-  getStartedServices() async {
-    startedServices = await firebase.getActiveServices(isRider: widget.isRider);
-    setState(() {});
   }
 
   getStartedService() {
     return Column(
       children: [
         if (startedServices == null)
-          const Expanded(
+          Expanded(
             child: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
             ),
           )
         else if (startedServices.isEmpty)
@@ -86,9 +108,11 @@ class _TransactionscreenState extends State<Transactionscreen> {
     return Column(
       children: [
         if (completedServices == null)
-          const Expanded(
+          Expanded(
             child: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
             ),
           )
         else if (completedServices.isEmpty)
@@ -123,11 +147,14 @@ class _TransactionscreenState extends State<Transactionscreen> {
     return Scaffold(
       backgroundColor: secondaryColor,
       appBar: AppBar(
-        title: Center(
-            child: Text(
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        centerTitle: true,
+        title: Text(
           "Services",
           style: TextStyle(color: primaryColor),
-        )),
+        ),
         backgroundColor: secondaryColor,
       ),
       body: SafeArea(

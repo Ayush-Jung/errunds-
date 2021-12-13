@@ -53,7 +53,7 @@ class CustomButton extends StatelessWidget {
             child: loading
                 ? CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: primaryColor,
+                    color: circleColor ?? primaryColor,
                   )
                 : LayoutBuilder(
                     builder: (context, constraints) {

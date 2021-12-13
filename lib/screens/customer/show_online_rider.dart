@@ -4,10 +4,11 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/rider_detail.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ScanOnlineRider extends StatefulWidget {
   final String serviceId;
@@ -25,6 +26,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   Service service;
   bool isSearching = false;
   bool riderNotFound = false;
+  StreamSubscription serviceSub;
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     setState(() {
       riderNotFound = false;
     });
-    Timer(const Duration(seconds: 40), () {
+    Timer(const Duration(seconds: kDebugMode ? 5 : 40), () {
       if (onlineRider == null) {
         if (mounted) {
           setState(() {
@@ -47,7 +49,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
       }
       getLoading(false);
     });
-    firebase.getServiceById(widget.serviceId, (Service service) {
+    serviceSub = firebase.getServiceById(widget.serviceId, (Service service) {
       this.service = service;
       if (service.riderId != null) {
         getRider(service.riderId);
@@ -71,11 +73,18 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
     });
   }
 
+  @override
+  void dispose() {
+    serviceSub.cancel();
+    super.dispose();
+  }
+
   cancelService() {
     return showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
+            backgroundColor: primaryColor,
             title: Text("Archived service",
                 style: TextStyle(color: secondaryColor)),
             content: Text(
@@ -86,10 +95,15 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
               TextButton(
                 child: Text("Ok", style: TextStyle(color: secondaryColor)),
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.canPop(context);
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => Transactionscreen()),
-                    (p) => false,
+                    MaterialPageRoute(
+                        builder: (_) => CustomerWelcomeScreen(
+                              changeIndex: 2,
+                            )),
                   );
                 },
               ),
