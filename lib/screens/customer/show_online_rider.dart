@@ -75,7 +75,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
 
   @override
   void dispose() {
-    serviceSub.cancel();
+    serviceSub?.cancel();
     super.dispose();
   }
 
@@ -98,7 +98,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.canPop(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (_) => CustomerWelcomeScreen(
