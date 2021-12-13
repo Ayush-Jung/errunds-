@@ -22,16 +22,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     userSub = firebase.getRealTimeUserInfo((errundUser) {
-      setState(() {
-        user = errundUser;
-      });
+      if (this.mounted)
+        setState(() {
+          user = errundUser;
+        });
     });
     super.initState();
   }
 
   @override
   void dispose() {
-    userSub.cancel();
+    userSub?.cancel();
     super.dispose();
   }
 

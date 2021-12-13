@@ -110,11 +110,19 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 style: TextStyle(color: secondaryColor),
               ),
               onPressed: () async {
-                //TODO check if service createdTmeexceed 30 min or not.if yes then showsnackbar with timelimit cross.
-                await firebase.lockTheService(currentService.id,
-                    status: ServiceStatus.ABORTED);
-                Navigator.pop(context);
-                _showSnackbar("cancelled the service request.");
+                DateTime beforeThirtyMinuteofServiceAccept =
+                    DateTime.fromMillisecondsSinceEpoch(
+                            currentService.createdDate)
+                        .subtract(Duration(minutes: 30));
+                if (DateTime.now()
+                    .isBefore(beforeThirtyMinuteofServiceAccept)) {
+                  await firebase.lockTheService(currentService.id,
+                      status: ServiceStatus.ABORTED);
+                  Navigator.pop(context);
+                  _showSnackbar("cancelled the service request.");
+                } else {
+                  _showSnackbar("Can't Cancelled this service.");
+                }
               },
             ),
           ],
