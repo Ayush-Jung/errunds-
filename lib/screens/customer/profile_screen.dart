@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:errunds_application/custom_item/custom_container.dart';
 import 'package:errunds_application/helpers/colors.dart';
-import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/screens/update_profile.dart';
@@ -74,129 +73,139 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomContainer(
-                borderColor: primaryColor,
-                color: secondaryColor,
-                child: Row(
+        child: user == null
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, top: 16, bottom: 16),
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).primaryColor.withAlpha(40),
-                        backgroundImage: NetworkImage(user?.imageUrl ?? ""),
-                        child: user?.imageUrl == null
-                            ? Icon(Icons.person,
-                                color: primaryColor,
-                                size: MediaQuery.of(context).size.width * 0.25)
-                            : const SizedBox(),
-                        radius: MediaQuery.of(context).size.width * 0.15,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    CustomContainer(
+                      borderColor: primaryColor,
+                      color: secondaryColor,
+                      child: Row(
                         children: [
-                          Text(
-                            user?.fName ?? "",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16.0, top: 16, bottom: 16),
+                            child: CircleAvatar(
+                              backgroundColor:
+                                  Theme.of(context).primaryColor.withAlpha(40),
+                              backgroundImage:
+                                  NetworkImage(user?.imageUrl ?? ""),
+                              child: user?.imageUrl == null
+                                  ? Icon(Icons.person,
+                                      color: primaryColor,
+                                      size: MediaQuery.of(context).size.width *
+                                          0.25)
+                                  : const SizedBox(),
+                              radius: MediaQuery.of(context).size.width * 0.15,
+                            ),
                           ),
                           const SizedBox(
-                            height: 6,
+                            width: 20,
                           ),
-                          Text(
-                            user?.lName ?? "",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: primaryColor),
+                          Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user?.fName ?? "",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: primaryColor),
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                Text(
+                                  user?.lName ?? "",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: primaryColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 20,
+                    const SizedBox(height: 50),
+                    Container(
+                      height: size.height * 0.8,
+                      color: secondaryColor,
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 16, top: 16),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(MdiIcons.phone,
+                                      size: 40, color: primaryColor),
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  Text(
+                                    user?.phoneNumber ?? "",
+                                    style: TextStyle(
+                                        fontSize: 20, color: primaryColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 40),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(MdiIcons.mail,
+                                      size: 40, color: primaryColor),
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  Text(
+                                    user?.email ?? "",
+                                    style: TextStyle(
+                                        fontSize: 20, color: primaryColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 40),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(MdiIcons.mapMarker,
+                                      size: 40, color: primaryColor),
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  Text(
+                                    user?.address ?? "",
+                                    style: TextStyle(
+                                        fontSize: 20, color: primaryColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
-              Container(
-                height: size.height * 0.8,
-                color: secondaryColor,
-                child: Container(
-                  margin: const EdgeInsets.only(left: 16, top: 16),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(MdiIcons.phone, size: 40, color: primaryColor),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              user?.phoneNumber ?? "",
-                              style:
-                                  TextStyle(fontSize: 20, color: primaryColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(MdiIcons.mail, size: 40, color: primaryColor),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              user?.email ?? "",
-                              style:
-                                  TextStyle(fontSize: 20, color: primaryColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(MdiIcons.mapMarker,
-                                size: 40, color: primaryColor),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              user?.address ?? "",
-                              style:
-                                  TextStyle(fontSize: 20, color: primaryColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

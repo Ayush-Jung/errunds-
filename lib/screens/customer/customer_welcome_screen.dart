@@ -8,15 +8,28 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class CustomerWelcomeScreen extends StatefulWidget {
   const CustomerWelcomeScreen({
+    this.changeIndex,
     Key key,
   }) : super(key: key);
-
+  final int changeIndex;
   @override
   _CustomerWelcomeScreenState createState() => _CustomerWelcomeScreenState();
 }
 
 class _CustomerWelcomeScreenState extends State<CustomerWelcomeScreen> {
-  int currentIndex = 0;
+  int currentIndex;
+  @override
+  void initState() {
+    if (widget.changeIndex != null) {
+      setState(() {});
+      currentIndex = widget.changeIndex;
+    } else {
+      setState(() {
+        currentIndex = 0;
+      });
+    }
+    super.initState();
+  }
 
   List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
