@@ -196,8 +196,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                         value: currentService.route.keys.first ?? ""),
                     getKeyValue(context, "Route Fee",
                         value:
-                            "Rs.${currentService.route.values.first.toString()}"),
-                    getKeyValue(context, "Service Charge", value: " Rs. 10"),
+                            "Php.${currentService.route.values.first.toString()}"),
+                    getKeyValue(context, "Service Charge", value: " Php. 10"),
                     if (currentService.delivery_address != null)
                       getKeyValue(context, "Delivery Address",
                           value: currentService?.delivery_address ?? ""),
@@ -339,6 +339,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                         ),
                       ],
                     ),
+                  Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text("All currency are in Philippine peso ")),
                   if (widget.riderInfo == null)
                     CustomButton(
                       label: "Finish",
