@@ -6,6 +6,7 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
+import 'package:errunds_application/screens/rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -147,6 +148,38 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
           ),
           content: Text(
             value,
+            style: TextStyle(color: secondaryColor),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                "ok",
+                style: TextStyle(color: secondaryColor),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  showRatingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: primaryColor,
+          elevation: 1.2,
+          scrollable: true,
+          title: Text(
+            "Rate rider",
+            style: TextStyle(color: secondaryColor),
+          ),
+          content: Text(
+            "",
             style: TextStyle(color: secondaryColor),
           ),
           actions: <Widget>[
@@ -379,7 +412,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       textColor: primaryColor,
                       loading: loading,
                       onPress: () => {
-                        //TODo rating bar show
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => RatingScreen(
+                                    rider: widget.riderInfo,
+                                  )),
+                        ),
                       },
                     ),
                 ],

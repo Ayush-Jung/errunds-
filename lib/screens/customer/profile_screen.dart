@@ -7,6 +7,7 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/screens/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key, this.active}) : super(key: key);
@@ -88,22 +89,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: secondaryColor,
                       child: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16.0, top: 16, bottom: 16),
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  Theme.of(context).primaryColor.withAlpha(40),
-                              backgroundImage:
-                                  NetworkImage(user?.imageUrl ?? ""),
-                              child: user?.imageUrl == null
-                                  ? Icon(Icons.person,
-                                      color: primaryColor,
-                                      size: MediaQuery.of(context).size.width *
-                                          0.25)
-                                  : const SizedBox(),
-                              radius: MediaQuery.of(context).size.width * 0.15,
-                            ),
+                          CircleAvatar(
+                            backgroundColor:
+                                Theme.of(context).primaryColor.withAlpha(40),
+                            backgroundImage: NetworkImage(user?.imageUrl ?? ""),
+                            child: user?.imageUrl == null
+                                ? Icon(Icons.person,
+                                    color: primaryColor,
+                                    size: MediaQuery.of(context).size.width *
+                                        0.25)
+                                : const SizedBox(),
+                            radius: MediaQuery.of(context).size.width * 0.15,
                           ),
                           const SizedBox(
                             width: 20,
@@ -129,6 +125,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       color: primaryColor),
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                Row(
+                                  children: [
+                                    SmoothStarRating(
+                                      isReadOnly: true,
+                                      borderColor: primaryColor,
+                                      color: primaryColor,
+                                      starCount: 5,
+                                      size: MediaQuery.of(context).size.width /
+                                          25,
+                                      rating: (user.rating ?? 3).toDouble(),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

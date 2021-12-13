@@ -187,13 +187,17 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                 titleVaue: "Rider Name:",
                 riderName: onlineRider.fName,
               ),
+              const SizedBox(height: 5),
               StyledRiderCard(
                 titleVaue: "Contact no:",
                 riderName: onlineRider.phoneNumber,
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                child: const Text("Continue"),
+                child: Text("Continue", style: TextStyle(color: primaryColor)),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(secondaryColor),
+                ),
                 onPressed: () {
                   Navigator.pop(context, true);
                   Navigator.push(
