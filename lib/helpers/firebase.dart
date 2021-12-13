@@ -57,29 +57,23 @@ class _FirebaseHelper {
   }
 
   StreamSubscription getRealTimeServices(Function(List<Service>) callBack) {
-    _firestore
-        .collection("services")
-        .where("createdDate",
-            isGreaterThanOrEqualTo: DateTime.now().millisecondsSinceEpoch)
-        .where(
-          "createdDate",
-          isLessThanOrEqualTo: DateTime.now()
-              .add(
-                Duration(minutes: 30),
-              )
-              .millisecondsSinceEpoch,
-        )
-        .snapshots()
-        .listen((event) {
+    _firestore.collection("services").snapshots().listen((event) {
       List<Service> activeService = [];
       for (var element in event.docs) {
         Service service = Service.fromMap(element.data());
-        if (service.status == ServiceStatus.ACTIVE ||
-            service.status == ServiceStatus.STARTED) {
+        DateTime afterThirtyMinuteofServiceCreated =
+            DateTime.fromMillisecondsSinceEpoch(service.createdDate)
+                .add(Duration(minutes: 30));
+        if ((service.status == ServiceStatus.ACTIVE ||
+                service.status == ServiceStatus.STARTED) &&
+            DateTime.now().isBefore(afterThirtyMinuteofServiceCreated)) {
           activeService.add(service);
         }
       }
       callBack(activeService);
+    }).onError((e, s) {
+      print(e);
+      print(s);
     });
   }
 
