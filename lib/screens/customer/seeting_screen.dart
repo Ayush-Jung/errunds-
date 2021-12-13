@@ -99,7 +99,7 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "DIANA, NIKKI LOUSIE T",
+                            "DIANA, NIKKI LOUISE T",
                             style: textStyle,
                           ),
                         ],
