@@ -129,19 +129,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(
                                   height: 6,
                                 ),
-                                Row(
-                                  children: [
-                                    SmoothStarRating(
-                                      isReadOnly: true,
-                                      borderColor: primaryColor,
-                                      color: primaryColor,
-                                      starCount: 5,
-                                      size: MediaQuery.of(context).size.width /
-                                          25,
-                                      rating: (user.rating ?? 3).toDouble(),
-                                    ),
-                                  ],
-                                ),
+                                if (user.isRider)
+                                  SmoothStarRating(
+                                    isReadOnly: true,
+                                    borderColor: primaryColor,
+                                    color: primaryColor,
+                                    starCount: 5,
+                                    size:
+                                        MediaQuery.of(context).size.width / 25,
+                                    rating: (user.rating ?? 3).toDouble(),
+                                  ),
                               ],
                             ),
                           ),

@@ -20,6 +20,7 @@ class Service {
   PaymentStatus paymentStatus;
   Map<String, int> route;
   int createdDate;
+  bool serviceRate;
 
   Service({
     this.contact_num,
@@ -35,6 +36,7 @@ class Service {
     this.billType,
     this.createdDate,
     this.resturant_name,
+    this.serviceRate,
     this.route,
     this.status,
     this.serviceName,
@@ -62,6 +64,7 @@ class Service {
       paymentStatus: getPaymentStatusType(json["paymentStatus"]),
       customerId: json["customerId"],
       createdDate: json["createdDate"],
+      serviceRate: json["serviceRate"],
       riderId: json["riderId"]);
 
   Map<String, dynamic> toMap() => {
@@ -81,6 +84,7 @@ class Service {
         "serviceName": serviceName,
         "customerId": customerId,
         "riderId": riderId,
+        "serviceRate": serviceRate,
         "createdDate": createdDate,
         "status": getKeyFromServiceStatusType(status),
         "paymentStatus": getKeyFromPaymentStatus(paymentStatus),

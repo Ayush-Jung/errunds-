@@ -114,7 +114,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 DateTime beforeThirtyMinuteofServiceAccept =
                     DateTime.fromMillisecondsSinceEpoch(
                             currentService.createdDate)
-                        .subtract(Duration(minutes: 1));
+                        .subtract(Duration(minutes: 30));
                 if (DateTime.now()
                     .isBefore(beforeThirtyMinuteofServiceAccept)) {
                   await firebase.lockTheService(currentService.id,
@@ -123,7 +123,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   _showSnackbar("cancelled the service request.");
                 } else {
                   _showSnackbar(
-                      "You can only cancel before 30 min from service.");
+                      "You can't cancel after 30 min from service request.");
                   Navigator.pop(context);
                 }
               },
@@ -240,7 +240,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     getKeyValue(context, "Route Fee",
                         value:
                             "Php. ${currentService.route.values.first.toString()}"),
-                    getKeyValue(context, "Service Charge", value: " Php. 10"),
+                    if (currentService.serviceRate ?? false)
+                      getKeyValue(context, "Service Charge", value: " Php. 10"),
                     if (currentService.delivery_address != null)
                       getKeyValue(context, "Delivery Address",
                           value: currentService?.delivery_address ?? ""),

@@ -73,7 +73,8 @@ class _TransactionCardState extends State<TransactionCard> {
                     DateTime.fromMillisecondsSinceEpoch(completed.createdDate)),
                 valueColor: secondaryColor,
               ),
-            if (!widget.isRider) ...[
+            if (!widget.isRider &&
+                widget.completedService.status != ServiceStatus.ACTIVE) ...[
               getKeyValue(
                 context,
                 "Rider Name",

@@ -94,8 +94,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
       _formKey.currentState.save();
       if (_currentSelectedValue == null) {
         showSnackBar("Please select a route.");
-      } else if (!checkedRate) {
-        showSnackBar("Please accpect the express rate.");
       } else if (widget.ispayBillService &&
           _currentSelectedBillPayment == null) {
         showSnackBar("Please select a payment for.");
@@ -113,6 +111,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
         service.serviceName = widget.title;
         service.total_amount = priceProvicver.totalAmount.toString();
         service.createdDate = DateTime.now().millisecondsSinceEpoch;
+        service.serviceRate = checkedRate;
         String serviceId = await firebase.setService(service);
         await showScannerDialog(context, serviceId);
       } catch (e) {
@@ -809,7 +808,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                 onChanged: (bool value) {
                                   setState(() {
                                     checkedRate = value;
-                                    priceProvicver.setExpressRate(10);
+                                    priceProvicver
+                                        .setExpressRate(checkedRate ? 10 : 0);
                                   });
                                 },
                               ),
