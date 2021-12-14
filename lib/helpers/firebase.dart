@@ -86,7 +86,8 @@ class _FirebaseHelper {
     } else {
       servicesRef = servicesRef.where("customerId", isEqualTo: currentUser);
     }
-    QuerySnapshot services = await servicesRef.get();
+    QuerySnapshot services =
+        await servicesRef.orderBy("createdDate", descending: true).get();
     return services.docs.map((e) => Service.fromMap(e.data())).toList();
   }
 

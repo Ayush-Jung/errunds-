@@ -5,6 +5,7 @@ import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:errunds_application/screens/rating_screen.dart';
 import 'package:flutter/material.dart';
@@ -115,12 +116,18 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     DateTime.fromMillisecondsSinceEpoch(
                             currentService.createdDate)
                         .subtract(Duration(minutes: 30));
+                print(beforeThirtyMinuteofServiceAccept);
+
                 if (DateTime.now()
-                    .isBefore(beforeThirtyMinuteofServiceAccept)) {
+                        .isBefore(beforeThirtyMinuteofServiceAccept) ||
+                    currentService.riderId == null) {
                   await firebase.lockTheService(currentService.id,
                       status: ServiceStatus.ABORTED);
-                  Navigator.pop(context);
                   _showSnackbar("cancelled the service request.");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => CustomerWelcomeScreen()));
                 } else {
                   _showSnackbar(
                       "You can't cancel after 30 min from service request.");
@@ -390,7 +397,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                             fontWeight: FontWeight.bold,
                             color: secondaryColor)),
                   ),
-                  if (widget.riderInfo == null)
+                  if (widget.riderInfo == null &&
+                      currentService.status != ServiceStatus.ACTIVE)
                     CustomButton(
                       label: "Finish",
                       loading: loading,

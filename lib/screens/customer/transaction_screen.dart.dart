@@ -55,11 +55,7 @@ class _TransactionscreenState extends State<Transactionscreen> {
               cutomerActiveStartedServices.add(service);
               startedServices = cutomerActiveStartedServices;
             });
-          } else {
-            setState(() {
-              startedServices = [];
-            });
-          }
+          } 
         });
       }
     });

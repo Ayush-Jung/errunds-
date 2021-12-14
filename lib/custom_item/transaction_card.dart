@@ -82,14 +82,6 @@ class _TransactionCardState extends State<TransactionCard> {
                 valueColor: secondaryColor,
               ),
             ],
-            if (widget.isRider) ...[
-              getKeyValue(
-                context,
-                "Customer Name",
-                value: userInfo?.fName ?? "",
-                valueColor: secondaryColor,
-              ),
-            ],
             getKeyValue(
               context,
               "Service Status",
