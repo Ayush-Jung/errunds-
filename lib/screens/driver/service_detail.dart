@@ -6,7 +6,6 @@ import 'package:errunds_application/helpers/firebase.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
-import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:errunds_application/screens/rating_screen.dart';
 import 'package:flutter/material.dart';
@@ -117,8 +116,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     DateTime.fromMillisecondsSinceEpoch(
                             currentService.createdDate)
                         .subtract(Duration(minutes: 30));
-                print(beforeThirtyMinuteofServiceAccept);
-
                 if (DateTime.now()
                         .isBefore(beforeThirtyMinuteofServiceAccept) ||
                     currentService.riderId == null) {
@@ -415,7 +412,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       textColor: primaryColor,
                       onPress: () => showCancelDialog(context),
                     ),
-                  if (widget.customer.isRider &&
+                  if (!widget.isRider &&
                       currentService.status == ServiceStatus.COMPLETED)
                     CustomButton(
                       label: "Rate current Rider ",

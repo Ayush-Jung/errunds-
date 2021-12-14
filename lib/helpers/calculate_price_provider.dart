@@ -12,6 +12,13 @@ class PriceProvicver extends ChangeNotifier {
     notifyListeners();
   }
 
+  set setTotalAmount(int value) {
+    _amount = value;
+    _expressRate = value;
+    _priceAccordingToRoute = value;
+    notifyListeners();
+  }
+
   setExpressRate(int rate) {
     _expressRate = rate;
     notifyListeners();
@@ -21,13 +28,5 @@ class PriceProvicver extends ChangeNotifier {
     _priceAccordingToRoute = rate;
     print(rate);
     notifyListeners();
-  }
-
-  double calculateParcelCharge() {
-    if (totalAmount > 250 && totalAmount < 10001) {
-      return totalAmount * 0.1 + (totalAmount);
-    } else if (totalAmount > 1001) {
-      return totalAmount * 0.15 + (totalAmount);
-    }
   }
 }

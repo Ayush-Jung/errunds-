@@ -1,8 +1,6 @@
 import 'package:errunds_application/helpers/calculate_price_provider.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/firebase.dart';
-import 'package:errunds_application/helpers/navigation_provider.dart';
-import 'package:errunds_application/models/customer_Models/home_item.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
 import 'package:errunds_application/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +14,6 @@ void main() async {
     MultiProvider(
       child: const MyApp(),
       providers: [
-        ChangeNotifierProvider<NavigationProvider>(
-          create: (_) => NavigationProvider(),
-        ),
         ChangeNotifierProvider<PriceProvicver>(
           create: (_) => PriceProvicver(),
         ),

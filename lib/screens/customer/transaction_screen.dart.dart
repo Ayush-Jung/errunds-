@@ -58,7 +58,6 @@ class _TransactionscreenState extends State<Transactionscreen> {
           }
         });
       }
-      print(startedServices);
     });
     super.initState();
   }
@@ -90,12 +89,9 @@ class _TransactionscreenState extends State<Transactionscreen> {
           Expanded(
             child: ListView(
               children: startedServices.map((service) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TransactionCard(
-                    isRider: widget.isRider,
-                    completedService: service,
-                  ),
+                return TransactionCard(
+                  isRider: widget.isRider,
+                  completedService: service,
                 );
               }).toList(),
             ),

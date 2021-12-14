@@ -125,7 +125,7 @@ class _RatingScreenState extends State<RatingScreen> {
               child: CustomButton(
                   label: "Rate now",
                   loading: loading,
-                  circleColor: primaryColor,
+                  circleColor: secondaryColor,
                   textColor: secondaryColor,
                   color: primaryColor,
                   onPress: () async {

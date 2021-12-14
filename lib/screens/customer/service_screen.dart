@@ -113,6 +113,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
         service.serviceRate = checkedRate;
         String serviceId = await firebase.setService(service);
         await showScannerDialog(context, serviceId);
+        priceProvicver.setTotalAmount = 0;
       } catch (e) {
         showSnackBar(
             e.message ?? "Unable to perform the action. Please try again!");

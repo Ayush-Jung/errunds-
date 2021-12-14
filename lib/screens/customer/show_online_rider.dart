@@ -98,7 +98,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
-                  Navigator.canPop(context);
+                  Navigator.pop(context);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

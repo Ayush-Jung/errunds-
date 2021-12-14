@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:errunds_application/helpers/calculate_price_provider.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';
@@ -8,7 +9,6 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/screens/customer/home_card.dart';
 import 'package:errunds_application/screens/customer/service_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import 'package:flutter/material.dart';
 
 class CustomerHomeScren extends StatefulWidget {
@@ -119,7 +119,6 @@ class _CustomerHomeScrenState extends State<CustomerHomeScren> {
   @override
   void initState() {
     getUserInfo();
-
     super.initState();
   }
 

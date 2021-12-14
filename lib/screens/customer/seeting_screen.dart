@@ -54,7 +54,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       child: Text(
                         "About us ",
                         style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 26,
                             color: primaryColor,
                             fontWeight: FontWeight.bold),
                       ),
@@ -66,14 +66,14 @@ class _SettingScreenState extends State<SettingScreen> {
 E-RRUNDS is an errand service, a privately-held partnership of the researchers: Venus Kate Areola, Patricia Aurelio, Abigail Daguyo, Vasil Jay-ar Dahuloran, and Nikki Louise Diana. E-RRUNDS offers to do the errands people cannot perform in the meantime; it has runners (riders) who will perform essential errand services that the customers cannot attend.Basic errand services include grocery shopping, personal shopping, paying bills, picking up laundry, food delivery, mailing a package, and dropping some items to different stores. E-RRUNDS cater to customers of all ages who cannot do their errands because they are too busy, do not have enough time, or are frustrated with the hassle of the protocols brought by the COVID-19 pandemic. Thanks to E-RRUNDS, busy people can focus on their job instead of monotonous activities.
 """,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: primaryColor,
                         ),
                       ),
                     ),
                     CustomContainer(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             "PROJECT BY:",
@@ -95,7 +95,7 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
                             "DAHULORAN VASIL JAY-AR S",
                             style: TextStyle(
                                 color: secondaryColor,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
@@ -105,17 +105,14 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
                     CustomContainer(
                       child: Column(
                         children: [
-                          Text(
-                            "Developed by: AYUSH JUNG KARKI",
-                            style:
-                                TextStyle(color: secondaryColor, fontSize: 18),
-                          ),
+                          Text("Developed by: AYUSH JUNG KARKI",
+                              style: TextStyle(
+                                  color: secondaryColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
                           const SizedBox(
                             height: 8,
                           ),
@@ -126,7 +123,7 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
                                 fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 8,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -166,4 +163,4 @@ E-RRUNDS is an errand service, a privately-held partnership of the researchers: 
 }
 
 TextStyle textStyle =
-    TextStyle(color: secondaryColor, fontSize: 18, fontWeight: FontWeight.bold);
+    TextStyle(color: secondaryColor, fontSize: 16, fontWeight: FontWeight.bold);
