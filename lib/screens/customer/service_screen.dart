@@ -82,7 +82,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
     }
   }
 
-  bool showPrice = false;
   String _currentSelectedValue;
   List<String> paymentsFor = ["Water", "Electricity"];
   String _currentSelectedBillPayment;

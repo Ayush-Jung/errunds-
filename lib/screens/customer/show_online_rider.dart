@@ -6,7 +6,6 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/rider_detail.dart';
-import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

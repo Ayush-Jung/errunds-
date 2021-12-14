@@ -25,9 +25,10 @@ class _RiderHomePageState extends State<RiderHomePage> {
   void initState() {
     activeServicesSub =
         firebase.getRealTimeServices((List<Service> allActiveServices) {
-      setState(() {
-        activeServices = allActiveServices;
-      });
+      if (mounted)
+        setState(() {
+          activeServices = allActiveServices;
+        });
     });
     getUserInfo();
     super.initState();
@@ -148,7 +149,9 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   void initState() {
-    widget.serviceInfo.status == ServiceStatus.ACTIVE ? active = true : false;
+    widget.serviceInfo.status == ServiceStatus.ACTIVE
+        ? active = true
+        : active = false;
     setState(() {});
     getCustomerInfo();
     super.initState();

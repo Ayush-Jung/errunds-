@@ -81,6 +81,7 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
             if (currentIndex == 2)
               Transactionscreen(
                 isRider: true,
+                filter: "Completed-service",
               ),
             if (currentIndex == 3) SettingScreen(),
           ],

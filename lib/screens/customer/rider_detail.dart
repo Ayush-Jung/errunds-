@@ -4,7 +4,7 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
-import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
+import 'package:errunds_application/screens/customer/customer_home_screen.dart';
 import 'package:flutter/material.dart';
 
 class RiderDetailScreen extends StatefulWidget {
@@ -50,10 +50,8 @@ class _RiderDetailScreenState extends State<RiderDetailScreen> {
                   getKeyValue(context, "Service status",
                       value:
                           getKeyFromServiceStatusType(widget.service?.status)),
-                  getKeyValue(context, "Customer contact",
-                      value: widget.service?.contact_num ?? "-"),
                   Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.symmetric(horizontal: 12),
                       child: Text(
                           "You can cancel before 30 min of service time.",
                           style: TextStyle(color: secondaryColor))),
@@ -65,7 +63,7 @@ class _RiderDetailScreenState extends State<RiderDetailScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => RiderWelcomeScreen(),
+                            builder: (_) => CustomerHomeScren(),
                           ),
                         );
                       }),

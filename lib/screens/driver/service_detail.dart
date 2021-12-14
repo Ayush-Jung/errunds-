@@ -7,6 +7,7 @@ import 'package:errunds_application/models/customer_Models/rider_Models/errund_u
 import 'package:errunds_application/models/customer_Models/service.dart';
 import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:errunds_application/screens/customer/transaction_screen.dart.dart';
+import 'package:errunds_application/screens/driver/rider_welcome_page.dart';
 import 'package:errunds_application/screens/rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -63,10 +64,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => Transactionscreen(
-                        isRider: true,
-                        filter: "Completed-service",
-                      ),
+                      builder: (_) => RiderWelcomeScreen(),
                     ),
                     (route) => false);
               },
@@ -417,7 +415,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       textColor: primaryColor,
                       onPress: () => showCancelDialog(context),
                     ),
-                  if (!widget.riderInfo.isRider &&
+                  if (widget.customer.isRider &&
                       currentService.status == ServiceStatus.COMPLETED)
                     CustomButton(
                       label: "Rate current Rider ",
