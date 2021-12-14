@@ -49,12 +49,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Finish Service?"),
-          content: const Text(
-              "payment is not completed. Do you want to complete with cash?"),
+          backgroundColor: primaryColor,
+          title:
+              Text("Finish Service?", style: TextStyle(color: secondaryColor)),
+          content: Text(
+              "payment is not completed. Do you want to complete with cash?",
+              style: TextStyle(color: secondaryColor)),
           actions: <Widget>[
             TextButton(
-              child: const Text("Yes"),
+              child: Text("Yes", style: TextStyle(color: secondaryColor)),
               onPressed: () async {
                 await firebase.unLockTheService(currentService.id);
                 Navigator.pushAndRemoveUntil(
@@ -69,7 +72,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               },
             ),
             TextButton(
-              child: const Text("No"),
+              child: Text("No", style: TextStyle(color: secondaryColor)),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -414,7 +417,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       textColor: primaryColor,
                       onPress: () => showCancelDialog(context),
                     ),
-                  if (widget.riderInfo != null &&
+                  if (!widget.riderInfo.isRider &&
                       currentService.status == ServiceStatus.COMPLETED)
                     CustomButton(
                       label: "Rate current Rider ",
