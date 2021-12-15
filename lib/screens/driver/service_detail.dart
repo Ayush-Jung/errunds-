@@ -38,6 +38,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   void initState() {
     setState(() {
       currentService = widget.service;
+      print(currentService.serviceName);
       customerInfo = widget.customer;
     });
 
@@ -63,7 +64,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => RiderWelcomeScreen(),
+                      builder: (_) => RiderWelcomeScreen(
+                        afterComplete: true,
+                      ),
                     ),
                     (route) => false);
               },
@@ -112,13 +115,20 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 style: TextStyle(color: secondaryColor),
               ),
               onPressed: () async {
-                DateTime beforeThirtyMinuteofServiceAccept =
+                DateTime createdTime = DateTime.fromMillisecondsSinceEpoch(
+                    currentService.createdDate);
+                print(currentService.status);
+                DateTime beforeThirtyMinuteofServiceAccepts =
                     DateTime.fromMillisecondsSinceEpoch(
                             currentService.createdDate)
-                        .subtract(Duration(minutes: 30));
-                if (DateTime.now()
-                        .isBefore(beforeThirtyMinuteofServiceAccept) ||
-                    currentService.riderId == null) {
+                        .add(Duration(minutes: 30));
+                print(createdTime);
+                print(beforeThirtyMinuteofServiceAccepts);
+                print(DateTime.now());
+                if ((createdTime.isAfter(DateTime.now()) &&
+                        beforeThirtyMinuteofServiceAccepts
+                            .isBefore(DateTime.now())) ||
+                    currentService.status == ServiceStatus.ACTIVE) {
                   await firebase.lockTheService(currentService.id,
                       status: ServiceStatus.ABORTED);
                   _showSnackbar("cancelled the service request.");
@@ -395,8 +405,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                             fontWeight: FontWeight.bold,
                             color: secondaryColor)),
                   ),
-                  if (widget.riderInfo == null &&
-                      currentService.status != ServiceStatus.ACTIVE)
+                  if (widget.isRider &&
+                      currentService.status == ServiceStatus.STARTED)
                     CustomButton(
                       label: "Finish",
                       loading: loading,

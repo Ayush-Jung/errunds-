@@ -8,8 +8,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class RiderWelcomeScreen extends StatefulWidget {
   const RiderWelcomeScreen({
+    this.afterComplete = false,
     Key key,
   }) : super(key: key);
+  final bool afterComplete;
 
   @override
   _RiderWelcomeScreenState createState() => _RiderWelcomeScreenState();
@@ -81,7 +83,9 @@ class _RiderWelcomeScreenState extends State<RiderWelcomeScreen> {
             if (currentIndex == 2)
               Transactionscreen(
                 isRider: true,
-                filter: "Completed-service",
+                filter: widget.afterComplete
+                    ? "Completed-service"
+                    : "Active-service",
               ),
             if (currentIndex == 3) SettingScreen(),
           ],

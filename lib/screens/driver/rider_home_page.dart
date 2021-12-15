@@ -166,17 +166,19 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ServiceDetailScreen(
-              service: widget.serviceInfo,
-              customer: customerInfo,
-            ),
-          ),
-        );
-      },
+      onTap: !active
+          ? () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ServiceDetailScreen(
+                    service: widget.serviceInfo,
+                    customer: customerInfo,
+                  ),
+                ),
+              );
+            }
+          : () => null,
       child: Container(
         margin: const EdgeInsets.only(left: 20, right: 20),
         padding: const EdgeInsets.all(10),

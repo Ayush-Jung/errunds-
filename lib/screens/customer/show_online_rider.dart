@@ -69,9 +69,10 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
   }
 
   getLoading(value) {
-    setState(() {
-      isSearching = value;
-    });
+    if (mounted)
+      setState(() {
+        isSearching = value;
+      });
   }
 
   @override
@@ -123,7 +124,7 @@ class _ScanOnlineRiderState extends State<ScanOnlineRider> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (riderNotFound) ...[
+            if (riderNotFound && onlineRider == null) ...[
               const SizedBox(height: 10),
               Text(
                 "Rider Not Found",

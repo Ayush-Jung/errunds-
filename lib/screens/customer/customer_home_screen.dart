@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:errunds_application/helpers/calculate_price_provider.dart';
 import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/design.dart';
 import 'package:errunds_application/helpers/firebase.dart';

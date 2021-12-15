@@ -18,7 +18,6 @@ class Transactionscreen extends StatefulWidget {
 
 class _TransactionscreenState extends State<Transactionscreen> {
   List<Service> completedServices, startedServices;
-  List<Service> cutomerActiveStartedServices = [], riderStartedService = [];
 
   String filter = "Active-service";
   List<String> menu = ["Active-service", "Completed-service"];
@@ -39,25 +38,9 @@ class _TransactionscreenState extends State<Transactionscreen> {
     firebase
         .getActiveServices(isRider: widget.isRider)
         .then((List<Service> services) {
-      if (services.length == 0) {
-        startedServices = [];
-      } else {
-        services.forEach((service) {
-          if (widget.isRider && service.status == ServiceStatus.STARTED) {
-            setState(() {
-              riderStartedService.add(service);
-              startedServices = riderStartedService;
-            });
-          } else if (!widget.isRider &&
-              (service.status == ServiceStatus.ACTIVE ||
-                  service.status == ServiceStatus.STARTED)) {
-            setState(() {
-              cutomerActiveStartedServices.add(service);
-              startedServices = cutomerActiveStartedServices;
-            });
-          }
-        });
-      }
+      setState(() {
+        startedServices = services;
+      });
     });
     super.initState();
   }

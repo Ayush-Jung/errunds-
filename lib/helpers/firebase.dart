@@ -51,6 +51,7 @@ class _FirebaseHelper {
     service.paymentStatus = PaymentStatus.PENDING;
     service.customerId = currentUser;
     ref.set(service.toMap(), SetOptions(merge: true));
+    print(ref.id);
     return ref.id;
   }
 
@@ -82,9 +83,13 @@ class _FirebaseHelper {
   Future<List<Service>> getActiveServices({bool isRider}) async {
     Query servicesRef = await _firestore.collection("services");
     if (isRider) {
-      servicesRef = servicesRef.where("riderId", isEqualTo: currentUser);
+      servicesRef = servicesRef
+          .where("riderId", isEqualTo: currentUser)
+          .where("status", isEqualTo: "started");
     } else {
-      servicesRef = servicesRef.where("customerId", isEqualTo: currentUser);
+      servicesRef = servicesRef
+          .where("customerId", isEqualTo: currentUser)
+          .where("status", whereIn: ["active", "started"]);
     }
     QuerySnapshot services =
         await servicesRef.orderBy("createdDate", descending: true).get();

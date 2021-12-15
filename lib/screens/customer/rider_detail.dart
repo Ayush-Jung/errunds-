@@ -4,7 +4,7 @@ import 'package:errunds_application/helpers/colors.dart';
 import 'package:errunds_application/helpers/custom_text_field.dart';
 import 'package:errunds_application/models/customer_Models/rider_Models/errund_user.dart';
 import 'package:errunds_application/models/customer_Models/service.dart';
-import 'package:errunds_application/screens/customer/customer_home_screen.dart';
+import 'package:errunds_application/screens/customer/customer_welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class RiderDetailScreen extends StatefulWidget {
@@ -63,7 +63,7 @@ class _RiderDetailScreenState extends State<RiderDetailScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => CustomerHomeScren(),
+                            builder: (_) => CustomerWelcomeScreen(),
                           ),
                         );
                       }),

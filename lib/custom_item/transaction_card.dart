@@ -23,21 +23,19 @@ class TransactionCard extends StatefulWidget {
 
 class _TransactionCardState extends State<TransactionCard> {
   ErrundUser currentUser, userInfo;
-  Service completed;
   DateFormat formatter = DateFormat("hh:mm a, dd MMM");
 
   @override
   void initState() {
-    setState(() {
-      completed = widget.completedService;
-    });
     getRiderInfo();
     super.initState();
   }
 
   getRiderInfo() async {
     userInfo = await firebase.getUserById(
-        userId: widget.isRider ? completed.riderId : completed.customerId);
+        userId: widget.isRider
+            ? widget.completedService.riderId
+            : widget.completedService.customerId);
     setState(() {});
   }
 
@@ -46,13 +44,15 @@ class _TransactionCardState extends State<TransactionCard> {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => ServiceDetailScreen(
-                      isRider: widget.isRider,
-                      service: widget.completedService,
-                      riderInfo: userInfo,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (_) => ServiceDetailScreen(
+              isRider: widget.isRider,
+              service: widget.completedService,
+              riderInfo: userInfo,
+            ),
+          ),
+        );
       },
       child: CustomContainer(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
@@ -62,15 +62,15 @@ class _TransactionCardState extends State<TransactionCard> {
             getKeyValue(
               context,
               "Service Name",
-              value: completed?.serviceName ?? "",
+              value: widget.completedService?.serviceName ?? "",
               valueColor: secondaryColor,
             ),
-            if (completed.createdDate != null)
+            if (widget.completedService.createdDate != null)
               getKeyValue(
                 context,
                 "Created Date",
-                value: formatter.format(
-                    DateTime.fromMillisecondsSinceEpoch(completed.createdDate)),
+                value: formatter.format(DateTime.fromMillisecondsSinceEpoch(
+                    widget.completedService.createdDate)),
                 valueColor: secondaryColor,
               ),
             if (!widget.isRider &&
