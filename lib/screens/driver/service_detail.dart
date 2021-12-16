@@ -117,21 +117,17 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               onPressed: () async {
                 DateTime createdTime = DateTime.fromMillisecondsSinceEpoch(
                     currentService.createdDate);
-                print(currentService.status);
                 DateTime beforeThirtyMinuteofServiceAccepts =
                     DateTime.fromMillisecondsSinceEpoch(
                             currentService.createdDate)
                         .add(Duration(minutes: 30));
-                print(createdTime);
-                print(beforeThirtyMinuteofServiceAccepts);
-                print(DateTime.now());
-                if ((createdTime.isAfter(DateTime.now()) &&
-                        beforeThirtyMinuteofServiceAccepts
-                            .isBefore(DateTime.now())) ||
+                if ((DateTime.now().isAfter(createdTime) &&
+                        DateTime.now()
+                            .isBefore(beforeThirtyMinuteofServiceAccepts)) ||
                     currentService.status == ServiceStatus.ACTIVE) {
                   await firebase.lockTheService(currentService.id,
                       status: ServiceStatus.ABORTED);
-                  _showSnackbar("cancelled the service request.");
+                  _showSnackbar("Selected service has been cancelled.");
                   Navigator.push(
                       context,
                       MaterialPageRoute(
