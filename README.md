@@ -1,16 +1,1 @@
-# errunds_application
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Errunds is a ecommerce kind of application where there is two entity called rider and customer. The customer can request available services of errunds application like bill payment, dry cleaner service, food services, glocery services etc. These service request is now accepted by errunds riders and delivery the services.
